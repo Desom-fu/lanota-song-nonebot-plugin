@@ -10,7 +10,15 @@ from nonebot.adapters.onebot.v11 import MessageSegment
 
 # 字体设置
 font_size = 24  # 基础字体大小
-font = ImageFont.truetype(str(font_path), font_size)  # 加载字体
+try:
+    # 尝试加载用户配置的字体
+    font = ImageFont.truetype(str(font_path), font_size)
+except IOError:
+    # 如果找不到字体文件，使用PIL默认字体
+    print(f"警告: 找不到字体文件 {font_path}，使用系统默认字体")
+    font = ImageFont.load_default()
+    # 调整默认字体大小使其更合适
+    font.size = font_size
 
 # 画布参数
 MAX_WIDTH = 800                          # 画布最大宽度（像素）
