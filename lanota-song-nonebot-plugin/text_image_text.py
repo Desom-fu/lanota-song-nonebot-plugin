@@ -401,7 +401,7 @@ def _process_static_image_sync(text1, image_path, text2, max_chars, center, user
 
 
 # 以下为消息发送相关函数
-async def send_image_or_text(user_id = None, handler = None, text = "", at_sender=False, forward_text=None, max_chars=30):
+async def send_image_or_text(user_id = None, handler = None, text = "", at_sender=False, forward_text=None, max_chars=100):
     """发送图文消息的便捷函数"""
     img = await generate_image_with_text(
         text1=text,

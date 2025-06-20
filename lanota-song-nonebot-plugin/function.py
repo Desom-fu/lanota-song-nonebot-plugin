@@ -182,10 +182,10 @@ def format_song_info(song):
         f"曲名: {song['title']}\n"
         f"曲师: {song['artist']}\n"
         f"难度: \n"
-        f"- Whisper: {song['difficulty']['whisper']}\n"
-        f"- Acoustic: {song['difficulty']['acoustic']}\n"
-        f"- Ultra: {song['difficulty']['ultra']}\n"
-        f"- Master: {song['difficulty']['master']}\n"
+        f"    - Whisper: {song['difficulty']['whisper']}\n"
+        f"    - Acoustic: {song['difficulty']['acoustic']}\n"
+        f"    - Ultra: {song['difficulty']['ultra']}\n"
+        f"    - Master: {song['difficulty']['master']}\n"
         f"时长: {song['time']}\n"
         f"BPM: {song['bpm']}\n"
         f"版本: {song['version']}"
@@ -212,7 +212,7 @@ def load_song_data():
             song_data = json.load(f)
         
         # 确保所有分类都存在
-        for category in ["main", "side", "expansion", "event", "subscription", "other"]:
+        for category in ["main", "side", "expansion", "event", "subscription"]:
             if category not in song_data:
                 song_data[category] = []
         
@@ -224,8 +224,7 @@ def load_song_data():
             "side": [],
             "expansion": [],
             "event": [],
-            "subscription": [],
-            "other": []
+            "subscription": []
         }
 
 # 加载别名数据

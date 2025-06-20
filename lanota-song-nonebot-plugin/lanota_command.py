@@ -381,18 +381,11 @@ async def handle_all(bot: Bot, event: MessageEvent):
     # 统计各分类曲目数量和总数量
     category_counts = {}
     total_songs = 0
-    max_id = 0
     
     for category, songs in song_data.items():
         count = len(songs)
         category_counts[category] = count
         total_songs += count
-        
-        # 查找最大ID
-        for song in songs:
-            if 'id' in song and isinstance(song['id'], int):
-                if song['id'] > max_id:
-                    max_id = song['id']
     
     # 构建分类统计信息
     category_info = []
@@ -401,7 +394,7 @@ async def handle_all(bot: Bot, event: MessageEvent):
         category_name = {
             'main': '主线',
             'side': '支线',
-            'expansion': '扩展包',
+            'expansion': '曲包',
             'event': '活动',
             'subscription': '书房'
         }.get(category, category)
@@ -410,7 +403,7 @@ async def handle_all(bot: Bot, event: MessageEvent):
     
     # 构建消息
     message = (
-        f"Lanota曲库统计（目前数据已收录）:\n"
+        f"Lanota曲库统计（Fandom已收录）:\n"
         f"总曲目数量: {total_songs}首\n\n"
         f"按分类统计:\n"
         + "\n".join(category_info)
@@ -437,7 +430,7 @@ Lanota 机器人使用帮助:
 子命令:
   - /la random level <难度> - 随机指定难度的曲目
   - /la random <分类> - 随机指定分类的曲目
-可用分类: main(主线), side(支线), expansion(扩展包), event(活动), subscription(订阅)
+可用分类: main(主线), side(支线), expansion(曲包), event(活动), subscription(订阅)
 示例:
   /la random level 12
   /la random main
