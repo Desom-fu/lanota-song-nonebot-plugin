@@ -1,10 +1,11 @@
 import datetime
 from nonebot import get_driver
-from .config import user_path, backup_path, lanota_group
+from nonebot.adapters.onebot.v11 import Bot
 from nonebot.log import logger
 from nonebot import get_bot
 import asyncio
 import shutil
+from .config import user_path, backup_path, lanota_group
 
 async def delayed_backup(delay: float = 5.0):
     """延迟执行备份"""
