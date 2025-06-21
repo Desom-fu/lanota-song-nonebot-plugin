@@ -56,14 +56,16 @@ def main():
     session = requests.Session()
     session.headers.update({'User-Agent': 'Mozilla/5.0'})
 
+    # 读取已处理数据
     try:
         with open(SONGS_JSON, 'r', encoding='utf-8') as f:
             data = json.load(f)
     except FileNotFoundError:
         data = []
 
+    # 构建去重集合：真实标题和外部标题
     existing_titles = {item['title'].lower() for item in data}
-    # 存储小写章节用于匹配
+    existing_outside = {item.get('title_outside', '').lower() for item in data if item.get('title_outside')}
     existing_chapters_lower = {item['chapter'].lower() for item in data}
 
     print("正在搜索歌曲列表……")
@@ -87,15 +89,16 @@ def main():
 
     print(f"共找到 {len(songs_info)} 首歌曲")
 
-    # 第一轮：按 title 初步匹配
-    candidates = [info for info in songs_info if info['display_title'].lower() not in existing_titles]
+    # 第一轮：按 title 初步匹配，包括外部title
+    candidates = [info for info in songs_info
+                  if info['display_title'].lower() not in existing_titles
+                  and info['display_title'].lower() not in existing_outside]
     skipped = len(songs_info) - len(candidates)
-    print(f"{skipped} 首已通过初步标题匹配，跳过；剩余 {len(candidates)} 首待进一步核对")
+    print(f"{skipped} 首已通过初步匹配，跳过；剩余 {len(candidates)} 首待进一步核对")
 
     new_count = 0
 
     for info in candidates:
-        # 进入页面获取真实章节
         final_url = get_final_url(session, info['href'])
         raw_page = final_url.rsplit('/wiki/', 1)[-1]
         page_name = unquote(raw_page)
@@ -124,10 +127,20 @@ def main():
         # 深度匹配：按章节小写匹配
         if real_chapter.lower() in existing_chapters_lower:
             print(f"已存在章节 '{real_chapter}'，跳过")
+            # 记录外部标题以免下次再深度匹配
+            # 在已存在条目里找到对应章节，添加title_outside字段
+            for item in data:
+                if item['chapter'].lower() == real_chapter.lower():
+                    if 'title_outside' not in item:
+                        item['title_outside'] = info['display_title']
+                    break
             continue
 
-        # 解析标题及其它字段
-        real_title = get_field('Song') or info['display_title']
+        # 解析标题：取更长的那个
+        field_title = get_field('Song') or ''
+        display_title = info['display_title'] or ''
+        real_title = field_title if len(field_title) >= len(display_title) else display_title
+
         category = 'event' if chap_left_clean == 'Event' else classify(chap_left_clean)
 
         new_count += 1
@@ -136,6 +149,7 @@ def main():
         song = {
             'id': len(data) + 1,
             'title': real_title,
+            'title_outside': info['display_title'],
             'artist': get_field('Artist'),
             'chapter': real_chapter,
             'category': category,
@@ -181,10 +195,15 @@ def main():
         data.append(song)
         existing_chapters_lower.add(real_chapter.lower())
         existing_titles.add(real_title.lower())
+        existing_outside.add(info['display_title'].lower())
 
         with open(SONGS_JSON, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         time.sleep(0.5)
+
+    # 保存可能更新的已存在条目的 title_outside
+    with open(SONGS_JSON, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
     print(f"处理完成，新增 {new_count} 首歌曲，当前共 {len(data)} 首")
 

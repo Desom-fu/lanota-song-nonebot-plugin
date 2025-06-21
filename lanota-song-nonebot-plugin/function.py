@@ -120,10 +120,10 @@ def get_user_today_song(user_id: str):
     if "today_chapter" in user_info and "today_date" in user_info:
         if user_info["today_date"] == today_seed:
             # 根据存储的chapter查找歌曲
-            chapter = user_info["today_chapter"]
+            chapter = user_info["today_chapter"].lower()
             song_data = load_song_data()
             for song in song_data:
-                if song['chapter'] == chapter:
+                if song['chapter'].lower() == chapter:
                     return song
             return None
     
