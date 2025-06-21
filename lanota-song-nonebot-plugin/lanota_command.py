@@ -10,6 +10,7 @@ from .config import *
 from .function import *
 from .whitelist import whitelist_rule
 from .text_image_text import send_image_or_text
+from .fandom_pachong import main as update_songs
 
 # 初始化命令
 la_today = on_command("la today", aliases={"la 今日曲", "lanota today", "lanota 今日曲"}, rule=whitelist_rule, priority=5)
@@ -19,6 +20,43 @@ la_find = on_command("la find", aliases={"la 查找", "lanota find", "lanota 查
 la_help = on_command("la help", aliases={"la 帮助", "lanota help", "lanota 帮助"}, rule=whitelist_rule, priority=5)
 la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时长"}, rule=whitelist_rule, priority=5)
 la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
+la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
+
+# 添加update命令处理函数
+@la_update.handle()
+async def handle_update(bot: Bot, event: MessageEvent):
+    user_id = event.get_user_id()
+    
+    # 检查是否为超级用户
+    if user_id not in bot.config.superusers:
+        await la_update.finish("权限不足，只有超级用户可以使用此命令")
+        return
+    
+    try:
+        # 执行爬虫脚本
+        await la_update.send("开始更新歌曲数据...")
+        
+        # 运行爬虫并获取结果
+        result = update_songs()
+        
+        # 解析结果并发送
+        if isinstance(result, dict):
+            message = (
+                f"歌曲数据更新完成！\n"
+                f"更新前曲目: {result.get('before', 0)}首\n"
+                f"新增歌曲: {result.get('added', 0)}首\n"
+                f"当前总曲目: {result.get('total', 0)}首"
+            )
+        else:
+            message = "歌曲数据更新完成！"
+            
+        await la_update.finish(message)
+        return
+        
+    except Exception as e:
+        if str(e) == "FinishedException()":
+            return
+        await la_update.finish(f"更新过程中发生错误: {str(e)}")
 
 # 处理today命令
 @la_today.handle()

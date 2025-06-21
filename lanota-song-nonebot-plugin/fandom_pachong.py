@@ -63,6 +63,9 @@ def main():
     except FileNotFoundError:
         data = []
 
+    # 记录原始数据长度
+    original_count = len(data)
+
     # 构建去重集合：真实标题和外部标题
     existing_titles = {item['title'].lower() for item in data}
     existing_outside = {item.get('title_outside', '').lower() for item in data if item.get('title_outside')}
@@ -206,6 +209,11 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     print(f"处理完成，新增 {new_count} 首歌曲，当前共 {len(data)} 首")
+    return {
+        'before': original_count,
+        'added': new_count,
+        'total': len(data)
+    }
 
 if __name__ == '__main__':
     main()

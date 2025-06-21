@@ -2,7 +2,6 @@ from pathlib import Path
 
 lanota_group = 1037559220
 save_dir = Path("Data") / "generate_image" 
-bot_owner_id = ["121096913"]
 backup_path = Path() / "Data" / "UserList_Backup"
 user_path = Path() / "Data" / "UserList"
 file_name = "UserData.json"
