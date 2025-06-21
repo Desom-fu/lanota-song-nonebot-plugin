@@ -32,7 +32,7 @@ def replace_br(text):
 def classify(chap_left):
     """按规则分类 chapter 左侧"""
     left = chap_left.lower()
-    if left == 'time limited':
+    if left in ['time limited', 'event']:  # 合并time limited和event
         return 'event'
     if left.isdigit():
         return 'main'
@@ -40,8 +40,6 @@ def classify(chap_left):
         return 'side'
     if re.match(r'^[A-Za-z]{1,2}$', left):
         return 'expansion'
-    if left == 'event':
-        return 'event'
     if left in ['∞', 'inf']:
         return 'subscription'
     return 'other'
@@ -101,7 +99,7 @@ for idx, title in enumerate(titles, start=1):
 
     # 基础字段
     raw_chap = get('Chapter')
-    chap_code = raw_chap.lower().replace('∞', 'inf')
+    chap_code = raw_chap.lower().replace('∞', 'inf').replace('time limited', 'event')  # 将time limited替换为event
     left = chap_code.split('-')[0]
     seq = category_counters.get(chap_code, 0) + 1
     category_counters[chap_code] = seq

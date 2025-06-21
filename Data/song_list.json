@@ -6096,7 +6096,7 @@
     "id": 198,
     "title": "VEZZELiX",
     "artist": "Reku Mochizuki",
-    "chapter": "time limited-1",
+    "chapter": "event-1",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -6130,7 +6130,7 @@
     "id": 199,
     "title": "Inferno City (インフェルノシティ)",
     "artist": "Ponchi feat.haxchi (Ponchi♪ feat.はぁち)",
-    "chapter": "time limited-2",
+    "chapter": "event-2",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6162,7 +6162,7 @@
     "id": 200,
     "title": "World tree Promise (世界樹の約束)",
     "artist": "D-D-Dice (打打だいず)",
-    "chapter": "time limited-3",
+    "chapter": "event-3",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6191,7 +6191,7 @@
     "id": 201,
     "title": "Heliotrope",
     "artist": "M-UE",
-    "chapter": "time limited-4",
+    "chapter": "event-4",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -6220,7 +6220,7 @@
     "id": 202,
     "title": "Nyever gonna Meow you Nyup",
     "artist": "Fireball Forte Studio feat. Yukino",
-    "chapter": "time limited-5",
+    "chapter": "event-5",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6254,7 +6254,7 @@
     "id": 203,
     "title": "<nowiki>#</nowiki>1f1e33",
     "artist": "Camellia(EDP)",
-    "chapter": "time limited-6",
+    "chapter": "event-6",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6283,7 +6283,7 @@
     "id": 204,
     "title": "Aegleseeker",
     "artist": "Silentroom vs Frums",
-    "chapter": "time limited-7",
+    "chapter": "event-7",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6312,7 +6312,7 @@
     "id": 205,
     "title": "Malicious Mischance",
     "artist": "s-don",
-    "chapter": "time limited-8",
+    "chapter": "event-8",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -6343,7 +6343,7 @@
     "id": 206,
     "title": "PUPA",
     "artist": "Morimori Atsushi",
-    "chapter": "time limited-9",
+    "chapter": "event-9",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -6372,7 +6372,7 @@
     "id": 207,
     "title": "PUPA -Floor of Larva Remix-",
     "artist": "Morimori Atsushi Remixed by Spiegel",
-    "chapter": "time limited-10",
+    "chapter": "event-10",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -6401,7 +6401,7 @@
     "id": 208,
     "title": "GIFT",
     "artist": "Notorious(Nota & TRIAL)",
-    "chapter": "time limited-11",
+    "chapter": "event-11",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -6430,7 +6430,7 @@
     "id": 209,
     "title": "Fighter",
     "artist": "HyuN",
-    "chapter": "time limited-12",
+    "chapter": "event-12",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6459,7 +6459,7 @@
     "id": 210,
     "title": "Lucida Nota",
     "artist": "D-D-Dice",
-    "chapter": "time limited-13",
+    "chapter": "event-13",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6488,7 +6488,7 @@
     "id": 211,
     "title": "Brain Power(Cranky remix)",
     "artist": "Remixed by Cranky",
-    "chapter": "time limited-14",
+    "chapter": "event-14",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6519,7 +6519,7 @@
     "id": 212,
     "title": "conflict",
     "artist": "siromaru + cranky",
-    "chapter": "time limited-15",
+    "chapter": "event-15",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6548,7 +6548,7 @@
     "id": 213,
     "title": "conflict - NOMA//CONCEIVER//REMIX-",
     "artist": "Remixed by NOMA",
-    "chapter": "time limited-16",
+    "chapter": "event-16",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6581,7 +6581,7 @@
     "id": 214,
     "title": "Hello Halloween",
     "artist": "PYKAMIA & 3R2",
-    "chapter": "time limited-17",
+    "chapter": "event-17",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -6612,7 +6612,7 @@
     "id": 215,
     "title": "Fauxmost",
     "artist": "Lollipop & Sobrem",
-    "chapter": "time limited-18",
+    "chapter": "event-18",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -6641,7 +6641,7 @@
     "id": 216,
     "title": "OCCHOCO-REST-LESS",
     "artist": "MYUKKE.",
-    "chapter": "time limited-19",
+    "chapter": "event-19",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -6670,7 +6670,7 @@
     "id": 217,
     "title": "Drizzle Flavor",
     "artist": "Systile",
-    "chapter": "time limited-20",
+    "chapter": "event-20",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -6699,7 +6699,7 @@
     "id": 218,
     "title": "ENERGY SYNERGY MATRIX",
     "artist": "Tanchiky",
-    "chapter": "time limited-21",
+    "chapter": "event-21",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -6728,7 +6728,7 @@
     "id": 219,
     "title": "Let's go now",
     "artist": "U-ske feat. Itsuki Natsume",
-    "chapter": "time limited-22",
+    "chapter": "event-22",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6757,7 +6757,7 @@
     "id": 220,
     "title": "Nini",
     "artist": "tezuka",
-    "chapter": "time limited-23",
+    "chapter": "event-23",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -6789,7 +6789,7 @@
     "id": 221,
     "title": "Fickle Mind",
     "artist": "MALVA.",
-    "chapter": "time limited-24",
+    "chapter": "event-24",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6818,7 +6818,7 @@
     "id": 222,
     "title": "Giselle",
     "artist": "Sobrem a.k.a. Widowmaker",
-    "chapter": "time limited-25",
+    "chapter": "event-25",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6850,7 +6850,7 @@
     "id": 223,
     "title": "Picasso",
     "artist": "Sakuzyo",
-    "chapter": "time limited-26",
+    "chapter": "event-26",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6891,7 +6891,7 @@
     "id": 224,
     "title": "Ginsekai ni Hitori",
     "artist": "Goto feat. nayuta",
-    "chapter": "time limited-27",
+    "chapter": "event-27",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -6924,7 +6924,7 @@
     "id": 225,
     "title": "Gekkaou Tengoku",
     "artist": "Zuxin with Utsuro a.k.a. IanMirror",
-    "chapter": "time limited-28",
+    "chapter": "event-28",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -6957,7 +6957,7 @@
     "id": 226,
     "title": "Sakura Fubuki",
     "artist": "Street",
-    "chapter": "time limited-29",
+    "chapter": "event-29",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -6990,7 +6990,7 @@
     "id": 227,
     "title": "Ukiyo-e Alley (浮世絵横丁)",
     "artist": "Chaos City Niigata",
-    "chapter": "time limited-30",
+    "chapter": "event-30",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7021,7 +7021,7 @@
     "id": 228,
     "title": "yozora",
     "artist": "Kagetora.",
-    "chapter": "time limited-31",
+    "chapter": "event-31",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7050,7 +7050,7 @@
     "id": 229,
     "title": "Kaguya",
     "artist": "BlackY",
-    "chapter": "time limited-32",
+    "chapter": "event-32",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7079,7 +7079,7 @@
     "id": 230,
     "title": "Volcanic Cacti",
     "artist": "Spiegel vs Yukino",
-    "chapter": "time limited-33",
+    "chapter": "event-33",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7108,7 +7108,7 @@
     "id": 231,
     "title": "Melty Summer",
     "artist": "Umeboshi Chazuke + s-don",
-    "chapter": "time limited-34",
+    "chapter": "event-34",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7137,7 +7137,7 @@
     "id": 232,
     "title": "Vibey-Vibey",
     "artist": "litmus*",
-    "chapter": "time limited-35",
+    "chapter": "event-35",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7166,7 +7166,7 @@
     "id": 233,
     "title": "ringing",
     "artist": "Luze",
-    "chapter": "time limited-36",
+    "chapter": "event-36",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7195,7 +7195,7 @@
     "id": 234,
     "title": "VS RENDA",
     "artist": "Luze",
-    "chapter": "time limited-37",
+    "chapter": "event-37",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7224,7 +7224,7 @@
     "id": 235,
     "title": "blacknEon (gamE Edit.)",
     "artist": "seatrus",
-    "chapter": "time limited-38",
+    "chapter": "event-38",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7253,7 +7253,7 @@
     "id": 236,
     "title": "Diamond Dust",
     "artist": "seatrus feat.Dadaco",
-    "chapter": "time limited-39",
+    "chapter": "event-39",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7282,7 +7282,7 @@
     "id": 237,
     "title": "The Nightfall will be Conceal Everything Before Long.",
     "artist": "seatrus",
-    "chapter": "time limited-40",
+    "chapter": "event-40",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7311,7 +7311,7 @@
     "id": 238,
     "title": "devil¿la6ue",
     "artist": "Teten Maru prod. U-ske",
-    "chapter": "time limited-41",
+    "chapter": "event-41",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7342,7 +7342,7 @@
     "id": 239,
     "title": "Hooray! Changing seats!",
     "artist": "Teten Maru prod. Rish",
-    "chapter": "time limited-42",
+    "chapter": "event-42",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7373,7 +7373,7 @@
     "id": 240,
     "title": "TenQ.",
     "artist": "Teten Maru prod. Ponchi♪",
-    "chapter": "time limited-43",
+    "chapter": "event-43",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7402,7 +7402,7 @@
     "id": 241,
     "title": "R.I.P.",
     "artist": "eicateve x hrchem x TOHRU MiTSUHASHi",
-    "chapter": "time limited-44",
+    "chapter": "event-44",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7431,7 +7431,7 @@
     "id": 242,
     "title": "Hope for the Flowers",
     "artist": "Sound piercer feat.DAZBEE",
-    "chapter": "time limited-45",
+    "chapter": "event-45",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7464,7 +7464,7 @@
     "id": 243,
     "title": "Ascension to Heaven",
     "artist": "xi",
-    "chapter": "time limited-46",
+    "chapter": "event-46",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7497,7 +7497,7 @@
     "id": 244,
     "title": "Immutable (gamesize edit)",
     "artist": "Juggernaut.",
-    "chapter": "time limited-47",
+    "chapter": "event-47",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7526,7 +7526,7 @@
     "id": 245,
     "title": "Life is PIANO",
     "artist": "Junk",
-    "chapter": "time limited-48",
+    "chapter": "event-48",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7555,7 +7555,7 @@
     "id": 246,
     "title": "Satelite:memories",
     "artist": "Qutabire",
-    "chapter": "time limited-49",
+    "chapter": "event-49",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -7584,7 +7584,7 @@
     "id": 247,
     "title": "Stray soul around",
     "artist": "Mini",
-    "chapter": "time limited-50",
+    "chapter": "event-50",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7613,7 +7613,7 @@
     "id": 248,
     "title": "Fate of Aria",
     "artist": "HyuN feat.HaNaTan",
-    "chapter": "time limited-51",
+    "chapter": "event-51",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7642,7 +7642,7 @@
     "id": 249,
     "title": "MVURBD",
     "artist": "ETIA.",
-    "chapter": "time limited-52",
+    "chapter": "event-52",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7671,7 +7671,7 @@
     "id": 250,
     "title": "Alice's mythology",
     "artist": "CK",
-    "chapter": "time limited-53",
+    "chapter": "event-53",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7700,7 +7700,7 @@
     "id": 251,
     "title": "Akasagarbha -reincarnate-",
     "artist": "wa. vs ETIA.",
-    "chapter": "time limited-54",
+    "chapter": "event-54",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7732,7 +7732,7 @@
     "id": 252,
     "title": "Chronomia",
     "artist": "Lime",
-    "chapter": "time limited-55",
+    "chapter": "event-55",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7761,7 +7761,7 @@
     "id": 253,
     "title": "Equality of Equites",
     "artist": "MYUKKE.",
-    "chapter": "time limited-56",
+    "chapter": "event-56",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7790,7 +7790,7 @@
     "id": 254,
     "title": "Veil of Summer",
     "artist": "Maozon",
-    "chapter": "time limited-57",
+    "chapter": "event-57",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7819,7 +7819,7 @@
     "id": 255,
     "title": "Viyella's Melancholy",
     "artist": "Laur",
-    "chapter": "time limited-58",
+    "chapter": "event-58",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7848,7 +7848,7 @@
     "id": 256,
     "title": "Parfait Tornado",
     "artist": "Halv",
-    "chapter": "time limited-59",
+    "chapter": "event-59",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7877,7 +7877,7 @@
     "id": 257,
     "title": "Shattered My World",
     "artist": "Halv",
-    "chapter": "time limited-60",
+    "chapter": "event-60",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7906,7 +7906,7 @@
     "id": 258,
     "title": "Calami7ous",
     "artist": "Halv",
-    "chapter": "time limited-61",
+    "chapter": "event-61",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -7935,7 +7935,7 @@
     "id": 259,
     "title": "Tiny Sign",
     "artist": "momocaca",
-    "chapter": "time limited-62",
+    "chapter": "event-62",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -7964,7 +7964,7 @@
     "id": 260,
     "title": "FUTURISM",
     "artist": "Nor",
-    "chapter": "time limited-63",
+    "chapter": "event-63",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -7993,7 +7993,7 @@
     "id": 261,
     "title": "Walk Away",
     "artist": "EmoCosine vs RiraN",
-    "chapter": "time limited-64",
+    "chapter": "event-64",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8022,7 +8022,7 @@
     "id": 262,
     "title": "Kirakira Noel Story!!",
     "artist": "Reku Mochizuki",
-    "chapter": "time limited-65",
+    "chapter": "event-65",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -8053,7 +8053,7 @@
     "id": 263,
     "title": "energy trixxx",
     "artist": "KAH",
-    "chapter": "time limited-66",
+    "chapter": "event-66",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8082,7 +8082,7 @@
     "id": 264,
     "title": "NightTheater",
     "artist": "*wakadori",
-    "chapter": "time limited-67",
+    "chapter": "event-67",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -8111,7 +8111,7 @@
     "id": 265,
     "title": "Ne Night & All Night",
     "artist": "MYUKKE.",
-    "chapter": "time limited-68",
+    "chapter": "event-68",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -8140,7 +8140,7 @@
     "id": 266,
     "title": "Song",
     "artist": "Tsukasa Ohmae",
-    "chapter": "time limited-69",
+    "chapter": "event-69",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -8173,7 +8173,7 @@
     "id": 267,
     "title": "Justification \"α\"(正義論α)",
     "artist": "Otsukisamakokyokyoku(えんがわ342)",
-    "chapter": "time limited-70",
+    "chapter": "event-70",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -8202,7 +8202,7 @@
     "id": 268,
     "title": "CHAOS MAGNVM",
     "artist": "Team Grimoire (feat. Sennzai)",
-    "chapter": "time limited-71",
+    "chapter": "event-71",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -8231,7 +8231,7 @@
     "id": 269,
     "title": "HAZARD",
     "artist": "Limpid",
-    "chapter": "time limited-72",
+    "chapter": "event-72",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -8264,7 +8264,7 @@
     "id": 270,
     "title": "Happily Ever After",
     "artist": "Cansol",
-    "chapter": "time limited-73",
+    "chapter": "event-73",
     "category": "event",
     "difficulty": {
       "whisper": "2",
@@ -8293,7 +8293,7 @@
     "id": 271,
     "title": "Avataar ~Reincarnation of Kalpa~",
     "artist": "Scarlette a.k.a CrYmson",
-    "chapter": "time limited-74",
+    "chapter": "event-74",
     "category": "event",
     "difficulty": {
       "whisper": "6",
@@ -8322,7 +8322,7 @@
     "id": 272,
     "title": "Bassline Yatteru? w",
     "artist": "Camellia feat. Nanahira",
-    "chapter": "time limited-75",
+    "chapter": "event-75",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -8351,7 +8351,7 @@
     "id": 273,
     "title": "Bamboo",
     "artist": "RISH ft. Choko",
-    "chapter": "time limited-76",
+    "chapter": "event-76",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8384,7 +8384,7 @@
     "id": 274,
     "title": "Missing Planet",
     "artist": "Chroma",
-    "chapter": "time limited-77",
+    "chapter": "event-77",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8413,7 +8413,7 @@
     "id": 275,
     "title": "Hoshi Ni Naru (Game Edit)",
     "artist": "Islet feat.isui",
-    "chapter": "time limited-78",
+    "chapter": "event-78",
     "category": "event",
     "difficulty": {
       "whisper": "3",
@@ -8442,7 +8442,7 @@
     "id": 276,
     "title": "Altale",
     "artist": "Sakuzyo",
-    "chapter": "time limited-79",
+    "chapter": "event-79",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8471,7 +8471,7 @@
     "id": 277,
     "title": "Rush-Hour",
     "artist": "litmus*",
-    "chapter": "time limited-80",
+    "chapter": "event-80",
     "category": "event",
     "difficulty": {
       "whisper": "5",
@@ -8505,7 +8505,7 @@
     "id": 278,
     "title": "Head BONK ache",
     "artist": "saaa ft. MC iwata  Bros.",
-    "chapter": "time limited-81",
+    "chapter": "event-81",
     "category": "event",
     "difficulty": {
       "whisper": "4",
@@ -8540,7 +8540,7 @@
     "id": 279,
     "title": "ULTRA SYNERGY MATRIX",
     "artist": "Tanchiky",
-    "chapter": "time limited-82",
+    "chapter": "event-82",
     "category": "event",
     "difficulty": {
       "whisper": "4",
