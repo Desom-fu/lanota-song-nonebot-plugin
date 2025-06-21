@@ -31,7 +31,7 @@ async def handle_today(bot: Bot, event: MessageEvent):
         return
     
     nickname = await get_nickname(bot, user_id)
-    message = f"{nickname}的今日曲目：\n{format_song_info(today_song)}"
+    message = f"[{nickname}]的今日曲目：\n{format_song_info(today_song)}"
     await send_image_or_text(user_id, la_today, message)
 
 # 处理random命令
