@@ -4,8 +4,8 @@ import json
 import re
 import time
 from bs4 import BeautifulSoup
-from urllib.parse import unquote
 from pathlib import Path
+from urllib.parse import unquote
 
 BASE_URL = "https://lanota.fandom.com"
 API_URL = f"{BASE_URL}/api.php"
@@ -14,11 +14,9 @@ SONGS_JSON = Path('Data') / 'LanotaSongList' / 'song_list.json'
 # ---------- 工具函数 ----------
 
 def clean_ref(text):
-    """移除所有 <ref>...</ref> 块"""
     return re.sub(r"<ref.*?>.*?<\/ref>", "", text or "", flags=re.DOTALL)
 
 def clean_wiki_links(text):
-    """将 [[Target|Display]] 或 [[Target]] 转为纯文本"""
     if not text:
         return ""
     text = re.sub(r"\[\[[^\]|]+\|([^\]]+)\]\]", r"\1", text)
@@ -26,30 +24,27 @@ def clean_wiki_links(text):
     return text.strip()
 
 def replace_br(text):
-    """将 <br> 或 <br/> 替换为  | """
     return re.sub(r"<br\s*/?>", " | ", text or "")
 
 def classify(chap_left):
-    """按规则分类 chapter 左侧"""
     left = chap_left.lower()
-    if left in ['time limited', 'event']:
+    if left in ('time limited', 'event'):
         return 'event'
     if left.isdigit():
         return 'main'
-    if re.match(r'^[A-Za-z]\d+$', left):
+    if re.match(r'^[A-Za-z]+\d+$', chap_left):
         return 'side'
-    if re.match(r'^[A-Za-z]{1,2}$', left):
+    if re.match(r'^[A-Za-z]{1,2}$', chap_left):
         return 'expansion'
-    if left in ['∞', 'inf']:
+    if left in ('∞', 'inf', 'Inf'):
         return 'subscription'
     return 'other'
 
 def get_final_url(session, url, max_retries=3):
-    """获取最终跳转后的真实URL"""
     for _ in range(max_retries):
         try:
-            resp = session.head(url, allow_redirects=True, timeout=10)
-            return unquote(resp.url)
+            resp = session.get(url, allow_redirects=True, timeout=10)
+            return resp.url
         except requests.exceptions.RequestException:
             time.sleep(1)
     return url
@@ -58,126 +53,140 @@ def get_final_url(session, url, max_retries=3):
 
 def main():
     SONGS_JSON.parent.mkdir(parents=True, exist_ok=True)
-    # 初始化会话
     session = requests.Session()
-    session.headers.update({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-    })
-    
-    # 断点续传
-    processed_ids = set()
+    session.headers.update({'User-Agent': 'Mozilla/5.0'})
+
     try:
         with open(SONGS_JSON, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            processed_ids = {item['id'] for item in data}
     except FileNotFoundError:
         data = []
 
-    # 获取主列表并解析真实URL
-    print("Fetching main song list...")
+    existing_titles = {item['title'].lower() for item in data}
+    # 存储小写章节用于匹配
+    existing_chapters_lower = {item['chapter'].lower() for item in data}
+
+    print("正在搜索歌曲列表……")
     resp = session.get(f"{BASE_URL}/wiki/Songs")
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, 'html.parser')
-    
+
+    # 收集页面上的所有歌曲链接及初步标题
     songs_info = []
     for row in soup.find('table', {'class': 'wikitable'}).find_all('tr')[1:]:
-        a = row.find('a', href=re.compile(r"^/wiki/.+"))
-        if a and a.get('href'):
-            songs_info.append({
-                'href': f"{BASE_URL}{a['href']}",
-                'display_title': a.get('title', '').strip()
-            })
+        cols = row.find_all('td')
+        if len(cols) < 3:
+            continue
+        link = cols[0].find('a', href=re.compile(r"^/wiki/.+"))
+        if not link:
+            continue
+        songs_info.append({
+            'href': f"{BASE_URL}{link['href']}",
+            'display_title': link.get('title', '').strip()
+        })
 
-    total = len(songs_info)
-    print(f"共找到 {total} 首歌曲，已处理 {len(processed_ids)} 首")
+    print(f"共找到 {len(songs_info)} 首歌曲")
 
-    for idx, song_info in enumerate(songs_info, start=1):
-        if idx in processed_ids:
+    # 第一轮：按 title 初步匹配
+    candidates = [info for info in songs_info if info['display_title'].lower() not in existing_titles]
+    skipped = len(songs_info) - len(candidates)
+    print(f"{skipped} 首已通过初步标题匹配，跳过；剩余 {len(candidates)} 首待进一步核对")
+
+    new_count = 0
+
+    for info in candidates:
+        # 进入页面获取真实章节
+        final_url = get_final_url(session, info['href'])
+        raw_page = final_url.rsplit('/wiki/', 1)[-1]
+        page_name = unquote(raw_page)
+
+        params = {'action': 'parse', 'page': page_name, 'prop': 'wikitext', 'format': 'json'}
+        r = session.get(API_URL, params=params, timeout=15)
+        wikitext = r.json().get('parse', {}).get('wikitext', {}).get('*', '')
+        wikicode = mwparserfromhell.parse(wikitext)
+        tmpl = next((t for t in wikicode.filter_templates() if t.name.strip().lower() == 'song'), None)
+
+        def get_field(field):
+            if not tmpl or not tmpl.has(field):
+                return ''
+            val = str(tmpl.get(field).value)
+            val = clean_ref(val)
+            val = clean_wiki_links(val)
+            return replace_br(val).strip()
+
+        # 处理章节：time limited 转 Event
+        raw_chap_left = get_field('Chapter')
+        left_standard = raw_chap_left.replace('∞', 'Inf')
+        chap_left_clean = 'Event' if left_standard.lower() == 'time limited' else left_standard
+        chap_right = get_field('Id')
+        real_chapter = f"{chap_left_clean}-{chap_right}"
+
+        # 深度匹配：按章节小写匹配
+        if real_chapter.lower() in existing_chapters_lower:
+            print(f"已存在章节 '{real_chapter}'，跳过")
             continue
 
-        # 获取最终跳转URL
-        final_url = get_final_url(session, song_info['href'])
-        page_name = unquote(final_url.split('/wiki/')[-1])
-        print(f"\nProcessing {idx}/{total}: {page_name}")
+        # 解析标题及其它字段
+        real_title = get_field('Song') or info['display_title']
+        category = 'event' if chap_left_clean == 'Event' else classify(chap_left_clean)
 
-        try:
-            # 获取页面内容
-            params = {'action': 'parse', 'page': page_name, 'prop': 'wikitext', 'format': 'json'}
-            r = session.get(API_URL, params=params, timeout=15)
-            r.raise_for_status()
-            wikitext = r.json().get('parse', {}).get('wikitext', {}).get('*', '')
-            
-            if not wikitext:
-                print(f"警告：页面 {page_name} 内容为空")
-                continue
+        new_count += 1
+        print(f"添加新歌曲 #{new_count}: '{real_title}' (章节 {real_chapter})")
 
-            wikicode = mwparserfromhell.parse(wikitext)
-            tmpl = next((t for t in wikicode.filter_templates() if t.name.strip().lower() == 'song'), None)
-            if not tmpl:
-                print(f"跳过：页面 {page_name} 没有song模板")
-                continue
+        song = {
+            'id': len(data) + 1,
+            'title': real_title,
+            'artist': get_field('Artist'),
+            'chapter': real_chapter,
+            'category': category,
+            'difficulty': {
+                'whisper': get_field('DiffWhisper'),
+                'acoustic': get_field('DiffAcoustic'),
+                'ultra': get_field('DiffUltra'),
+                'master': get_field('DiffMaster')
+            },
+            'time': get_field('Time'),
+            'bpm': get_field('BPM'),
+            'version': get_field('Version'),
+            'area': get_field('Area'),
+            'genre': get_field('Genre'),
+            'vocals': get_field('Vocals'),
+            'chart_design': get_field('Chart Design'),
+            'cover_art': get_field('Cover Art'),
+            'notes': {
+                'whisper': get_field('MaxWhisper'),
+                'acoustic': get_field('MaxAcoustic'),
+                'ultra': get_field('MaxUltra'),
+                'master': get_field('MaxMaster')
+            },
+            'source_url': final_url
+        }
 
-            # 提取字段
-            def get(field):
-                val = str(tmpl.get(field).value) if tmpl.has(field) else ''
-                val = clean_ref(val)
-                val = clean_wiki_links(val)
-                return replace_br(val).strip()
+        # 附加 Trivia
+        if '==Trivia==' in wikitext:
+            trivia = [clean_wiki_links(clean_ref(item.strip())) for item in re.findall(r"\*([^\n]+)", wikitext.split('==Trivia==')[1])]
+            song['Trivia'] = trivia
 
-            raw_chap = get('Chapter')
-            seq = get('Id')
-            real_chapter = f'{raw_chap}-{seq}'
-            category = classify(real_chapter.split('-')[0].lower()) if raw_chap else 'other'
+        # 附加 Legacy Table
+        legacy = {}
+        for t in wikicode.filter_templates():
+            if t.name.strip().lower() == 'legacytable':
+                for param in t.params:
+                    key = clean_wiki_links(str(param.name).strip())
+                    val = replace_br(clean_ref(str(param.value).strip()))
+                    legacy[key] = val
+        song['Legacy'] = legacy
 
-            # 构建歌曲数据
-            song = {
-                'id': idx,
-                'title': get('Song') or song_info['display_title'],
-                'artist': get('Artist'),
-                'chapter': real_chapter,
-                'category': category,
-                'difficulty': {
-                    'whisper': get('DiffWhisper'),
-                    'acoustic': get('DiffAcoustic'),
-                    'ultra': get('DiffUltra'),
-                    'master': get('DiffMaster')
-                },
-                'time': get('Time'),
-                'bpm': get('BPM'),
-                'version': get('Version'),
-                'area': get('Area'),
-                'genre': get('Genre'),
-                'vocals': get('Vocals'),
-                'chart_design': get('Chart Design'),
-                'cover_art': get('Cover Art'),
-                'notes': {
-                    'whisper': get('MaxWhisper'),
-                    'acoustic': get('MaxAcoustic'),
-                    'ultra': get('MaxUltra'),
-                    'master': get('MaxMaster')
-                },
-                'source_url': final_url
-            }
+        # 写入并更新去重集合
+        data.append(song)
+        existing_chapters_lower.add(real_chapter.lower())
+        existing_titles.add(real_title.lower())
 
-            # 处理附加信息
-            if '==Trivia==' in wikitext:
-                trivia = [clean_wiki_links(clean_ref(l.strip())) 
-                         for l in re.findall(r"\*([^\n]+)", wikitext.split('==Trivia==')[1])]
-                song['Trivia'] = trivia
-            
-            # 保存数据
-            data.append(song)
-            with open(SONGS_JSON, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            
-            print(f"已保存 ID {idx}: {song['title']} (Chapter: {real_chapter})")
-            time.sleep(0.5)
+        with open(SONGS_JSON, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        time.sleep(0.5)
 
-        except Exception as e:
-            print(f"处理 {page_name} 时出错: {str(e)}")
-            continue
+    print(f"处理完成，新增 {new_count} 首歌曲，当前共 {len(data)} 首")
 
-    print(f"\n所有歌曲处理完成，共保存 {len(data)} 首歌曲到 {SONGS_JSON}")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

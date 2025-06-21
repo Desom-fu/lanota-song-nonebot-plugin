@@ -157,7 +157,7 @@ def format_song_info(song):
     legacy_info = song.get('Legacy', {})
     
     info = (
-        f"ID: {song['id']}\n"
+        f"歌曲ID: {song['id']}\n"
         f"章节: {get_value(song['chapter'])}\n"
         f"分类: {get_value(song['category'])}\n"
         f"曲名: {get_value(song['title'])}\n"
@@ -235,3 +235,80 @@ def get_songs_by_level(song_data, level):
                 song['difficulty']['acoustic'] == level or
                 song['difficulty']['ultra'] == level or
                 song['difficulty']['master'] == level)]
+
+def find_song_by_search_term(search_term, song_data, alias_data=None, max_display=10):
+    """按照优先级查找歌曲
+    Args:
+        search_term: 搜索词
+        song_data: 歌曲数据
+        alias_data: 别名数据(可选)
+        max_display: 最大显示数量
+    Returns:
+        tuple: (matched_songs, match_type, total_count)
+    """
+    if alias_data is None:
+        alias_data = load_alias_data()
+    
+    matched_songs = []
+    match_type = None
+    
+    # 1. 完全匹配章节号
+    chapter_matches = [song for song in song_data if song['chapter'].lower() == search_term.lower()]
+    if chapter_matches:
+        matched_songs = chapter_matches
+        match_type = "章节号"
+    
+    # 2. 完全匹配ID
+    if not matched_songs:
+        try:
+            song_id = int(search_term)
+            id_matches = [song for song in song_data if song['id'] == song_id]
+            if id_matches:
+                matched_songs = id_matches
+                match_type = "ID"
+        except ValueError:
+            pass
+    
+    # 3. 完全匹配别名
+    if not matched_songs and alias_data:
+        alias_matches = []
+        for song in song_data:
+            std_name = song['title']
+            if std_name in alias_data and search_term.lower() in [a.lower() for a in alias_data[std_name]]:
+                alias_matches.append(song)
+        if alias_matches:
+            matched_songs = alias_matches
+            match_type = "别名"
+    
+    # 4. 完全匹配曲名
+    if not matched_songs:
+        title_matches = [song for song in song_data if song['title'].lower() == search_term.lower()]
+        if title_matches:
+            matched_songs = title_matches
+            match_type = "曲名"
+    
+    # 5. 模糊匹配曲名或别名
+    if not matched_songs:
+        search_term_lower = search_term.lower()
+        # 模糊匹配曲名
+        title_fuzzy_matches = [song for song in song_data if search_term_lower in song['title'].lower()]
+        # 模糊匹配别名
+        alias_fuzzy_matches = []
+        if alias_data:
+            for song in song_data:
+                std_name = song['title']
+                if std_name in alias_data:
+                    for alias in alias_data[std_name]:
+                        if search_term_lower in alias.lower():
+                            alias_fuzzy_matches.append(song)
+                            break
+        # 合并结果并去重
+        matched_songs = list({song['id']: song for song in title_fuzzy_matches + alias_fuzzy_matches}.values())
+        if matched_songs:
+            match_type = "模糊匹配"
+    
+    total_count = len(matched_songs)
+    if total_count > max_display:
+        matched_songs = matched_songs[:max_display]
+    
+    return matched_songs, match_type, total_count

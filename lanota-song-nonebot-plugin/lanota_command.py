@@ -108,55 +108,56 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
 @la_alias.handle()
 async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Message = CommandArg()):
     user_id = event.get_user_id()
-    arg = args.extract_plain_text().strip().lower()
+    arg = args.extract_plain_text().strip()
     
     if not arg:
         await send_image_or_text(user_id, la_alias, "用法:\n"
-                                  "/la alias add <别名>|<章节号或原名>\n"
-                                  "/la alias remove <别名>")
+                              "/la alias add <别名>/<章节号或原名>\n"
+                              "/la alias del <别名>\n"
+                              "/la alias show <章节号/ID/别名/曲名>")
         return
     
     parts = arg.split(maxsplit=1)
     if len(parts) < 1:
         await send_image_or_text(user_id, la_alias, "参数不足\n"
-                                  "用法:\n"
-                                  "/la alias add <别名>|<章节号或原名>\n"
-                                  "/la alias remove <别名>")
+                              "用法:\n"
+                              "/la alias add <别名>/<章节号或原名>\n"
+                              "/la alias del <别名>\n"
+                              "/la alias show <章节号/ID/别名/曲名>")
         return
     
-    action = parts[0]
+    action = parts[0].lower()
     alias_data = load_alias_data()
     song_data = load_song_data()
     all_titles = {song['title'].lower() for song in song_data}
     
     if action == "add":
         if len(parts) < 2:
-            await send_image_or_text(user_id, la_alias, "添加别名需要别名和章节号/原名参数，用|分隔")
+            await send_image_or_text(user_id, la_alias, "添加别名需要别名和章节号/原名参数，用/分隔")
             return
         
-        alias_original = parts[1].split('|', 1)
-        if len(alias_original) < 2:
-            await send_image_or_text(user_id, la_alias, "格式错误，请使用 <别名>|<章节号或原名> 格式")
+        # 只分割第一个斜杠
+        split_result = parts[1].split('/', 1)
+        if len(split_result) < 2:
+            await send_image_or_text(user_id, la_alias, "格式错误，请使用 <别名>/<章节号或原名> 格式")
             return
         
-        alias = alias_original[0].strip()
-        search_term = alias_original[1].strip()
+        alias = split_result[0].strip()
+        search_term = split_result[1].strip()
         
-        # 优先按章节号查找
-        matched_songs = [song for song in song_data if song['chapter'].lower() == search_term.lower()]
-        
-        # 如果没有找到章节号匹配，则按原名模糊查找
-        if not matched_songs:
-            search_term_lower = search_term.lower()
-            matched_songs = [song for song in song_data if search_term_lower in song['title'].lower()]
+        matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_alias, f"没有找到章节号或原名为 '{search_term}' 的歌曲")
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID或原名为 '{search_term}' 的歌曲")
             return
         
-        if len(matched_songs) > 1:
-            await send_image_or_text(user_id, la_alias, f"找到多个匹配的歌曲，请使用更精确的章节号或原名:\n"
-                                  + "\n".join(f"{song['chapter']} - {song['title']}" for song in matched_songs))
+        if total_count > 1:
+            message = f"找到多个匹配的歌曲({total_count}个)，请使用更精确的章节号、ID或原名:\n"
+            for i, song in enumerate(matched_songs, 1):
+                message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
+            if total_count > 10:
+                message += f"...共{total_count}个"
+            await send_image_or_text(user_id, la_alias, message.strip())
             return
         
         std_name = matched_songs[0]['title']
@@ -180,98 +181,90 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         else:
             await send_image_or_text(user_id, la_alias, f"别名 '{alias}' 已经存在")
     
-    elif action == "remove":
-        alias = parts[1].split('|')[0].strip()
+    elif action == "del":
+        alias = parts[1].split('/')[0].strip()
         
-        removed = False
+        deld = False
         for std_name, aliases in alias_data.items():
             if alias in aliases:
                 aliases.remove(alias)
-                removed = True
+                deld = True
                 break
         
-        if removed:
+        if deld:
             save_alias_data(alias_data)
             await send_image_or_text(user_id, la_alias, f"成功删除别名 '{alias}'")
         else:
             await send_image_or_text(user_id, la_alias, f"未找到别名 '{alias}'")
     
+    elif action == "show":
+        if len(parts) < 2:
+            await send_image_or_text(user_id, la_alias, "请指定要查询的章节号、ID、别名或曲名")
+            return
+        
+        search_term = parts[1].strip()
+        matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
+        
+        if not matched_songs:
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID、别名或原名为 '{search_term}' 的歌曲")
+            return
+        
+        if total_count > 1:
+            message = f"找到多个匹配的歌曲({total_count}个):\n"
+            for i, song in enumerate(matched_songs, 1):
+                message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
+            if total_count > 10:
+                message += f"...共{total_count}个"
+            await send_image_or_text(user_id, la_alias, message.strip())
+            return
+        
+        std_name = matched_songs[0]['title']
+        aliases = alias_data.get(std_name, [])
+        
+        if not aliases:
+            message = f"歌曲 '{std_name}' 目前没有设置别名"
+        else:
+            message = f"歌曲 '{std_name}' 的别名({len(aliases)}个):\n" + "\n".join(f"{i+1}. {alias}" for i, alias in enumerate(aliases))
+        
+        await send_image_or_text(user_id, la_alias, message)
+    
     else:
-        await send_image_or_text(user_id, la_alias, "无效操作，只能使用 add 或 remove")
+        await send_image_or_text(user_id, la_alias, "无效操作，只能使用 add/del/show")
 
 # 处理find命令
 @la_find.handle()
 async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Message = CommandArg()):
     user_id = event.get_user_id()
-    arg = args.extract_plain_text().strip()
+    search_term = args.extract_plain_text().strip()
     
-    if not arg:
+    if not search_term:
         await send_image_or_text(user_id, la_find, "用法:\n"
-                              "/la find <曲名> (模糊匹配)\n"
-                              "/la find chapter <章节号> (精确匹配)\n"
-                              "/la find songid <ID> (精确匹配)")
+                              "/la find <搜索词> (按优先级匹配章节号、ID、别名和曲名)\n"
+                              "匹配优先级:\n"
+                              "1. 完全匹配章节号\n"
+                              "2. 完全匹配ID\n"
+                              "3. 完全匹配别名\n"
+                              "4. 完全匹配曲名\n"
+                              "5. 模糊匹配曲名或别名")
         return
     
-    parts = arg.split(maxsplit=1)
     song_data = load_song_data()
     alias_data = load_alias_data()
     
-    if len(parts) > 1:
-        sub_command = parts[0].lower()
-        search_term = parts[1]
-        
-        if sub_command == "chapter":
-            chapter_id = search_term
-            matched_songs = [song for song in song_data if song['chapter'].lower() == chapter_id.lower()]
-            
-            if matched_songs:
-                message = f"找到Chapter为 {chapter_id} 的曲目:\n{format_song_info(matched_songs[0])}"
-                await send_image_or_text(user_id, la_find, message)
-            else:
-                await send_image_or_text(user_id, la_find, f"没有找到章节号为 '{search_term}' 的曲目")
-            return
-        
-        elif sub_command == "songid":
-            try:
-                song_id = int(search_term)
-                matched_songs = [song for song in song_data if song['id'] == song_id]
-                
-                if matched_songs:
-                    message = f"找到ID为 {song_id} 的曲目:\n{format_song_info(matched_songs[0])}"
-                    await send_image_or_text(user_id, la_find, message)
-                else:
-                    await send_image_or_text(user_id, la_find, f"没有找到ID为 {song_id} 的曲目")
-                return
-            except ValueError:
-                await send_image_or_text(user_id, la_find, "ID必须是数字")
-                return
-    
-    # 默认曲名模糊匹配
-    search_term = arg.lower()
-    matched_songs = []
-    
-    for song in song_data:
-        if search_term in song['title'].lower():
-            matched_songs.append(song)
-            continue
-        
-        std_name = song['title']
-        if std_name in alias_data:
-            for alias in alias_data[std_name]:
-                if search_term in alias.lower():
-                    matched_songs.append(song)
-                    break
+    matched_songs, match_type, total_count = find_song_by_search_term(search_term, song_data, alias_data)
     
     if not matched_songs:
-        await send_image_or_text(user_id, la_find, f"没有找到包含 '{search_term}' 的曲目")
+        await send_image_or_text(user_id, la_find, f"没有找到与 '{search_term}' 相关的曲目")
         return
     
-    if len(matched_songs) == 1:
-        message = f"找到1首包含 '{search_term}' 的曲目:\n{format_song_info(matched_songs[0])}"
+    if total_count == 1:
+        message = f"通过{match_type}找到1首曲目:\n{format_song_info(matched_songs[0])}"
     else:
-        message = f"找到 {len(matched_songs)} 首包含 '{search_term}' 的曲目:\n"
+        message = f"通过{match_type}找到 {total_count} 首曲目:\n"
         for i, song in enumerate(matched_songs, 1):
-            message += f"\n{i}. {song['title']} (Chapter: {song['chapter']})"
+            message += f"\n{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})"
+        if total_count > 10:
+            message += f"\n...共{total_count}个"
     
     await send_image_or_text(user_id, la_find, message)
 
@@ -394,26 +387,20 @@ Lanota 机器人使用帮助:
 命令: /la alias 或 /la 别名
 功能: 管理歌曲别名
 子命令:
-  - /la alias add <别名>|<章节号或原名> - 添加别名(优先匹配章节号，其次匹配原名)
-  - /la alias remove <别名> - 删除别名
-示例:
-  /la alias add gmr|0-1  # 为章节0-1的歌曲添加别名gmr
-  /la alias add gmr|got more raves?  # 为歌曲got more raves?添加别名gmr
-  /la alias remove gmr
+  - /la alias add <别名>/<搜索词> - 添加别名
+  - /la alias del <别名> - 删除别名
+  - /la alias show <搜索词> - 查看歌曲别名
 
 4. 查找曲目
 命令: /la find 或 /la 查找
 功能: 查找曲目信息
-子命令:
-  - /la find <关键词> - 模糊匹配曲名或别名
-  - /la find chapter <章节号> - 精确查找章节
-  - /la find songid <ID> - 精确查找ID
-示例:
-  /la find got more raves?
-  /la find chapter 0-1
-  /la find songid 101
+匹配优先级:
+1. 完全匹配章节号
+2. 完全匹配ID
+3. 完全匹配别名
+4. 完全匹配曲名
+5. 模糊匹配曲名或别名
 
-5. 时长统计
 命令: /la time 或 /la 时长
 功能: 显示长于3分钟和短于2分钟的曲目列表
 示例: /la time
