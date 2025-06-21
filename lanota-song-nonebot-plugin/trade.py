@@ -1,9 +1,6 @@
-from nonebot.adapters.onebot.v11 import MessageSegment, Message
-from nonebot.adapters.onebot.v11 import GROUP, Bot, Event
+from nonebot.adapters.onebot.v11 import GROUP, Bot
 from nonebot.adapters.onebot.v11 import GroupMessageEvent
-from nonebot.log import logger
 from nonebot import on_command
-from nonebot.params import CommandArg
 from .config import *
 from .whitelist import whitelist_rule
 from .function import *

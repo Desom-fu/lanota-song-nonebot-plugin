@@ -1,12 +1,8 @@
-from nonebot.log import logger
-from nonebot import get_driver
 from nonebot.adapters.onebot.v11 import Bot
 from nonebot.adapters.onebot.v11 import MessageSegment, Message
 from .config import *
 from pathlib import Path
 import random
-import math
-import re
 import datetime
 import json
 import threading

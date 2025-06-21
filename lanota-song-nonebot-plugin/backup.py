@@ -1,7 +1,6 @@
 import datetime
-from nonebot import require, get_driver, on_command
-from nonebot.adapters.onebot.v11 import Bot, GroupMessageEvent
-from .config import user_path, backup_path, lanota_group, bot_owner_id
+from nonebot import get_driver
+from .config import user_path, backup_path, lanota_group
 from nonebot.log import logger
 from nonebot import get_bot
 import asyncio

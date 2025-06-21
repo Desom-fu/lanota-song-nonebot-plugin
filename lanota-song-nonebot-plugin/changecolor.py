@@ -2,8 +2,7 @@ from nonebot.adapters.onebot.v11 import MessageSegment, Message
 from nonebot.adapters.onebot.v11 import GROUP
 from nonebot.adapters.onebot.v11 import Bot, Event, GroupMessageEvent
 from nonebot.params import CommandArg
-from nonebot.log import logger
-from nonebot import on_command, require
+from nonebot import on_command
 import re
 from .config import *
 from .function import *

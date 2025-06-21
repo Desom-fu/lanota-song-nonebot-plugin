@@ -1,11 +1,7 @@
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import Bot, MessageEvent, Message
-from nonebot.params import CommandArg, ArgPlainText
+from nonebot.params import CommandArg
 from nonebot.typing import T_State
-from pathlib import Path
-import random
-import json
-import datetime
 from .config import *
 from .function import *
 from .whitelist import whitelist_rule
@@ -16,7 +12,7 @@ from .fandom_pachong import main as update_songs
 la_today = on_command("la today", aliases={"la 今日曲", "lanota today", "lanota 今日曲"}, rule=whitelist_rule, priority=5)
 la_random = on_command("la random", aliases={"la 随机", "lanota random", "lanota 随机"}, rule=whitelist_rule, priority=5)
 la_alias = on_command("la alias", aliases={"la 别名", "lanota 别名", "lanota alias"}, rule=whitelist_rule, priority=5)
-la_find = on_command("la find", aliases={"la 查找", "lanota find", "lanota 查找"}, rule=whitelist_rule, priority=5)
+la_find = on_command("la find", aliases={"la 查找", "lanota find", "lanota 查找", "lanota info", "la info"}, rule=whitelist_rule, priority=5)
 la_help = on_command("la help", aliases={"la 帮助", "lanota help", "lanota 帮助"}, rule=whitelist_rule, priority=5)
 la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时长"}, rule=whitelist_rule, priority=5)
 la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
@@ -430,7 +426,7 @@ Lanota 机器人使用帮助:
   - /la alias show <搜索词> - 查看歌曲别名
 
 4. 查找曲目
-命令: /la find 或 /la 查找
+命令: /la info 或 /la 查找
 功能: 查找曲目信息
 匹配优先级:
 1. 完全匹配章节号
