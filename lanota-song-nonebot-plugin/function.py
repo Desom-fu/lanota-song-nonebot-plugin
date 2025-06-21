@@ -151,7 +151,7 @@ def format_song_info(song):
     
     # 为所有可能为空的字段设置默认值
     def get_value(value):
-        return value if value and str(value).strip() else "未知"
+        return value if value and str(value).strip() else "N/A"
     
     # 处理Legacy数据
     legacy_info = song.get('Legacy', {})
