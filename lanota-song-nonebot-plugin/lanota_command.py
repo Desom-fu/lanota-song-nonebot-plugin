@@ -41,11 +41,8 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
     arg = args.extract_plain_text().strip().lower()
     
     song_data = load_song_data()
-    all_songs = []
-    for category in song_data.values():
-        all_songs.extend(category)
     
-    if not all_songs:
+    if not song_data:
         await send_image_or_text(user_id, la_random, "没有可用的歌曲数据")
         return
     
@@ -57,13 +54,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
         # level 数字
         if sub_command == "level" and len(parts) > 1:
             level = parts[1]
-            filtered_songs = []
-            for song in all_songs:
-                if (song['difficulty']['whisper'] == level or
-                    song['difficulty']['acoustic'] == level or
-                    song['difficulty']['ultra'] == level or
-                    song['difficulty']['master'] == level):
-                    filtered_songs.append(song)
+            filtered_songs = get_songs_by_level(song_data, level)
             
             if not filtered_songs:
                 await send_image_or_text(user_id, la_random, f"没有找到难度为 {level} 的曲目")
@@ -95,7 +86,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
         
         if sub_command in category_map:
             category = category_map[sub_command]
-            category_songs = song_data.get(category, [])
+            category_songs = get_songs_by_category(song_data, category)
             
             if not category_songs:
                 await send_image_or_text(user_id, la_random, f"没有找到 {category} 分类的曲目")
@@ -108,8 +99,8 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             return
     
     # 默认随机选择
-    random_number = await get_random_number_from_org(0, len(all_songs) - 1)
-    selected_song = all_songs[random_number]
+    random_number = await get_random_number_from_org(0, len(song_data) - 1)
+    selected_song = song_data[random_number]
     message = f"随机曲目:\n{format_song_info(selected_song)}"
     await send_image_or_text(user_id, la_random, message)
 
@@ -136,19 +127,13 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
     action = parts[0]
     alias_data = load_alias_data()
     song_data = load_song_data()
-    all_songs = []
-    for category in song_data.values():
-        all_songs.extend(category)
-    
-    # 获取所有歌曲名称
-    all_titles = {song['title'].lower() for song in all_songs}
+    all_titles = {song['title'].lower() for song in song_data}
     
     if action == "add":
         if len(parts) < 2:
             await send_image_or_text(user_id, la_alias, "添加别名需要别名和章节号/原名参数，用|分隔")
             return
         
-        # 解析别名和章节号/原名
         alias_original = parts[1].split('|', 1)
         if len(alias_original) < 2:
             await send_image_or_text(user_id, la_alias, "格式错误，请使用 <别名>|<章节号或原名> 格式")
@@ -158,19 +143,13 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         search_term = alias_original[1].strip()
         
         # 优先按章节号查找
-        matched_songs = []
-        for song in all_songs:
-            if song['chapter'].lower() == search_term.lower():
-                matched_songs.append(song)
+        matched_songs = [song for song in song_data if song['chapter'].lower() == search_term.lower()]
         
         # 如果没有找到章节号匹配，则按原名模糊查找
         if not matched_songs:
             search_term_lower = search_term.lower()
-            for song in all_songs:
-                if search_term_lower in song['title'].lower():
-                    matched_songs.append(song)
+            matched_songs = [song for song in song_data if search_term_lower in song['title'].lower()]
         
-        # 检查匹配结果
         if not matched_songs:
             await send_image_or_text(user_id, la_alias, f"没有找到章节号或原名为 '{search_term}' 的歌曲")
             return
@@ -180,21 +159,17 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
                                   + "\n".join(f"{song['chapter']} - {song['title']}" for song in matched_songs))
             return
         
-        # 获取标准名称
         std_name = matched_songs[0]['title']
         
-        # 检查别名是否是有效的歌曲名
         if alias.lower() in all_titles:
             await send_image_or_text(user_id, la_alias, f"'{alias}' 已经是歌曲原名，不能作为别名")
             return
         
-        # 检查别名是否已被使用
         for existing_std_name, aliases in alias_data.items():
             if alias in aliases:
                 await send_image_or_text(user_id, la_alias, f"别名 '{alias}' 已经被 '{existing_std_name}' 使用")
                 return
         
-        # 添加别名
         if std_name not in alias_data:
             alias_data[std_name] = []
         
@@ -206,9 +181,8 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
             await send_image_or_text(user_id, la_alias, f"别名 '{alias}' 已经存在")
     
     elif action == "remove":
-        alias = parts[1].split('|')[0].strip()  # 只取第一个部分作为别名
+        alias = parts[1].split('|')[0].strip()
         
-        # 查找并删除别名
         removed = False
         for std_name, aliases in alias_data.items():
             if alias in aliases:
@@ -241,37 +215,32 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     parts = arg.split(maxsplit=1)
     song_data = load_song_data()
     alias_data = load_alias_data()
-    all_songs = []
-    for category in song_data.values():
-        all_songs.extend(category)
     
-    # 处理子命令
     if len(parts) > 1:
         sub_command = parts[0].lower()
         search_term = parts[1]
         
-        # chapter 章节号
         if sub_command == "chapter":
             chapter_id = search_term
-            for song in all_songs:
-                if song['chapter'].lower() == chapter_id.lower():
-                    message = f"找到Chapter为 {chapter_id} 的曲目:\n{format_song_info(song)}"
-                    await send_image_or_text(user_id, la_find, message)
-                    return
+            matched_songs = [song for song in song_data if song['chapter'].lower() == chapter_id.lower()]
             
-            await send_image_or_text(user_id, la_find, f"没有找到章节号为 '{search_term}' 的曲目")
+            if matched_songs:
+                message = f"找到Chapter为 {chapter_id} 的曲目:\n{format_song_info(matched_songs[0])}"
+                await send_image_or_text(user_id, la_find, message)
+            else:
+                await send_image_or_text(user_id, la_find, f"没有找到章节号为 '{search_term}' 的曲目")
+            return
         
-        # songid ID
         elif sub_command == "songid":
             try:
                 song_id = int(search_term)
-                for song in all_songs:
-                    if song['id'] == song_id:
-                        message = f"找到ID为 {song_id} 的曲目:\n{format_song_info(song)}"
-                        await send_image_or_text(user_id, la_find, message)
-                        return
+                matched_songs = [song for song in song_data if song['id'] == song_id]
                 
-                await send_image_or_text(user_id, la_find, f"没有找到ID为 {song_id} 的曲目")
+                if matched_songs:
+                    message = f"找到ID为 {song_id} 的曲目:\n{format_song_info(matched_songs[0])}"
+                    await send_image_or_text(user_id, la_find, message)
+                else:
+                    await send_image_or_text(user_id, la_find, f"没有找到ID为 {song_id} 的曲目")
                 return
             except ValueError:
                 await send_image_or_text(user_id, la_find, "ID必须是数字")
@@ -281,13 +250,11 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     search_term = arg.lower()
     matched_songs = []
     
-    for song in all_songs:
-        # 检查原名
+    for song in song_data:
         if search_term in song['title'].lower():
             matched_songs.append(song)
             continue
         
-        # 检查别名
         std_name = song['title']
         if std_name in alias_data:
             for alias in alias_data[std_name]:
@@ -313,15 +280,11 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
 async def handle_time(bot: Bot, event: MessageEvent):
     user_id = event.get_user_id()
     song_data = load_song_data()
-    all_songs = []
-    for category in song_data.values():
-        all_songs.extend(category)
     
-    if not all_songs:
+    if not song_data:
         await send_image_or_text(user_id, la_time, "没有可用的歌曲数据")
         return
     
-    # 解析时长并转换为秒
     def parse_time(time_str):
         try:
             m, s = map(int, time_str.split(':'))
@@ -329,13 +292,12 @@ async def handle_time(bot: Bot, event: MessageEvent):
         except:
             return 0
     
-    # 处理每首歌曲的时长
     processed_songs = []
-    for song in all_songs:
+    for song in song_data:
         try:
             time_str = song['time']
             seconds = parse_time(time_str)
-            if seconds > 0:  # 忽略无效时长
+            if seconds > 0:
                 processed_songs.append({
                     'song': song,
                     'seconds': seconds,
@@ -344,15 +306,12 @@ async def handle_time(bot: Bot, event: MessageEvent):
         except:
             continue
     
-    # 分离长曲和短曲
-    long_songs = [s for s in processed_songs if s['seconds'] > 180]  # >3分钟
-    short_songs = [s for s in processed_songs if s['seconds'] < 120]  # <2分钟
+    long_songs = [s for s in processed_songs if s['seconds'] > 180]
+    short_songs = [s for s in processed_songs if s['seconds'] < 120]
     
-    # 排序
-    long_songs.sort(key=lambda x: -x['seconds'])  # 降序，时长越长越靠前
-    short_songs.sort(key=lambda x: x['seconds'])   # 升序，时长越短越靠前
+    long_songs.sort(key=lambda x: -x['seconds'])
+    short_songs.sort(key=lambda x: x['seconds'])
     
-    # 构建消息
     message = "时长统计:\n\n"
     
     if long_songs:
@@ -378,30 +337,26 @@ async def handle_all(bot: Bot, event: MessageEvent):
     user_id = event.get_user_id()
     song_data = load_song_data()
     
-    # 统计各分类曲目数量和总数量
     category_counts = {}
-    total_songs = 0
+    for song in song_data:
+        category = song['category']
+        category_counts[category] = category_counts.get(category, 0) + 1
     
-    for category, songs in song_data.items():
-        count = len(songs)
-        category_counts[category] = count
-        total_songs += count
+    total_songs = len(song_data)
     
-    # 构建分类统计信息
+    category_name_map = {
+        'main': '主线',
+        'side': '支线',
+        'expansion': '曲包',
+        'event': '活动',
+        'subscription': '书房'
+    }
+    
     category_info = []
     for category, count in category_counts.items():
-        # 将英文分类名转换为中文
-        category_name = {
-            'main': '主线',
-            'side': '支线',
-            'expansion': '曲包',
-            'event': '活动',
-            'subscription': '书房'
-        }.get(category, category)
-        
-        category_info.append(f"{category_name}: {count}首")
+        name = category_name_map.get(category, category)
+        category_info.append(f"{name}: {count}首")
     
-    # 构建消息
     message = (
         f"Lanota曲库统计（Fandom已收录）:\n"
         f"总曲目数量: {total_songs}首\n\n"
@@ -468,17 +423,15 @@ Lanota 机器人使用帮助:
 功能: 显示当前曲库的总曲目数量、最大ID和各分类曲目数量
 示例: /la all
 
-7. 背景色设置
+7.背景色设置
 命令: /color 或 /设置背景色
 功能: 设置消息背景颜色
 示例:
-  /color 1f1e33  # 设置背景色为#1f1e33
-  /color default  # 重置为默认背景色
+/color 1f1e33 # 设置背景色为#1f1e33
+/color default # 重置为默认背景色
 
-8. 帮助
+8.帮助
 命令: /la help 或 /la 帮助
 功能: 显示本帮助信息
-示例: /la help
-"""
-    
+示例: /la help"""
     await send_image_or_text(user_id, la_help, help_message.strip())

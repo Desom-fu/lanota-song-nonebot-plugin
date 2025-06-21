@@ -26,69 +26,49 @@ def init_data():
             json.dump({}, f)
     if not lanota_full_path.exists():
         with open(lanota_full_path, 'w', encoding='utf-8') as f:
-            json.dump({}, f)
-
+            json.dump([], f)
 
 def extract_mixed_qq(args: Message, param_count: int) -> list:
-    """解析混合包含@消息和纯文本的参数
-    :param args: 原始消息对象
-    :param param_count: 期望的参数数量
-    :return: 参数列表(QQ号或文本)，若参数数量不匹配则返回空列表
-    """
+    """解析混合包含@消息和纯文本的参数"""
     arg_list = []
     text_args = args.extract_plain_text().strip().split()
-    text_ptr = 0  # 纯文本参数的指针
+    text_ptr = 0
     
-    # 遍历所有消息段
     for seg in args:
         if seg.type == 'at':
             arg_list.append(seg.data['qq'])
         elif seg.type == 'text':
-            # 处理纯文本部分
             seg_text = seg.data['text'].strip()
-            if seg_text:  # 非空文本
+            if seg_text:
                 for word in seg_text.split():
                     if text_ptr < len(text_args) and word == text_args[text_ptr]:
                         arg_list.append(word)
                         text_ptr += 1
     
-    # 参数数量验证
     if len(arg_list) != param_count:
         return []
     return arg_list
 
-# 获取QQ昵称
 async def get_nickname(bot: Bot, user_id: str) -> str:
     try:
         user_info = await bot.get_stranger_info(user_id=int(user_id))
         return user_info.get("nickname", f"{user_id}")
     except:
-        return f"玩家{user_id}"  # 获取失败时使用默认名称
+        return f"玩家{user_id}"
 
-# 辅助函数：获取标准名称
 def get_alias_name(name, item_dict, alias_dict):
-    """
-    智能别名匹配（支持任意位置的别名替换）
-    修改后的逻辑：
-        1. 直接匹配完整名称（优先检查）
-        2. 检查字符串中是否已经包含任何全称，如果有则返回None
-        3. 扫描整个字符串，查找最长的别名匹配
-        4. 替换匹配到的别名，保留其余部分
-    """
-    # 1. 直接匹配完整名称（优先检查）
+    """智能别名匹配"""
     if name in item_dict:
         return name
     
-    # 2. 检查字符串中是否已经包含任何全称
     for std_name in alias_dict.keys():
         if std_name in name:
-            return None  # 如果已经包含全称，则不进行别名匹配
+            return None
     
     max_len = max(len(alias) for aliases in alias_dict.values() for alias in aliases) if alias_dict else 0
     best_match = None
     best_len = 0
     
-    # 3. 扫描整个字符串，查找最长的别名匹配
     for i in range(len(name)):
         for l in range(min(max_len, len(name) - i), 0, -1):
             substring = name[i:i+l]
@@ -98,45 +78,36 @@ def get_alias_name(name, item_dict, alias_dict):
                     best_match = (i, l, std_name)
                     best_len = l
     
-    # 4. 替换匹配到的别名
     if best_match:
         i, l, std_name = best_match
         return name[:i] + std_name + name[i+l:]
     
-    return None  # 未找到匹配
+    return None
 
-# 打开数据文件
 def open_data(file):
     data = {}
-    with lock:  # 在读写文件时加锁，确保只有一个线程/协程能执行此操作
+    with lock:
         with open(file, 'r', encoding='utf-8') as f:
             data = json.load(f)
     return data
 
-# 保存数据结构到数据文件内
 def save_data(file, data):
-    with lock:  # 在读写文件时加锁，确保只有一个线程/协程能执行此操作
+    with lock:
         with open(file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4)
             
-# 保存别名数据
 def save_alias_data(alias_data):
-    """保存别名数据"""
     try:
         with open(lanota_alias_full_path, 'w', encoding='utf-8') as f:
             json.dump(alias_data, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"保存别名数据失败: {str(e)}")
 
-# 获取今日日期作为随机种子
 def get_today_seed():
-    """获取今日日期作为随机种子"""
     today = datetime.date.today()
     return int(today.strftime("%Y%m%d"))
 
-# 获取用户今日曲目
 def get_user_today_song(user_id: str):
-    """获取用户今日曲目"""
     user_data = open_data(full_path)
     today_seed = get_today_seed()
     
@@ -146,54 +117,82 @@ def get_user_today_song(user_id: str):
     user_info = user_data[str(user_id)]
     
     # 检查是否有今日曲目且日期匹配
-    if "today_song" in user_info and "today_date" in user_info:
+    if "today_chapter" in user_info and "today_date" in user_info:
         if user_info["today_date"] == today_seed:
-            return user_info["today_song"]
+            # 根据存储的chapter查找歌曲
+            chapter = user_info["today_chapter"]
+            song_data = load_song_data()
+            for song in song_data:
+                if song['chapter'] == chapter:
+                    return song
+            return None
     
     # 需要生成新的今日曲目
     song_data = load_song_data()
-    all_songs = []
-    for category in song_data.values():
-        all_songs.extend(category)
     
-    if not all_songs:
+    if not song_data:
         return None
     
     # 使用日期作为随机种子
     random.seed(today_seed + int(user_id))
-    today_song = random.choice(all_songs)
+    today_song = random.choice(song_data)
     
-    # 保存到用户数据
-    user_info["today_song"] = today_song
+    # 只存储chapter和日期
+    user_info["today_chapter"] = today_song['chapter']
     user_info["today_date"] = today_seed
     save_data(full_path, user_data)
     
     return today_song
 
-# 格式化歌曲信息
 def format_song_info(song):
-    """格式化歌曲信息为字符串"""
+    """格式化歌曲信息为字符串，空值显示为未知"""
     if not song:
         return "未找到歌曲信息"
     
-    return (
+    # 为所有可能为空的字段设置默认值
+    def get_value(value):
+        return value if value and str(value).strip() else "未知"
+    
+    # 处理Legacy数据
+    legacy_info = song.get('Legacy', {})
+    
+    info = (
         f"ID: {song['id']}\n"
-        f"章节: {song['chapter']}\n"
-        f"曲名: {song['title']}\n"
-        f"曲师: {song['artist']}\n"
+        f"章节: {get_value(song['chapter'])}\n"
+        f"分类: {get_value(song['category'])}\n"
+        f"曲名: {get_value(song['title'])}\n"
+        f"曲风: {get_value(song['genre'])}\n"
+        f"曲师: {get_value(song['artist'])}\n"
+        f"歌手: {get_value(song['vocals'])}\n"
+        f"谱师: {get_value(song['chart_design'])}\n"
         f"难度: \n"
-        f"    - Whisper: {song['difficulty']['whisper']}\n"
-        f"    - Acoustic: {song['difficulty']['acoustic']}\n"
-        f"    - Ultra: {song['difficulty']['ultra']}\n"
-        f"    - Master: {song['difficulty']['master']}\n"
-        f"时长: {song['time']}\n"
-        f"BPM: {song['bpm']}\n"
-        f"版本: {song['version']}"
+        f"    - Whisper: {get_value(song['difficulty']['whisper'])} (物量: {get_value(song['notes']['whisper'])})\n"
+        f"    - Acoustic: {get_value(song['difficulty']['acoustic'])} (物量: {get_value(song['notes']['acoustic'])})\n"
+        f"    - Ultra: {get_value(song['difficulty']['ultra'])} (物量: {get_value(song['notes']['ultra'])})\n"
+        f"    - Master: {get_value(song['difficulty']['master'])} (物量: {get_value(song['notes']['master'])})\n"
     )
+    
+    # 添加Legacy信息
+    if legacy_info:
+        info += "旧谱信息:\n"
+        info += f"    旧谱谱师: {get_value(legacy_info.get('Chart Design'))}\n"
+        
+        if any(key in legacy_info for key in ['DiffWhisper', 'DiffAcoustic', 'DiffUltra', 'DiffMaster']):
+            info += "    旧谱难度:\n"
+            info += f"        - Whisper: {get_value(legacy_info.get('DiffWhisper'))} (物量: {get_value(legacy_info.get('MaxWhisper'))})\n"
+            info += f"        - Acoustic: {get_value(legacy_info.get('DiffAcoustic'))} (物量: {get_value(legacy_info.get('MaxAcoustic'))})\n"
+            info += f"        - Ultra: {get_value(legacy_info.get('DiffUltra'))} (物量: {get_value(legacy_info.get('MaxUltra'))})\n"
+            info += f"        - Master: {get_value(legacy_info.get('DiffMaster'))} (物量: {get_value(legacy_info.get('MaxMaster'))})\n"
+    
+    info += (
+        f"时长: {get_value(song['time'])}\n"
+        f"BPM: {get_value(song['bpm'])}\n"
+        f"版本: {get_value(song['version'])}"
+    )
+    
+    return info
 
-# 从random.org获取随机数
 async def get_random_number_from_org(min_num, max_num):
-    """从random.org获取随机数"""
     try:
         import requests
         url = f"https://www.random.org/integers/?num=1&min={min_num}&max={max_num}&col=1&base=10&format=plain&rnd=new"
@@ -204,30 +203,15 @@ async def get_random_number_from_org(min_num, max_num):
         pass
     return random.randint(min_num, max_num)
 
-# 加载歌曲数据
 def load_song_data():
-    """加载歌曲数据和别名数据"""
+    """加载歌曲数据"""
     try:
         with open(lanota_full_path, 'r', encoding='utf-8') as f:
-            song_data = json.load(f)
-        
-        # 确保所有分类都存在
-        for category in ["main", "side", "expansion", "event", "subscription"]:
-            if category not in song_data:
-                song_data[category] = []
-        
-        return song_data
+            return json.load(f)
     except Exception as e:
         print(f"加载歌曲数据失败: {str(e)}")
-        return {
-            "main": [],
-            "side": [],
-            "expansion": [],
-            "event": [],
-            "subscription": []
-        }
+        return []
 
-# 加载别名数据
 def load_alias_data():
     """加载别名数据"""
     try:
@@ -239,3 +223,15 @@ def load_alias_data():
     except Exception as e:
         print(f"加载别名数据失败: {str(e)}")
         return {}
+
+def get_songs_by_category(song_data, category):
+    """按分类获取歌曲"""
+    return [song for song in song_data if song['category'] == category]
+
+def get_songs_by_level(song_data, level):
+    """按难度获取歌曲"""
+    return [song for song in song_data 
+            if (song['difficulty']['whisper'] == level or
+                song['difficulty']['acoustic'] == level or
+                song['difficulty']['ultra'] == level or
+                song['difficulty']['master'] == level)]
