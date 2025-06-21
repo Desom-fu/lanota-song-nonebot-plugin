@@ -5,10 +5,11 @@ import re
 import time
 from bs4 import BeautifulSoup
 from urllib.parse import unquote
+from pathlib import Path
 
 BASE_URL = "https://lanota.fandom.com"
 API_URL = f"{BASE_URL}/api.php"
-SONGS_JSON = 'song_list.json'
+SONGS_JSON = Path('Data') / 'LanotaSongList' / 'song_list.json'
 
 # ---------- 工具函数 ----------
 
@@ -56,6 +57,7 @@ def get_final_url(session, url, max_retries=3):
 # ---------- 主程序 ----------
 
 def main():
+    SONGS_JSON.parent.mkdir(parents=True, exist_ok=True)
     # 初始化会话
     session = requests.Session()
     session.headers.update({
