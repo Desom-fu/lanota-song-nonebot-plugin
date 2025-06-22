@@ -96,7 +96,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             
             random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
             selected_song = filtered_songs[random_number]
-            message = f"随机歌曲(难度[{level}]):\n{format_song_info(selected_song)}"
+            message = f"随机歌曲(难度{level}):\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
         
