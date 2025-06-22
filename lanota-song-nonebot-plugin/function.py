@@ -147,7 +147,9 @@ def format_song_info(song):
     
     # 为所有可能为空的字段设置默认值
     def get_value(value):
-        return value if value and str(value).strip() else "N/A"
+        if not value or str(value).strip().lower()in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
+            return "未知"
+        return value
     
     # 处理Legacy数据
     legacy_info = song.get('Legacy', {})
@@ -252,7 +254,7 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
     chapter_matches = [song for song in song_data if song['chapter'].lower() == search_term.lower()]
     if chapter_matches:
         matched_songs = chapter_matches
-        match_type = "章节号"
+        match_type = "章节号匹配"
     
     # 2. 完全匹配ID
     if not matched_songs:
@@ -261,7 +263,7 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
             id_matches = [song for song in song_data if song['id'] == song_id]
             if id_matches:
                 matched_songs = id_matches
-                match_type = "ID"
+                match_type = "ID匹配"
         except ValueError:
             pass
     
@@ -274,14 +276,14 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
                 alias_matches.append(song)
         if alias_matches:
             matched_songs = alias_matches
-            match_type = "别名"
+            match_type = "别名匹配"
     
     # 4. 完全匹配曲名
     if not matched_songs:
         title_matches = [song for song in song_data if song['title'].lower() == search_term.lower()]
         if title_matches:
             matched_songs = title_matches
-            match_type = "曲名"
+            match_type = "曲名匹配"
     
     # 5. 模糊匹配曲名或别名
     if not matched_songs:
@@ -301,7 +303,7 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
         # 合并结果并去重
         matched_songs = list({song['id']: song for song in title_fuzzy_matches + alias_fuzzy_matches}.values())
         if matched_songs:
-            match_type = "模糊匹配"
+            match_type = "模糊搜索"
     
     total_count = len(matched_songs)
     if total_count > max_display:

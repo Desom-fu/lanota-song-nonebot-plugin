@@ -294,7 +294,7 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     if total_count == 1:
         message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首歌曲:\n{format_song_info(matched_songs[0])}"
     else:
-        message = f"通过搜索词[{search_term}]进行[{match_type}]找到个匹配的歌曲({total_count}]首):\n"
+        message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的歌曲({total_count}]首):\n"
         for i, song in enumerate(matched_songs, 1):
             message += f"\n{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})"
         if total_count > 10:
