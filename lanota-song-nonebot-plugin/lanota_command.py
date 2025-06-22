@@ -65,7 +65,7 @@ async def handle_today(bot: Bot, event: MessageEvent):
         return
     
     nickname = await get_nickname(bot, user_id)
-    message = f"[{nickname}]的今日歌曲：\n{format_song_info(today_song)}"
+    message = f"[{nickname}]的今日歌曲：\n\n{format_song_info(today_song)}"
     await send_image_or_text(user_id, la_today, message)
 
 # 处理random命令
@@ -96,7 +96,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             
             random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
             selected_song = filtered_songs[random_number]
-            message = f"随机歌曲(难度{level}):\n{format_song_info(selected_song)}"
+            message = f"随机歌曲(难度{level}):\n\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
         
@@ -128,14 +128,14 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             
             random_number = await get_random_number_from_org(0, len(category_songs) - 1)
             selected_song = category_songs[random_number]
-            message = f"随机歌曲({category}):\n{format_song_info(selected_song)}"
+            message = f"随机歌曲({category}):\n\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
     
     # 默认随机选择
     random_number = await get_random_number_from_org(0, len(song_data) - 1)
     selected_song = song_data[random_number]
-    message = f"随机歌曲:\n{format_song_info(selected_song)}"
+    message = f"随机歌曲:\n\n{format_song_info(selected_song)}"
     await send_image_or_text(user_id, la_random, message)
 
 # 处理alias命令
@@ -292,7 +292,7 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
         return
     
     if total_count == 1:
-        message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首歌曲:\n{format_song_info(matched_songs[0])}"
+        message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首歌曲:\n\n{format_song_info(matched_songs[0])}"
     else:
         message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的歌曲({total_count}]首):\n"
         for i, song in enumerate(matched_songs, 1):

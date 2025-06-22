@@ -62,5 +62,5 @@ async def backup_user_data(bot: Bot = None, group_id: int = None):
 @get_driver().on_startup
 async def schedule_delayed_backup():
     """启动时调度延迟备份任务"""
-    asyncio.create_task(delayed_backup(5.0))
-    logger.info("已创建延迟5秒的备份任务")
+    asyncio.create_task(delayed_backup(10.0))
+    logger.info("已创建延迟10秒的备份任务")
