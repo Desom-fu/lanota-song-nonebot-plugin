@@ -91,12 +91,12 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             filtered_songs = get_songs_by_level(song_data, level)
             
             if not filtered_songs:
-                await send_image_or_text(user_id, la_random, f"没有找到难度为 {level} 的曲目")
+                await send_image_or_text(user_id, la_random, f"没有找到难度为[{level}]的曲目")
                 return
             
             random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
             selected_song = filtered_songs[random_number]
-            message = f"随机曲目(难度 {level}):\n{format_song_info(selected_song)}"
+            message = f"随机曲目(难度[{level}]):\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
         
@@ -123,7 +123,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             category_songs = get_songs_by_category(song_data, category)
             
             if not category_songs:
-                await send_image_or_text(user_id, la_random, f"没有找到 {category} 分类的曲目")
+                await send_image_or_text(user_id, la_random, f"没有找到[{category}]分类的曲目")
                 return
             
             random_number = await get_random_number_from_org(0, len(category_songs) - 1)
@@ -182,7 +182,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID或原名为 '{search_term}' 的歌曲")
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID或原名为[{search_term}]的歌曲")
             return
         
         if total_count > 1:
@@ -197,12 +197,12 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         std_name = matched_songs[0]['title']
         
         if alias.lower() in all_titles:
-            await send_image_or_text(user_id, la_alias, f"'{alias}' 已经是歌曲原名，不能作为别名")
+            await send_image_or_text(user_id, la_alias, f"[{alias}]已经是歌曲原名，不能作为别名")
             return
         
         for existing_std_name, aliases in alias_data.items():
             if alias in aliases:
-                await send_image_or_text(user_id, la_alias, f"别名 '{alias}' 已经被 '{existing_std_name}' 使用")
+                await send_image_or_text(user_id, la_alias, f"别名[{alias}]已经被[{existing_std_name}]使用")
                 return
         
         if std_name not in alias_data:
@@ -211,9 +211,9 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         if alias not in alias_data[std_name]:
             alias_data[std_name].append(alias)
             save_alias_data(alias_data)
-            await send_image_or_text(user_id, la_alias, f"成功为 '{std_name}' 添加别名 '{alias}'")
+            await send_image_or_text(user_id, la_alias, f"成功为[{std_name}添加别名[{alias}]")
         else:
-            await send_image_or_text(user_id, la_alias, f"别名 '{alias}' 已经存在")
+            await send_image_or_text(user_id, la_alias, f"别名[{alias}]已经存在")
     
     elif action == "del":
         alias = parts[1].split('/')[0].strip()
@@ -227,9 +227,9 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         
         if deld:
             save_alias_data(alias_data)
-            await send_image_or_text(user_id, la_alias, f"成功删除别名 '{alias}'")
+            await send_image_or_text(user_id, la_alias, f"成功删除别名[{alias}]")
         else:
-            await send_image_or_text(user_id, la_alias, f"未找到别名 '{alias}'")
+            await send_image_or_text(user_id, la_alias, f"未找到别名[{alias}]")
     
     elif action == "show":
         if len(parts) < 2:
@@ -240,7 +240,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID、别名或原名为 '{search_term}' 的歌曲")
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID、别名或原名为[{search_term}]的歌曲")
             return
         
         if total_count > 1:
@@ -288,7 +288,7 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     matched_songs, match_type, total_count = find_song_by_search_term(search_term, song_data, alias_data)
     
     if not matched_songs:
-        await send_image_or_text(user_id, la_find, f"没有找到与 '{search_term}' 相关的曲目")
+        await send_image_or_text(user_id, la_find, f"没有找到与[{search_term}]相关的曲目")
         return
     
     if total_count == 1:
