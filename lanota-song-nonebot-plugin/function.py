@@ -154,13 +154,13 @@ def format_song_info(song):
     
     info = (
         f"歌曲ID: {song['id']}\n"
-        f"章节: {get_value(song['chapter'])}\n"
-        f"分类: {get_value(song['category'])}\n"
         f"曲名: {get_value(song['title'])}\n"
-        f"曲风: {get_value(song['genre'])}\n"
+        f"分类: {get_value(song['category'])}\n"
+        f"章节: {get_value(song['chapter'])}\n"
         f"曲师: {get_value(song['artist'])}\n"
         f"歌手: {get_value(song['vocals'])}\n"
         f"谱师: {get_value(song['chart_design'])}\n"
+        f"曲风: {get_value(song['genre'])}\n"
         f"难度: \n"
         f"    - Whisper: {get_value(song['difficulty']['whisper'])} (物量: {get_value(song['notes']['whisper'])})\n"
         f"    - Acoustic: {get_value(song['difficulty']['acoustic'])} (物量: {get_value(song['notes']['acoustic'])})\n"
