@@ -2671,7 +2671,7 @@
   },
   {
     "id": 80,
-    "title": "ZENITHALIZE  (Alternative Guitar Solo Ver.)",
+    "title": "ZENITHALIZE (Alternative Guitar Solo Ver.)",
     "title_outside": "ZENITHALIZE",
     "artist": "void  feat. Gt. Eba",
     "chapter": "B-5",
@@ -6609,7 +6609,7 @@
   },
   {
     "id": 203,
-    "title": "<nowiki>#</nowiki>1f1e33",
+    "title": "#1f1e33",
     "title_outside": "1f1e33",
     "artist": "Camellia(EDP)",
     "chapter": "Event-6",
@@ -6852,7 +6852,7 @@
   },
   {
     "id": 211,
-    "title": "Brain Power(Cranky remix)",
+    "title": "Brain Power (Cranky remix)",
     "title_outside": "Brain Power(Cranky remix)",
     "artist": "Remixed by Cranky",
     "chapter": "Event-14",
@@ -19304,6 +19304,36 @@
       "master": "966"
     },
     "source_url": "https://lanota.fandom.com/wiki/Psalms_~where_the_souls_come_back~",
+    "Legacy": {}
+  },
+  {
+    "id": 611,
+    "title": "Clockworks Angel",
+    "title_outside": "Clockworks Angel",
+    "artist": "kuro",
+    "chapter": "Inf-332",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "",
+    "bpm": "",
+    "version": "3.0.4 – June 19, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "微米",
+    "notes": {
+      "whisper": "335",
+      "acoustic": "570",
+      "ultra": "896",
+      "master": "1200"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Clockworks_Angel",
     "Legacy": {}
   }
 ]

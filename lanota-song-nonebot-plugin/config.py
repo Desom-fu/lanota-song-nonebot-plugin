@@ -10,5 +10,7 @@ font_path = Path("Data") / "fonts.ttf"
 lanota_data_path = Path() / "Data" / "LanotaSongList"
 lanota_file_name = "song_list.json"
 lanota_alias_name = "song_alias.json"
+lanota_table_name = "song_table.json"
+lanota_table_full_path = lanota_data_path / lanota_table_name
 lanota_alias_full_path = lanota_data_path / lanota_alias_name
 lanota_full_path = lanota_data_path / lanota_file_name

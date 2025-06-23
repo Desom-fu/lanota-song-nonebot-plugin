@@ -3,13 +3,32 @@ import mwparserfromhell
 import json
 import re
 import time
+import os
 from bs4 import BeautifulSoup
 from pathlib import Path
 from urllib.parse import unquote
 
 BASE_URL = "https://lanota.fandom.com"
 API_URL = f"{BASE_URL}/api.php"
-SONGS_JSON = Path('Data') / 'LanotaSongList' / 'song_list.json'
+def get_output_path():
+    # 获取上层文件夹的config.py中的lanota_full_path
+    config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.py')
+    
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"找不到config.py文件: {config_path}")
+    
+    # 动态导入config模块
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("config", config_path)
+    config = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(config)
+    
+    if not hasattr(config, 'lanota_full_path'):
+        raise AttributeError("config.py中没有定义lanota_full_path")
+    
+    SONGS_JSON = config.lanota_full_path
+    
+    return SONGS_JSON
 
 # ---------- 工具函数 ----------
 
@@ -52,6 +71,7 @@ def get_final_url(session, url, max_retries=3):
 # ---------- 主程序 ----------
 
 def main():
+    SONGS_JSON = get_output_path()
     SONGS_JSON.parent.mkdir(parents=True, exist_ok=True)
     session = requests.Session()
     session.headers.update({'User-Agent': 'Mozilla/5.0'})

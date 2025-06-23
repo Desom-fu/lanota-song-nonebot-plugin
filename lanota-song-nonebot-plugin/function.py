@@ -20,6 +20,12 @@ def init_data():
     if not full_path.exists():
         with open(full_path, 'w', encoding='utf-8') as f:
             json.dump({}, f)
+    if not lanota_alias_full_path.exists():
+        with open(full_path, 'w', encoding='utf-8') as f:
+            json.dump({}, f)
+    if not lanota_table_full_path.exists():
+        with open(lanota_table_full_path, 'w', encoding='utf-8') as f:
+            json.dump({}, f)
     if not lanota_full_path.exists():
         with open(lanota_full_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
@@ -140,19 +146,48 @@ def get_user_today_song(user_id: str):
     
     return today_song
 
+def load_table_data():
+    """加载定数表数据"""
+    try:
+        with open(lanota_table_full_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"加载定数表数据失败: {str(e)}")
+        return {}
+
 def format_song_info(song):
     """格式化歌曲信息为字符串，空值显示为未知"""
     if not song:
         return "未找到歌曲信息"
     
+    # 加载定数表数据
+    table_data = load_table_data()
+    
     # 为所有可能为空的字段设置默认值
     def get_value(value):
-        if not value or str(value).strip().lower()in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
+        if not value or str(value).strip().lower() in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
             return "未知"
         return value
     
     # 处理Legacy数据
     legacy_info = song.get('Legacy', {})
+    
+    # 获取当前歌曲的定数信息
+    chapter = song.get('chapter', '')
+    chapter_difficulty = table_data.get(chapter, {}) if chapter else {}
+    
+    # 生成难度信息字符串
+    def format_difficulty_info(difficulty_type, difficulty_value, notes_value):
+        # 获取定数表中对应的定数
+        table_key = difficulty_type.capitalize()
+        table_difficulty = chapter_difficulty.get(table_key)
+        
+        difficulty_str = get_value(difficulty_value)
+        notes_str = f"物量: {get_value(notes_value)}"
+        
+        if table_difficulty:
+            return f"{difficulty_str}({table_difficulty}) ({notes_str})"
+        return f"{difficulty_str} ({notes_str})"
     
     info = (
         f"歌曲ID: {song['id']}\n"
@@ -164,10 +199,10 @@ def format_song_info(song):
         f"谱师: {get_value(song['chart_design'])}\n"
         f"曲风: {get_value(song['genre'])}\n"
         f"难度: \n"
-        f"    - Whisper: {get_value(song['difficulty']['whisper'])} (物量: {get_value(song['notes']['whisper'])})\n"
-        f"    - Acoustic: {get_value(song['difficulty']['acoustic'])} (物量: {get_value(song['notes']['acoustic'])})\n"
-        f"    - Ultra: {get_value(song['difficulty']['ultra'])} (物量: {get_value(song['notes']['ultra'])})\n"
-        f"    - Master: {get_value(song['difficulty']['master'])} (物量: {get_value(song['notes']['master'])})\n"
+        f"    - Whisper: {format_difficulty_info('whisper', song['difficulty']['whisper'], song['notes']['whisper'])}\n"
+        f"    - Acoustic: {format_difficulty_info('acoustic', song['difficulty']['acoustic'], song['notes']['acoustic'])}\n"
+        f"    - Ultra: {format_difficulty_info('ultra', song['difficulty']['ultra'], song['notes']['ultra'])}\n"
+        f"    - Master: {format_difficulty_info('master', song['difficulty']['master'], song['notes']['master'])}\n"
     )
     
     # 添加Legacy信息

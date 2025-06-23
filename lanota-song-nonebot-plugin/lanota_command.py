@@ -6,7 +6,7 @@ from .config import *
 from .function import *
 from .whitelist import whitelist_rule
 from .text_image_text import send_image_or_text
-from .fandom_pachong import main as update_songs
+from .jiaoben.fandom_pachong import main as update_songs
 
 # 初始化命令
 la_today = on_command("la today", aliases={"la 今日曲", "lanota today", "lanota 今日曲"}, rule=whitelist_rule, priority=5)
@@ -211,7 +211,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         if alias not in alias_data[std_name]:
             alias_data[std_name].append(alias)
             save_alias_data(alias_data)
-            await send_image_or_text(user_id, la_alias, f"成功为[{std_name}添加别名[{alias}]")
+            await send_image_or_text(user_id, la_alias, f"成功为[{std_name}]添加别名[{alias}]")
         else:
             await send_image_or_text(user_id, la_alias, f"别名[{alias}]已经存在")
     
