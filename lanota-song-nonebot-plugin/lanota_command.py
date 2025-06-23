@@ -2,6 +2,8 @@ from nonebot import on_command
 from nonebot.adapters.onebot.v11 import Bot, MessageEvent, Message
 from nonebot.params import CommandArg
 from nonebot.typing import T_State
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from .config import *
 from .function import *
 from .whitelist import whitelist_rule
@@ -18,7 +20,15 @@ la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时
 la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
 la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
 
-# 添加update命令处理函数
+# 创建线程池执行器
+executor = ThreadPoolExecutor(max_workers=1)
+
+async def run_in_threadpool(func, *args):
+    """将同步函数放入线程池执行"""
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(executor, func, *args)
+
+# 处理手动更新命令
 @la_update.handle()
 async def handle_update(bot: Bot, event: MessageEvent):
     user_id = event.get_user_id()
@@ -29,11 +39,11 @@ async def handle_update(bot: Bot, event: MessageEvent):
         return
     
     try:
-        # 执行爬虫脚本
-        await la_update.send("开始更新歌曲数据……")
+        # 执行爬虫脚本（异步方式）
+        await la_update.send("开始更新歌曲数据，请稍候...")
         
-        # 运行爬虫并获取结果
-        result = update_songs()
+        # 在单独的线程中运行同步爬虫函数
+        result = await run_in_threadpool(update_songs)
         
         # 解析结果并发送
         if isinstance(result, dict):
