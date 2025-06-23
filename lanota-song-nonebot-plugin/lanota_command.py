@@ -190,7 +190,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
             for i, song in enumerate(matched_songs, 1):
                 message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
             if total_count > 10:
-                message += f"...共{total_count}个"
+                message += f"……共{total_count}个"
             await send_image_or_text(user_id, la_alias, message.strip())
             return
         
@@ -248,7 +248,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
             for i, song in enumerate(matched_songs, 1):
                 message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
             if total_count > 10:
-                message += f"...共{total_count}个"
+                message += f"……共{total_count}个"
             await send_image_or_text(user_id, la_alias, message.strip())
             return
         
@@ -294,11 +294,11 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     if total_count == 1:
         message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首歌曲:\n\n{format_song_info(matched_songs[0])}"
     else:
-        message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的歌曲({total_count}]首):\n"
+        message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的歌曲({total_count}首):\n"
         for i, song in enumerate(matched_songs, 1):
             message += f"\n{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})"
         if total_count > 10:
-            message += f"\n...共{total_count}首"
+            message += f"\n……共{total_count}首"
     
     await send_image_or_text(user_id, la_find, message)
 
@@ -394,65 +394,156 @@ async def handle_all(bot: Bot, event: MessageEvent):
     await send_image_or_text(user_id, la_all, message)
 
 # 处理help命令
+help_categories = {
+    "daily": {
+        "name": "今日歌曲",
+        "aliases": ["today", "今日曲"],
+        "commands": [
+            "/la today - 获取今日随机歌曲(每天固定)",
+            "/la 今日曲 - 同上"
+        ],
+        "examples": [
+            "/la today"
+        ]
+    },
+    "random": {
+        "name": "随机歌曲",
+        "aliases": ["random", "随机"],
+        "commands": [
+            "/la random - 随机获取一首歌曲",
+            "/la random level <难度> - 随机指定难度的歌曲",
+            "/la random <分类> - 随机指定分类的歌曲"
+        ],
+        "sub_commands": {
+            "分类": ["main(主线)", "side(支线)", "expansion(曲包)", "\nevent(活动)", "subscription(订阅)"]
+        },
+        "examples": [
+            "/la random level 12",
+            "/la random main"
+        ]
+    },
+    "alias": {
+        "name": "别名管理",
+        "aliases": ["alias", "别名"],
+        "commands": [
+            "/la alias add <别名>/<搜索词> - 添加别名",
+            "/la alias del <别名> - 删除别名",
+            "/la alias show <搜索词> - 查看歌曲别名"
+        ],
+        "examples": []
+    },
+    "search": {
+        "name": "查找歌曲",
+        "aliases": ["find", "查找", "info"],
+        "commands": [
+            "/la find - 查找歌曲信息",
+            "/la info - 同上"
+        ],
+        "priority": [
+            "1. 完全匹配章节号",
+            "2. 完全匹配ID",
+            "3. 完全匹配别名",
+            "4. 完全匹配曲名",
+            "5. 模糊匹配曲名或别名"
+        ],
+        "examples": []
+    },
+    "stats": {
+        "name": "统计功能",
+        "aliases": ["time", "时长", "all", "全部"],
+        "commands": [
+            "/la time - 显示长于3分钟和短于2分钟的歌曲列表",
+            "/la all - 显示曲库统计信息"
+        ],
+        "examples": [
+            "/la time",
+            "/la all"
+        ]
+    },
+    "color": {
+        "name": "背景色设置",
+        "aliases": ["color", "设置背景色"],
+        "commands": [
+            "/color <色号> - 设置消息背景颜色",
+            "/color default - 重置为默认背景色"
+        ],
+        "examples": [
+            "/color #1f1e33 - 设置背景色为#1f1e33",
+            "/color default - 重置为默认背景色"
+        ]
+    },
+    "help": {
+        "name": "帮助",
+        "aliases": ["help", "帮助"],
+        "commands": [
+            "/la help - 显示本帮助信息"
+        ],
+        "examples": [
+            "/la help"
+        ]
+    }
+}
+
+# 处理help命令
 @la_help.handle()
-async def handle_help(bot: Bot, event: MessageEvent):
+async def handle_help(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
+    category = args.extract_plain_text().strip().lower()
     
-    help_message = """
-Lanota 机器人使用帮助:
-
-1. 今日歌曲
-命令: /la today 或 /la 今日曲
-功能: 获取今日随机歌曲(每天固定)
-示例: /la today
-
-2. 随机歌曲
-命令: /la random 或 /la 随机
-功能: 随机获取一首歌曲
-子命令:
-  - /la random level <难度> - 随机指定难度的歌曲
-  - /la random <分类> - 随机指定分类的歌曲
-可用分类: main(主线), side(支线), expansion(曲包), event(活动), subscription(订阅)
-示例:
-  /la random level 12
-  /la random main
-
-3. 别名管理
-命令: /la alias 或 /la 别名
-功能: 管理歌曲别名
-子命令:
-  - /la alias add <别名>/<搜索词> - 添加别名
-  - /la alias del <别名> - 删除别名
-  - /la alias show <搜索词> - 查看歌曲别名
-
-4. 查找歌曲
-命令: /la info 或 /la 查找
-功能: 查找歌曲信息
-匹配优先级:
-1. 完全匹配章节号
-2. 完全匹配ID
-3. 完全匹配别名
-4. 完全匹配曲名
-5. 模糊匹配曲名或别名
-
-命令: /la time 或 /la 时长
-功能: 显示长于3分钟和短于2分钟的歌曲列表
-示例: /la time
-
-6. 曲库统计
-命令: /la all 或 /la 全部
-功能: 显示当前曲库的总歌曲数量、最大ID和各分类歌曲数量
-示例: /la all
-
-7.背景色设置
-命令: /color 或 /设置背景色
-功能: 设置消息背景颜色
-示例:
-/color 1f1e33 # 设置背景色为#1f1e33
-/color default # 重置为默认背景色
-
-8.帮助
-命令: /la help 或 /la 帮助
-功能: 显示本帮助信息
-示例: /la help"""
-    await send_image_or_text(user_id, la_help, help_message.strip())
+    # 如果没有指定分类，显示主帮助菜单
+    if not category:
+        main_help = (
+            "Lanota 机器人使用帮助\n"
+            "══════════════\n"
+            "输入以下分类指令查看详细帮助：\n"
+        )
+        
+        # 添加所有分类的入口
+        for cat in help_categories.values():
+            main_help += f"- /la help {cat['aliases'][0]} - {cat['name']}\n"
+        
+        main_help += (
+            "══════════════\n"
+            "输入 /la help <分类> 查看详细帮助\n"
+            "示例: /la help random"
+        )
+        
+        await send_image_or_text(user_id, la_help, main_help)
+        return
+    
+    # 查找匹配的分类
+    matched_category = None
+    for cat in help_categories.values():
+        if category in cat["aliases"]:
+            matched_category = cat
+            break
+    
+    if matched_category:
+        # 构建分类详细帮助
+        help_text = f"【{matched_category['name']}】\n"
+        help_text += "══════════════\n"
+        help_text += "命令:\n"
+        help_text += "\n".join(matched_category["commands"]) + "\n"
+        
+        # 添加子命令说明
+        if "sub_commands" in matched_category:
+            help_text += "\n可用子命令:\n"
+            for key, values in matched_category["sub_commands"].items():
+                help_text += f"{key}: {', '.join(values)}\n"
+        
+        # 添加匹配优先级说明
+        if "priority" in matched_category:
+            help_text += "\n匹配优先级:\n"
+            help_text += "\n".join(matched_category["priority"]) + "\n"
+        
+        # 添加示例
+        if matched_category["examples"]:
+            help_text += "\n示例:\n"
+            help_text += "\n".join(matched_category["examples"]) + "\n"
+        
+        help_text += "══════════════\n"
+        help_text += "输入 /la help 查看主菜单"
+        
+        await send_image_or_text(user_id, la_help, help_text)
+    else:
+        await send_image_or_text(user_id, la_help, "未找到该分类，\n请输入 /la help\n查看所有分类")
