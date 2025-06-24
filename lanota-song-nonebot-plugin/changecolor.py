@@ -9,7 +9,6 @@ from .function import *
 from .whitelist import whitelist_rule
 from .text_image_text import generate_image_with_text, send_image_or_text
 
-
 # 自定义背景色命令
 set_bgcolor = on_command('color', aliases={'设置背景色', '自定义背景色', 'set_bg', 'bg_set', 'set-bg', 'bg-set', 'set-bgcolor'}, permission=GROUP, priority=1, block=True, rule=whitelist_rule)
 @set_bgcolor.handle()
