@@ -171,8 +171,8 @@ def format_song_info(song):
         # 假设全局存在定数表 table_data
         chapter_difficulty = table_data.get(chapter, {})
     
-    # 获取旧谱信息 (直接包含在song字典中)
-    legacy_info = song.get('legacy')
+    # 获取旧谱信息
+    legacy_info = song.get('Legacy', {})
     
     # 难度信息格式化函数
     def format_difficulty_info(diff_type):
