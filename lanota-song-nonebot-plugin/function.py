@@ -156,74 +156,94 @@ def load_table_data():
         return {}
 
 def format_song_info(song):
-    """格式化歌曲信息为字符串，空值显示为未知"""
-    if not song:
-        return "未找到歌曲信息"
     
-    # 加载定数表数据
+    # 处理数据的辅助函数
+    def get_value(value):
+        """安全处理可能的空值"""
+        return value if value not in (None, "") else "未知"
+    
     table_data = load_table_data()
     
-    # 为所有可能为空的字段设置默认值
-    def get_value(value):
-        if not value or str(value).strip().lower() in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
-            return "未知"
-        return value
+    # 获取章节定数
+    chapter = get_value(song.get('chapter'))
+    chapter_difficulty = {}
+    if chapter:
+        # 假设全局存在定数表 table_data
+        chapter_difficulty = table_data.get(chapter, {})
     
-    # 处理Legacy数据
-    legacy_info = song.get('Legacy', {})
+    # 获取旧谱信息 (直接包含在song字典中)
+    legacy_info = song.get('legacy')
     
-    # 获取当前歌曲的定数信息
-    chapter = song.get('chapter', '')
-    chapter_difficulty = table_data.get(chapter, {}) if chapter else {}
-    
-    # 生成难度信息字符串
-    def format_difficulty_info(difficulty_type, difficulty_value, notes_value):
-        # 获取定数表中对应的定数
-        table_key = difficulty_type.capitalize()
-        table_difficulty = chapter_difficulty.get(table_key)
+    # 难度信息格式化函数
+    def format_difficulty_info(diff_type):
+        """格式化难度信息"""
+        # 获取难度值
+        difficulty_value = song['difficulty'].get(diff_type)
+        # 获取物量值
+        notes_value = song['notes'].get(diff_type)
+        # 获取定数
+        table_key = diff_type.capitalize()
+        table_diff = chapter_difficulty.get(table_key)
         
-        difficulty_str = get_value(difficulty_value)
+        diff_str = get_value(difficulty_value)
         notes_str = f"物量: {get_value(notes_value)}"
         
-        if table_difficulty:
-            return f"{difficulty_str}({table_difficulty}) ({notes_str})"
-        return f"{difficulty_str} ({notes_str})"
+        if table_diff:
+            return f"{diff_str}({table_diff}) ({notes_str})"
+        return f"{diff_str} ({notes_str})"
     
-    info = (
-        f"歌曲ID: {song['id']}\n"
-        f"曲名: {get_value(song['title'])}\n"
-        f"分类: {get_value(song['category'])}\n"
-        f"章节: {get_value(song['chapter'])}\n"
-        f"曲师: {get_value(song['artist'])}\n"
-        f"歌手: {get_value(song['vocals'])}\n"
-        f"谱师: {get_value(song['chart_design'])}\n"
-        f"难度: \n"
-        f"    - Whisper: {format_difficulty_info('whisper', song['difficulty']['whisper'], song['notes']['whisper'])}\n"
-        f"    - Acoustic: {format_difficulty_info('acoustic', song['difficulty']['acoustic'], song['notes']['acoustic'])}\n"
-        f"    - Ultra: {format_difficulty_info('ultra', song['difficulty']['ultra'], song['notes']['ultra'])}\n"
-        f"    - Master: {format_difficulty_info('master', song['difficulty']['master'], song['notes']['master'])}\n"
-    )
-    
-    # 添加Legacy信息
-    if legacy_info:
-        info += "旧谱信息:\n"
-        info += f"    旧谱谱师: {get_value(legacy_info.get('Chart Design'))}\n"
+    # 旧谱难度格式化函数
+    def format_legacy_difficulty(diff_key, max_key):
+        """格式化旧谱难度信息"""
+        diff_value = legacy_info.get(diff_key)
+        max_value = legacy_info.get(max_key)
         
-        if any(key in legacy_info for key in ['DiffWhisper', 'DiffAcoustic', 'DiffUltra', 'DiffMaster']):
-            info += "    旧谱难度:\n"
-            info += f"        - Whisper: {get_value(legacy_info.get('DiffWhisper'))} (物量: {get_value(legacy_info.get('MaxWhisper'))})\n"
-            info += f"        - Acoustic: {get_value(legacy_info.get('DiffAcoustic'))} (物量: {get_value(legacy_info.get('MaxAcoustic'))})\n"
-            info += f"        - Ultra: {get_value(legacy_info.get('DiffUltra'))} (物量: {get_value(legacy_info.get('MaxUltra'))})\n"
-            info += f"        - Master: {get_value(legacy_info.get('DiffMaster'))} (物量: {get_value(legacy_info.get('MaxMaster'))})\n"
+        if diff_value or max_value:
+            return f"{get_value(diff_value)} (物量: {get_value(max_value)})"
+        return "无信息"
     
-    info += (
-        f"曲风: {get_value(song['genre'])}\n"
-        f"歌曲BPM: {get_value(song['bpm'])}\n"
-        f"时长: {get_value(song['time'])}\n"
-        f"更新版本: {get_value(song['version'])}"
-    )
+    # 构建信息主体
+    info_lines = [
+        "══════════ 歌曲信息 ══════════",
+        f"▪ 歌曲ID: {get_value(song.get('id'))}",
+        f"▪ 曲名: {get_value(song.get('title'))}",
+        f"▪ 分类: {get_value(song.get('category'))}",
+        f"▪ 章节: {chapter}",
+        f"▪ 曲师: {get_value(song.get('artist'))}",
+        f"▪ 歌手: {get_value(song.get('vocals'))}",
+        f"▪ 曲风: {get_value(song.get('genre'))}",
+        f"▪ 歌曲BPM: {get_value(song.get('bpm'))}",
+        f"▪ 时长: {get_value(song.get('time'))}",
+        "══════════ 难度信息 ══════════",
+        f"▪ 谱师: {get_value(song.get('chart_design'))}",
+        f"    ┌ Whisper: {format_difficulty_info('whisper')}",
+        f"    ├ Acoustic: {format_difficulty_info('acoustic')}",
+        f"    ├ Ultra: {format_difficulty_info('ultra')}",
+        f"    └ Master: {format_difficulty_info('master')}",
+    ]
     
-    return info
+    # 添加旧谱信息（如果有）
+    if legacy_info:
+        info_lines.extend([
+            "══════════ 旧谱信息 ══════════",
+            f"▪ 谱师: {get_value(legacy_info.get('Chart Design'))}",
+            f"    ┌ Whisper: {format_legacy_difficulty('DiffWhisper', 'MaxWhisper')}",
+            f"    ├ Acoustic: {format_legacy_difficulty('DiffAcoustic', 'MaxAcoustic')}",
+            f"    ├ Ultra: {format_legacy_difficulty('DiffUltra', 'MaxUltra')}",
+            f"    └ Master: {format_legacy_difficulty('DiffMaster', 'MaxMaster')}",
+        ])
+    
+    # 添加其他信息
+    info_lines.extend([
+        "══════════ 其他信息 ══════════",
+        f"▪ 歌曲列表: https://lanota.fandom.com/wiki/Songs",
+        f"▪ 歌曲信息来源: {get_value(song.get('source_url'))}",
+        f"▪ 歌曲更新版本: {get_value(song.get('version'))}",
+        "═════════════════════════"
+    ])
+    
+    # 合并所有行并返回
+    return "\n".join(info_lines)
 
 async def get_random_number_from_org(min_num, max_num):
     try:
