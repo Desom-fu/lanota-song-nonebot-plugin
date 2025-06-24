@@ -197,7 +197,6 @@ def format_song_info(song):
         f"曲师: {get_value(song['artist'])}\n"
         f"歌手: {get_value(song['vocals'])}\n"
         f"谱师: {get_value(song['chart_design'])}\n"
-        f"曲风: {get_value(song['genre'])}\n"
         f"难度: \n"
         f"    - Whisper: {format_difficulty_info('whisper', song['difficulty']['whisper'], song['notes']['whisper'])}\n"
         f"    - Acoustic: {format_difficulty_info('acoustic', song['difficulty']['acoustic'], song['notes']['acoustic'])}\n"
@@ -218,9 +217,10 @@ def format_song_info(song):
             info += f"        - Master: {get_value(legacy_info.get('DiffMaster'))} (物量: {get_value(legacy_info.get('MaxMaster'))})\n"
     
     info += (
+        f"曲风: {get_value(song['genre'])}\n"
+        f"歌曲BPM: {get_value(song['bpm'])}\n"
         f"时长: {get_value(song['time'])}\n"
-        f"BPM: {get_value(song['bpm'])}\n"
-        f"版本: {get_value(song['version'])}"
+        f"更新版本: {get_value(song['version'])}"
     )
     
     return info
