@@ -156,7 +156,7 @@ def load_table_data():
         return {}
 
 def format_song_info(song):
-    
+    """处理歌曲格式"""
     # 处理数据的辅助函数
     def get_value(value):
         """安全处理可能的空值"""
@@ -214,6 +214,7 @@ def format_song_info(song):
         f"▪ 曲风: {get_value(song.get('genre'))}",
         f"▪ 歌曲BPM: {get_value(song.get('bpm'))}",
         f"▪ 时长: {get_value(song.get('time'))}",
+        f"▪ 更新版本: {get_value(song.get('version'))}",
         "══════════ 难度信息 ══════════",
         f"▪ 谱师: {get_value(song.get('chart_design'))}",
         f"    ┌ Whisper: {format_difficulty_info('whisper')}",
@@ -236,9 +237,8 @@ def format_song_info(song):
     # 添加其他信息
     info_lines.extend([
         "══════════ 其他信息 ══════════",
-        f"▪ 歌曲列表: https://lanota.fandom.com/wiki/Songs",
-        f"▪ 歌曲信息来源: {get_value(song.get('source_url'))}",
-        f"▪ 歌曲更新版本: {get_value(song.get('version'))}",
+        f"▪ 全曲列表: https://lanota.fandom.com/wiki/Songs",
+        f"▪ 信息来源: {get_value(song.get('source_url'))}",
         "═════════════════════════"
     ])
     
