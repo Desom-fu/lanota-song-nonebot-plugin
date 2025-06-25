@@ -159,8 +159,9 @@ def format_song_info(song):
     """处理歌曲格式"""
     # 处理数据的辅助函数
     def get_value(value):
-        """安全处理可能的空值"""
-        return value if value not in (None, "") else "未知"
+        if not value or str(value).strip().lower() in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
+            return "未知"
+        return value
     
     table_data = load_table_data()
     
