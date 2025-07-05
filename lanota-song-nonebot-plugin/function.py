@@ -163,6 +163,20 @@ def format_song_info(song):
             return "未知"
         return value
     
+    def get_chinese(value):
+        if value == "main":
+            return "主线"
+        elif value == "side":
+            return "支线"
+        elif value == "expansion":
+            return "曲包"
+        elif value == "event":
+            return "活动"
+        elif value == "subscription":
+            return "书房"
+        else:
+            return value
+    
     table_data = load_table_data()
     
     # 获取章节定数
@@ -208,7 +222,7 @@ def format_song_info(song):
         "══════════ 歌曲信息 ══════════",
         f"▪ 歌曲ID: {get_value(song.get('id'))}",
         f"▪ 曲名: {get_value(song.get('title'))}",
-        f"▪ 分类: {get_value(song.get('category'))}",
+        f"▪ 分类: {get_chinese(song.get('category'))}",
         f"▪ 章节: {chapter}",
         f"▪ 曲师: {get_value(song.get('artist'))}",
         f"▪ 歌手: {get_value(song.get('vocals'))}",
