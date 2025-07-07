@@ -380,3 +380,73 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
         matched_songs = matched_songs[:max_display]
     
     return matched_songs, match_type, total_count
+
+def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str) -> tuple:
+    """
+    计算单曲 rating
+    :param harmony: harmony 数目
+    :param tune: tune 数目
+    :param fail: fail 数目
+    :param notes: 总物量
+    :param level: 难度等级 (1-16, 13+, 14+, 15+, 16+)
+    :return: (rating, adjusted_fail, adjustment, is_exceeded) 元组
+    """
+    try:
+        notes = int(notes)  # 确保notes是整数
+    except (ValueError, TypeError):
+        return (0.0, fail, 0, False, 0)
+    
+    # 验证输入
+    if not (harmony >= 0 and tune >= 0 and fail >= 0 and notes > 0):
+        return (0.0, fail, 0, False, 0)
+    
+    input_total = harmony + tune + fail
+    
+    # 检查输入物量是否超过总物量
+    if input_total > notes:
+        return (0.0, fail, 0, True, 0)
+    
+    # 解析难度等级
+    base_level = 0.0
+    bonus = 0.0
+    
+    if level.endswith('+'):
+        try:
+            base_level = float(level[:-1])
+        except ValueError:
+            return (0.0, fail, 0, False, 0)
+        
+        if level == '13+':
+            bonus = 0.5
+        elif level == '14+':
+            bonus = 0.5
+        elif level == '15+':
+            bonus = 0.75
+        elif level == '16+':
+            bonus = 1.25
+    else:
+        try:
+            base_level = float(level)
+        except ValueError:
+            return (0.0, fail, 0, False, 0)
+
+        if base_level == 16:
+            bonus = 0.5
+        else:
+            bonus = 0  # 其他等级无加成
+    
+    # 验证难度范围
+    if not (1 <= base_level <= 16):
+        return (0.0, fail, 0, False, 0)
+    
+    # 计算物量调整
+    adjustment = 0
+    adjusted_fail = fail
+    
+    if input_total != notes:
+        adjustment = notes - (harmony + tune + fail)
+        adjusted_fail = fail + adjustment
+    
+    # 计算 rating
+    rating = (harmony + tune / 3) / notes * (base_level + 1 + bonus)
+    return (round(rating, 5), adjusted_fail, adjustment, False, bonus)

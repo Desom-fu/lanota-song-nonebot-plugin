@@ -19,6 +19,7 @@ la_help = on_command("la help", aliases={"la 帮助", "lanota help", "lanota 帮
 la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时长"}, rule=whitelist_rule, priority=5)
 la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
 la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
+la_cal = on_command("la cal", aliases={"la 计算", "lanota cal", "lanota 计算"}, rule=whitelist_rule, priority=5)
 
 # 创建线程池执行器
 executor = ThreadPoolExecutor(max_workers=1)
@@ -403,6 +404,144 @@ async def handle_all(bot: Bot, event: MessageEvent):
     
     await send_image_or_text(user_id, la_all, message)
 
+@la_cal.handle()
+async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    user_id = event.get_user_id()
+    arg = args.extract_plain_text().strip()
+    
+    if not arg:
+        await send_image_or_text(user_id, la_cal, 
+            "用法:\n"
+            "1. 根据曲目计算:\n"
+            "   /la cal harmony数目/tune数目/fail数目/难度/曲目\n"
+            "   示例: /la cal 900/300/50/Master/7-5\n"
+            "2. 直接计算:\n"
+            "   /la cal harmony数目/tune数目/fail数目/物量/等级\n"
+            "   示例: /la cal 900/300/50/1250/16\n"
+            "注意: 如果输入物量总和与总物量不同，会自动调整fail数目")
+        return
+    
+    # 解析参数 - 只取前五个斜杠分割的部分
+    parts = arg.split('/', 4)  # 最多分割4次，得到5个部分
+    if len(parts) < 5:
+        await send_image_or_text(user_id, la_cal, "参数格式错误，需要5个参数用/分隔")
+        return
+    
+    try:
+        harmony = int(parts[0])
+        tune = int(parts[1])
+        fail = int(parts[2])
+    except ValueError:
+        await send_image_or_text(user_id, la_cal, "前三个参数必须是数字")
+        return
+    
+    # 判断是哪种计算方式
+    if parts[3].lower() in ['whisper', 'acoustic', 'ultra', 'master']:
+        # 方式1: 根据曲目计算
+        difficulty_type = parts[3].lower()
+        search_term = parts[4]
+        
+        song_data = load_song_data()
+        alias_data = load_alias_data()
+        
+        matched_songs, match_type, total_count = find_song_by_search_term(search_term, song_data, alias_data)
+        
+        if not matched_songs:
+            await send_image_or_text(user_id, la_cal, f"没有找到与[{search_term}]相关的歌曲")
+            return
+        
+        if total_count > 1:
+            message = f"找到多个匹配的歌曲({total_count}首)，请使用更精确的搜索词:\n"
+            for i, song in enumerate(matched_songs, 1):
+                message += f"{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})\n"
+            if total_count > 10:
+                message += f"……共{total_count}首"
+            await send_image_or_text(user_id, la_cal, message.strip())
+            return
+        
+        song = matched_songs[0]
+        
+        # 获取难度和物量
+        difficulty_value = song['difficulty'].get(difficulty_type, "未知")
+        notes_value = song['notes'].get(difficulty_type, 0)
+        
+        if difficulty_value == "未知" or notes_value == 0:
+            await send_image_or_text(user_id, la_cal, f"歌曲[{song['title']}]没有{difficulty_type}难度的数据")
+            return
+        
+        # 计算 rating
+        rating, adjusted_fail, adjustment, is_exceeded, bonus = calculate_rating(harmony, tune, fail, notes_value, str(difficulty_value))
+        
+        if is_exceeded:
+            message = (
+                f"歌曲: {song['title']}\n"
+                f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
+                f"当前输入总物量为：{harmony + tune + fail}，已经高于本歌曲的物量：{notes_value}，无法计算"
+            )
+        else:
+            message = (
+                f"歌曲: {song['title']}\n"
+                f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
+                f"总物量: {notes_value}\n"
+                f"输入物量: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
+            )
+            
+            if adjustment != 0:
+                message += (
+                    f"自动调整: Fail {fail} → {adjusted_fail} ({adjustment:+})\n"
+                    f"最终结果: {harmony + tune + adjusted_fail} (Harmony: {harmony}, Tune: {tune}, Fail: {adjusted_fail})\n"
+                )
+            
+            message += (
+                f"单曲Rating: {rating}\n"
+                f"计算方式: ({harmony} + {tune}/3) / {notes_value} * ({difficulty_value} + 1 + 难度加成({bonus}))"
+            )
+        
+    else:
+        # 方式2: 直接计算
+        try:
+            notes = int(parts[3])
+        except ValueError:
+            await send_image_or_text(user_id, la_cal, "物量参数必须是数字")
+            return
+        
+        level = parts[4]
+        
+        # 验证等级格式
+        valid_levels = [str(i) for i in range(1, 17)] + ['13+', '14+', '15+', '16+']
+        if level not in valid_levels:
+            await send_image_or_text(user_id, la_cal, "等级必须是1-16或13+,14+,15+,16+")
+            return
+        
+        # 计算 rating
+        rating, adjusted_fail, adjustment, is_exceeded, bonus = calculate_rating(harmony, tune, fail, notes, level)
+        
+        if is_exceeded:
+            message = (
+                f"总物量: {notes}\n"
+                f"等级: {level}\n"
+                f"当前输入总物量为：{harmony + tune + fail}，已经高于输入的物量：{notes}，无法计算"
+            )
+        else:
+            message = (
+                f"总物量: {notes}\n"
+                f"等级: {level}\n"
+                f"输入物量: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
+            )
+            
+            if adjustment != 0:
+                message += (
+                    f"自动调整: Fail {fail} → {adjusted_fail} ({adjustment:+})\n"
+                    f"最终结果: {harmony + tune + adjusted_fail} (Harmony: {harmony}, Tune: {tune}, Fail: {adjusted_fail})\n"
+                )
+            
+            message += (
+                f"单曲Rating: {rating}\n"
+                f"计算方式: ({harmony} + {tune}/3) / {notes} * ({level} + 1 + 难度加成({bonus}))"
+            )
+    
+    await send_image_or_text(user_id, la_cal, message)
+
 # 处理help命令
 help_categories = {
     "daily": {
@@ -482,14 +621,22 @@ help_categories = {
             "/color default - 重置为默认背景色"
         ]
     },
-    "help": {
-        "name": "帮助",
-        "aliases": ["help", "帮助"],
+    "calculate": {
+        "name": "计算功能",
+        "aliases": ["cal", "计算"],
         "commands": [
-            "/la help - 显示本帮助信息"
+            "/la cal harmony数目/tune数目/fail数目/难度/曲目 - 根据曲目计算rating",
+            "/la cal harmony数目/tune数目/fail数目/物量/等级 - 直接计算rating"
+        ],
+        "priority": [
+            "1. 前三个参数必须是数字",
+            "2. 难度可以是: Whisper, Acoustic, Ultra, Master",
+            "3. 等级可以是: 1-16, 13+, 14+, 15+, 16+",
+            "4. 如果输入的物量之和不正确，将自动补到fail数目"
         ],
         "examples": [
-            "/la help"
+            "/la cal 900/300/50/Master/8-6",
+            "/la cal 900/300/50/2000/16"
         ]
     }
 }
