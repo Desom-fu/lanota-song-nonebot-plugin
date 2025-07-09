@@ -418,7 +418,8 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             "2. 直接计算:\n"
             "   /la cal harmony数目/tune数目/fail数目/物量/等级\n"
             "   示例: /la cal 900/300/50/1250/16\n"
-            "注意: 如果输入物量总和与总物量不同，会自动调整fail数目")
+            "注意: 如果输入物量总和与总物量不同，会自动调整fail数目\n"
+            "注意: 输入的数字不能为负数")
         return
     
     # 解析参数 - 只取前五个斜杠分割的部分
@@ -433,6 +434,11 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
         fail = int(parts[2])
     except ValueError:
         await send_image_or_text(user_id, la_cal, "前三个参数必须是数字")
+        return
+    
+    # 检查是否为负数
+    if harmony < 0 or tune < 0 or fail < 0:
+        await send_image_or_text(user_id, la_cal, "输入的判定/物量不能为负数！")
         return
     
     # 判断是哪种计算方式
@@ -470,9 +476,11 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             return
         
         # 计算 rating
-        rating, adjusted_fail, adjustment, is_exceeded, bonus = calculate_rating(harmony, tune, fail, notes_value, str(difficulty_value))
+        rating, adjusted_fail, adjustment, is_exceeded, is_negative, bonus, base_level = calculate_rating(harmony, tune, fail, notes_value, str(difficulty_value))
         
-        if is_exceeded:
+        if is_negative:
+            message = "输入的判定/物量不能为负数！"
+        elif is_exceeded:
             message = (
                 f"歌曲: {song['title']}\n"
                 f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
@@ -483,7 +491,7 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
                 f"歌曲: {song['title']}\n"
                 f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
                 f"总物量: {notes_value}\n"
-                f"输入物量: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
+                f"输入判定: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
             )
             
             if adjustment != 0:
@@ -494,7 +502,7 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             
             message += (
                 f"单曲Rating: {rating}\n"
-                f"计算方式: ({harmony} + {tune}/3) / {notes_value} * ({difficulty_value} + 1 + 难度加成({bonus}))"
+                f"计算方式: ({harmony} + {tune}/3) / {notes_value} * ({base_level} + 1 + 难度加成({bonus}))"
             )
         
     else:
@@ -514,9 +522,11 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             return
         
         # 计算 rating
-        rating, adjusted_fail, adjustment, is_exceeded, bonus = calculate_rating(harmony, tune, fail, notes, level)
+        rating, adjusted_fail, adjustment, is_exceeded, is_negative, bonus, base_level = calculate_rating(harmony, tune, fail, notes, level)
         
-        if is_exceeded:
+        if is_negative:
+            message = "输入的判定/物量不能为负数！"
+        elif is_exceeded:
             message = (
                 f"总物量: {notes}\n"
                 f"等级: {level}\n"
@@ -526,7 +536,7 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             message = (
                 f"总物量: {notes}\n"
                 f"等级: {level}\n"
-                f"输入物量: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
+                f"输入判定: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
             )
             
             if adjustment != 0:
@@ -537,7 +547,7 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             
             message += (
                 f"单曲Rating: {rating}\n"
-                f"计算方式: ({harmony} + {tune}/3) / {notes} * ({level} + 1 + 难度加成({bonus}))"
+                f"计算方式: ({harmony} + {tune}/3) / {notes} * ({base_level} + 1 + 难度加成({bonus}))"
             )
     
     await send_image_or_text(user_id, la_cal, message)
@@ -583,10 +593,10 @@ help_categories = {
     },
     "search": {
         "name": "查找歌曲",
-        "aliases": ["find", "查找", "info"],
+        "aliases": ["info", "查找", "find"],
         "commands": [
-            "/la find - 查找歌曲信息",
-            "/la info - 同上"
+            "/la info - 查找歌曲信息",
+            "/la find - 同上"
         ],
         "priority": [
             "1. 完全匹配章节号",
@@ -622,8 +632,8 @@ help_categories = {
         ]
     },
     "calculate": {
-        "name": "计算功能",
-        "aliases": ["cal", "计算"],
+        "name": "定数计算功能",
+        "aliases": ["cal", "计算", "定数"],
         "commands": [
             "/la cal harmony数目/tune数目/fail数目/难度/曲目 - 根据曲目计算rating",
             "/la cal harmony数目/tune数目/fail数目/物量/等级 - 直接计算rating"

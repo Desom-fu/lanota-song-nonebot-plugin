@@ -183,7 +183,7 @@ def format_song_info(song):
     chapter = get_value(song.get('chapter'))
     chapter_difficulty = {}
     if chapter:
-        # 假设全局存在定数表 table_data
+        # 定数表 table_data
         chapter_difficulty = table_data.get(chapter, {})
     
     # 获取旧谱信息
@@ -389,22 +389,26 @@ def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str)
     :param fail: fail 数目
     :param notes: 总物量
     :param level: 难度等级 (1-16, 13+, 14+, 15+, 16+)
-    :return: (rating, adjusted_fail, adjustment, is_exceeded) 元组
+    :return: (rating, adjusted_fail, adjustment, is_exceeded, is_negative, bonus, base_level) 元组
     """
     try:
         notes = int(notes)  # 确保notes是整数
     except (ValueError, TypeError):
-        return (0.0, fail, 0, False, 0)
+        return (0.0, fail, 0, False, False, 0, 0)
     
-    # 验证输入
+    # 验证输入是否为负数
+    if harmony < 0 or tune < 0 or fail < 0 or notes < 0:
+        return (0.0, fail, 0, False, True, 0, 0)
+    
+    # 验证其他输入
     if not (harmony >= 0 and tune >= 0 and fail >= 0 and notes > 0):
-        return (0.0, fail, 0, False, 0)
+        return (0.0, fail, 0, False, False, 0, 0)
     
     input_total = harmony + tune + fail
     
     # 检查输入物量是否超过总物量
     if input_total > notes:
-        return (0.0, fail, 0, True, 0)
+        return (0.0, fail, 0, True, False, 0, 0)
     
     # 解析难度等级
     base_level = 0.0
@@ -414,7 +418,7 @@ def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str)
         try:
             base_level = float(level[:-1])
         except ValueError:
-            return (0.0, fail, 0, False, 0)
+            return (0.0, fail, 0, False, False, 0, 0)
         
         if level == '13+':
             bonus = 0.5
@@ -428,7 +432,7 @@ def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str)
         try:
             base_level = float(level)
         except ValueError:
-            return (0.0, fail, 0, False, 0)
+            return (0.0, fail, 0, False, False, 0, 0)
 
         if base_level == 16:
             bonus = 0.5
@@ -437,7 +441,7 @@ def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str)
     
     # 验证难度范围
     if not (1 <= base_level <= 16):
-        return (0.0, fail, 0, False, 0)
+        return (0.0, fail, 0, False, False, 0, 0)
     
     # 计算物量调整
     adjustment = 0
@@ -449,4 +453,4 @@ def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str)
     
     # 计算 rating
     rating = (harmony + tune / 3) / notes * (base_level + 1 + bonus)
-    return (round(rating, 5), adjusted_fail, adjustment, False, bonus)
+    return (round(rating, 5), adjusted_fail, adjustment, False, False, bonus, base_level)
