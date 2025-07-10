@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 def check_missing_songs(json_file, expected_count=None):
-    """检查缺失的歌曲ID"""
+    """检查缺失的乐曲ID"""
     try:
         with open(json_file, 'r', encoding='utf-8') as f:
             songs = json.load(f)
@@ -14,7 +14,7 @@ def check_missing_songs(json_file, expected_count=None):
         return
 
     if not songs:
-        print("警告：歌曲列表为空")
+        print("警告：乐曲列表为空")
         return
 
     # 如果没有提供expected_count，则自动检测最大ID
@@ -50,8 +50,8 @@ def check_missing_songs(json_file, expected_count=None):
     
     # 打印结果
     print(f"\n检查结果:")
-    print(f"已加载歌曲数量: {len(songs)}")
-    print(f"预期歌曲数量: {expected_count}")
+    print(f"已加载乐曲数量: {len(songs)}")
+    print(f"预期乐曲数量: {expected_count}")
     
     if missing_ids:
         print(f"\n缺失的ID ({len(missing_ids)}个):")
@@ -83,16 +83,16 @@ def check_missing_songs(json_file, expected_count=None):
         print("\n没有重复的ID")
     
     if invalid_songs:
-        print(f"\n必填字段缺失的歌曲 ({len(invalid_songs)}个):")
+        print(f"\n必填字段缺失的乐曲 ({len(invalid_songs)}个):")
         for id, field in invalid_songs:
             print(f"  ID {id}: 缺少字段 '{field}'")
     else:
-        print("\n所有歌曲的必填字段完整")
+        print("\n所有乐曲的必填字段完整")
 
     # 检查时间字段为空的情况
     empty_time = [song['id'] for song in songs if not song.get('time')]
     if empty_time:
-        print(f"\n时间字段为空的歌曲 ({len(empty_time)}个):")
+        print(f"\n时间字段为空的乐曲 ({len(empty_time)}个):")
         print("  " + ", ".join(map(str, empty_time)))
 
 def get_user_input():
@@ -115,7 +115,7 @@ def get_user_input():
         return path
 
 if __name__ == "__main__":
-    print("=== Lanota歌曲数据检查工具 ===")
+    print("=== Lanota乐曲数据检查工具 ===")
     print("本工具用于检查song_list.json中的缺失ID和字段完整性\n")
     
     json_file = get_user_input()
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     max_id_input = input("请输入预期的最大ID(留空则自动检测): ").strip()
     expected_count = int(max_id_input) if max_id_input.isdigit() else None
     
-    print(f"\n开始检查歌曲数据文件: {json_file}")
+    print(f"\n开始检查乐曲数据文件: {json_file}")
     check_missing_songs(json_file, expected_count)
     
     input("\n检查完成，按Enter键退出...")

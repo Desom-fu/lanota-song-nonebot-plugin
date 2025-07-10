@@ -121,7 +121,7 @@ def get_user_today_song(user_id: str):
     # 检查是否有今日曲目且日期匹配
     if "today_chapter" in user_info and "today_date" in user_info:
         if user_info["today_date"] == today_seed:
-            # 根据存储的chapter查找歌曲
+            # 根据存储的chapter查找乐曲
             chapter = user_info["today_chapter"].lower()
             song_data = load_song_data()
             for song in song_data:
@@ -156,7 +156,7 @@ def load_table_data():
         return {}
 
 def format_song_info(song):
-    """处理歌曲格式"""
+    """处理乐曲格式"""
     # 处理数据的辅助函数
     def get_value(value):
         if not value or str(value).strip().lower() in ["none", "no", "n/a", "unknown", "未知", '', "no info"]:
@@ -219,15 +219,15 @@ def format_song_info(song):
     
     # 构建信息主体
     info_lines = [
-        "══════════ 歌曲信息 ══════════",
-        f"▪ 歌曲ID: {get_value(song.get('id'))}",
+        "══════════ 乐曲信息 ══════════",
+        f"▪ 乐曲ID: {get_value(song.get('id'))}",
         f"▪ 曲名: {get_value(song.get('title'))}",
         f"▪ 分类: {get_chinese(song.get('category'))}",
         f"▪ 章节: {chapter}",
         f"▪ 曲师: {get_value(song.get('artist'))}",
         f"▪ 歌手: {get_value(song.get('vocals'))}",
         f"▪ 曲风: {get_value(song.get('genre'))}",
-        f"▪ 歌曲BPM: {get_value(song.get('bpm'))}",
+        f"▪ 乐曲BPM: {get_value(song.get('bpm'))}",
         f"▪ 时长: {get_value(song.get('time'))}",
         f"▪ 更新版本: {get_value(song.get('version'))}",
         "══════════ 难度信息 ══════════",
@@ -272,12 +272,12 @@ async def get_random_number_from_org(min_num, max_num):
     return random.randint(min_num, max_num)
 
 def load_song_data():
-    """加载歌曲数据"""
+    """加载乐曲数据"""
     try:
         with open(lanota_full_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
-        print(f"加载歌曲数据失败: {str(e)}")
+        print(f"加载乐曲数据失败: {str(e)}")
         return []
 
 def load_alias_data():
@@ -293,11 +293,11 @@ def load_alias_data():
         return {}
 
 def get_songs_by_category(song_data, category):
-    """按分类获取歌曲"""
+    """按分类获取乐曲"""
     return [song for song in song_data if song['category'] == category]
 
 def get_songs_by_level(song_data, level):
-    """按难度获取歌曲"""
+    """按难度获取乐曲"""
     return [song for song in song_data 
             if (song['difficulty']['whisper'] == level or
                 song['difficulty']['acoustic'] == level or
@@ -305,10 +305,10 @@ def get_songs_by_level(song_data, level):
                 song['difficulty']['master'] == level)]
 
 def find_song_by_search_term(search_term, song_data, alias_data=None, max_display=10):
-    """按照优先级查找歌曲
+    """按照优先级查找乐曲
     Args:
         search_term: 搜索词
-        song_data: 歌曲数据
+        song_data: 乐曲数据
         alias_data: 别名数据(可选)
         max_display: 最大显示数量
     Returns:

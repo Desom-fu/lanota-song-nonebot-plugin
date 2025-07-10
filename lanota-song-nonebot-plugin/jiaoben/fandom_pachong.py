@@ -91,12 +91,12 @@ def main():
     existing_outside = {item.get('title_outside', '').lower() for item in data if item.get('title_outside')}
     existing_chapters_lower = {item['chapter'].lower() for item in data}
 
-    print("正在搜索歌曲列表……")
+    print("正在搜索乐曲列表……")
     resp = session.get(f"{BASE_URL}/wiki/Songs")
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, 'html.parser')
 
-    # 收集页面上的所有歌曲链接及初步标题
+    # 收集页面上的所有乐曲链接及初步标题
     songs_info = []
     for row in soup.find('table', {'class': 'wikitable'}).find_all('tr')[1:]:
         cols = row.find_all('td')
@@ -110,7 +110,7 @@ def main():
             'display_title': link.get('title', '').strip()
         })
 
-    print(f"共找到 {len(songs_info)} 首歌曲")
+    print(f"共找到 {len(songs_info)} 首乐曲")
 
     # 第一轮：按 title 初步匹配，包括外部title
     candidates = [info for info in songs_info
@@ -167,7 +167,7 @@ def main():
         category = 'event' if chap_left_clean == 'Event' else classify(chap_left_clean)
 
         new_count += 1
-        print(f"添加新歌曲 #{new_count}: '{real_title}' (章节 {real_chapter})")
+        print(f"添加新乐曲 #{new_count}: '{real_title}' (章节 {real_chapter})")
 
         song = {
             'id': len(data) + 1,
@@ -228,7 +228,7 @@ def main():
     with open(SONGS_JSON, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"处理完成，新增 {new_count} 首歌曲，当前共 {len(data)} 首")
+    print(f"处理完成，新增 {new_count} 首乐曲，当前共 {len(data)} 首")
     return {
         'before': original_count,
         'added': new_count,

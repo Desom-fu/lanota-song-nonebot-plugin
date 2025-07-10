@@ -41,7 +41,7 @@ async def handle_update(bot: Bot, event: MessageEvent):
     
     try:
         # 执行爬虫脚本（异步方式）
-        await la_update.send("开始更新歌曲数据，请稍候...")
+        await la_update.send("开始更新乐曲数据，请稍候...")
         
         # 在单独的线程中运行同步爬虫函数
         result = await run_in_threadpool(update_songs)
@@ -49,13 +49,13 @@ async def handle_update(bot: Bot, event: MessageEvent):
         # 解析结果并发送
         if isinstance(result, dict):
             message = (
-                f"歌曲数据更新完成！\n"
-                f"更新前歌曲: {result.get('before', 0)}首\n"
-                f"新增歌曲: {result.get('added', 0)}首\n"
-                f"当前总歌曲: {result.get('total', 0)}首"
+                f"乐曲数据更新完成！\n"
+                f"更新前乐曲: {result.get('before', 0)}首\n"
+                f"新增乐曲: {result.get('added', 0)}首\n"
+                f"当前总乐曲: {result.get('total', 0)}首"
             )
         else:
-            message = "歌曲数据更新完成！"
+            message = "乐曲数据更新完成！"
             
         await la_update.finish(message)
         return
@@ -72,11 +72,11 @@ async def handle_today(bot: Bot, event: MessageEvent):
     today_song = get_user_today_song(user_id)
     
     if not today_song:
-        await send_image_or_text(user_id, la_today, "今日歌曲获取失败，可能是歌曲数据未加载")
+        await send_image_or_text(user_id, la_today, "今日乐曲获取失败，可能是乐曲数据未加载")
         return
     
     nickname = await get_nickname(bot, user_id)
-    message = f"[{nickname}]的今日歌曲：\n\n{format_song_info(today_song)}"
+    message = f"[{nickname}]的今日乐曲：\n\n{format_song_info(today_song)}"
     await send_image_or_text(user_id, la_today, message)
 
 # 处理random命令
@@ -88,7 +88,7 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
     song_data = load_song_data()
     
     if not song_data:
-        await send_image_or_text(user_id, la_random, "没有可用的歌曲数据")
+        await send_image_or_text(user_id, la_random, "没有可用的乐曲数据")
         return
     
     # 处理子命令
@@ -102,12 +102,12 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             filtered_songs = get_songs_by_level(song_data, level)
             
             if not filtered_songs:
-                await send_image_or_text(user_id, la_random, f"没有找到难度为[{level}]的歌曲")
+                await send_image_or_text(user_id, la_random, f"没有找到难度为[{level}]的乐曲")
                 return
             
             random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
             selected_song = filtered_songs[random_number]
-            message = f"随机歌曲(难度{level}):\n\n{format_song_info(selected_song)}"
+            message = f"随机乐曲(难度{level}):\n\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
         
@@ -134,19 +134,19 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             category_songs = get_songs_by_category(song_data, category)
             
             if not category_songs:
-                await send_image_or_text(user_id, la_random, f"没有找到[{category}]分类的歌曲")
+                await send_image_or_text(user_id, la_random, f"没有找到[{category}]分类的乐曲")
                 return
             
             random_number = await get_random_number_from_org(0, len(category_songs) - 1)
             selected_song = category_songs[random_number]
-            message = f"随机歌曲({category}):\n\n{format_song_info(selected_song)}"
+            message = f"随机乐曲({category}):\n\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
     
     # 默认随机选择
     random_number = await get_random_number_from_org(0, len(song_data) - 1)
     selected_song = song_data[random_number]
-    message = f"随机歌曲:\n\n{format_song_info(selected_song)}"
+    message = f"随机乐曲:\n\n{format_song_info(selected_song)}"
     await send_image_or_text(user_id, la_random, message)
 
 # 处理alias命令
@@ -193,11 +193,11 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID或原名为[{search_term}]的歌曲")
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID或原名为[{search_term}]的乐曲")
             return
         
         if total_count > 1:
-            message = f"找到多个匹配的歌曲({total_count}个)，请使用更精确的章节号、ID或原名:\n"
+            message = f"找到多个匹配的乐曲({total_count}个)，请使用更精确的章节号、ID或原名:\n"
             for i, song in enumerate(matched_songs, 1):
                 message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
             if total_count > 10:
@@ -208,7 +208,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         std_name = matched_songs[0]['title']
         
         if alias.lower() in all_titles:
-            await send_image_or_text(user_id, la_alias, f"[{alias}]已经是歌曲原名，不能作为别名")
+            await send_image_or_text(user_id, la_alias, f"[{alias}]已经是乐曲原名，不能作为别名")
             return
         
         for existing_std_name, aliases in alias_data.items():
@@ -224,7 +224,7 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
             save_alias_data(alias_data)
             await send_image_or_text(user_id, la_alias, f"成功为[{std_name}]添加别名[{alias}]")
         else:
-            await send_image_or_text(user_id, la_alias, f"别名[{alias}]已经存在")
+            await send_image_or_text(user_id, la_alias, f"[{alias}]已经是[{std_name}]的别名")
     
     elif action == "del":
         alias = parts[1].split('/')[0].strip()
@@ -251,11 +251,11 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         matched_songs, _, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID、别名或原名为[{search_term}]的歌曲")
+            await send_image_or_text(user_id, la_alias, f"没有找到章节号、ID、别名或原名为[{search_term}]的乐曲")
             return
         
         if total_count > 1:
-            message = f"找到多个匹配的歌曲({total_count}个):\n"
+            message = f"找到多个匹配的乐曲({total_count}个):\n"
             for i, song in enumerate(matched_songs, 1):
                 message += f"{i}. {song['chapter']} - {song['title']} (ID: {song['id']})\n"
             if total_count > 10:
@@ -267,9 +267,9 @@ async def handle_alias(bot: Bot, event: MessageEvent, state: T_State, args: Mess
         aliases = alias_data.get(std_name, [])
         
         if not aliases:
-            message = f"歌曲[{std_name}]目前没有设置别名"
+            message = f"乐曲[{std_name}]目前没有设置别名"
         else:
-            message = f"歌曲[{std_name}]的别名({len(aliases)}个):\n" + "\n".join(f"{i+1}. {alias}" for i, alias in enumerate(aliases))
+            message = f"乐曲[{std_name}]的别名({len(aliases)}个):\n" + "\n".join(f"{i+1}. {alias}" for i, alias in enumerate(aliases))
         
         await send_image_or_text(user_id, la_alias, message)
     
@@ -299,13 +299,13 @@ async def handle_find(bot: Bot, event: MessageEvent, state: T_State, args: Messa
     matched_songs, match_type, total_count = find_song_by_search_term(search_term, song_data, alias_data)
     
     if not matched_songs:
-        await send_image_or_text(user_id, la_find, f"没有找到与[{search_term}]相关的歌曲")
+        await send_image_or_text(user_id, la_find, f"没有找到与[{search_term}]相关的乐曲")
         return
     
     if total_count == 1:
-        message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首歌曲:\n\n{format_song_info(matched_songs[0])}"
+        message = f"通过搜索词[{search_term}]进行[{match_type}]找到这首乐曲:\n\n{format_song_info(matched_songs[0])}"
     else:
-        message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的歌曲({total_count}首):\n"
+        message = f"通过搜索词[{search_term}]进行[{match_type}]找到匹配的乐曲({total_count}首):\n"
         for i, song in enumerate(matched_songs, 1):
             message += f"\n{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})"
         if total_count > 10:
@@ -320,7 +320,7 @@ async def handle_time(bot: Bot, event: MessageEvent):
     song_data = load_song_data()
     
     if not song_data:
-        await send_image_or_text(user_id, la_time, "没有可用的歌曲数据")
+        await send_image_or_text(user_id, la_time, "没有可用的乐曲数据")
         return
     
     def parse_time(time_str):
@@ -353,23 +353,23 @@ async def handle_time(bot: Bot, event: MessageEvent):
     message = "时长统计:\n\n"
     
     if long_songs:
-        message += f"长于3分钟的歌曲(共{len(long_songs)}首，时长降序):\n"
+        message += f"长于3分钟的乐曲(共{len(long_songs)}首，时长降序):\n"
         for i, song_info in enumerate(long_songs, 1):
             message += f"{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})\n"
         message += "\n"
     else:
-        message += "没有长于3分钟的歌曲\n\n"
+        message += "没有长于3分钟的乐曲\n\n"
     
     if short_songs:
-        message += f"短于2分钟的歌曲(共{len(short_songs)}首，时长升序):\n"
+        message += f"短于2分钟的乐曲(共{len(short_songs)}首，时长升序):\n"
         for i, song_info in enumerate(short_songs, 1):
             message += f"{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})\n"
     else:
-        message += "没有短于2分钟的歌曲"
+        message += "没有短于2分钟的乐曲"
     
     await send_image_or_text(user_id, la_time, message)
 
-# 全部歌曲统计
+# 全部乐曲统计
 @la_all.handle()
 async def handle_all(bot: Bot, event: MessageEvent):
     user_id = event.get_user_id()
@@ -397,7 +397,7 @@ async def handle_all(bot: Bot, event: MessageEvent):
     
     message = (
         f"Lanota曲库统计（Fandom已收录）:\n"
-        f"总歌曲数量: {total_songs}首\n\n"
+        f"总乐曲数量: {total_songs}首\n\n"
         f"按分类统计:\n"
         + "\n".join(category_info)
     )
@@ -453,11 +453,11 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
         matched_songs, match_type, total_count = find_song_by_search_term(search_term, song_data, alias_data)
         
         if not matched_songs:
-            await send_image_or_text(user_id, la_cal, f"没有找到与[{search_term}]相关的歌曲")
+            await send_image_or_text(user_id, la_cal, f"没有找到与[{search_term}]相关的乐曲")
             return
         
         if total_count > 1:
-            message = f"找到多个匹配的歌曲({total_count}首)，请使用更精确的搜索词:\n"
+            message = f"找到多个匹配的乐曲({total_count}首)，请使用更精确的搜索词:\n"
             for i, song in enumerate(matched_songs, 1):
                 message += f"{i}. {song['title']} (Chapter: {song['chapter']}, ID: {song['id']})\n"
             if total_count > 10:
@@ -472,7 +472,7 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
         notes_value = song['notes'].get(difficulty_type, 0)
         
         if difficulty_value == "未知" or notes_value == 0:
-            await send_image_or_text(user_id, la_cal, f"歌曲[{song['title']}]没有{difficulty_type}难度的数据")
+            await send_image_or_text(user_id, la_cal, f"乐曲[{song['title']}]没有{difficulty_type}难度的数据")
             return
         
         # 计算 rating
@@ -482,13 +482,13 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
             message = "输入的判定/物量不能为负数！"
         elif is_exceeded:
             message = (
-                f"歌曲: {song['title']}\n"
+                f"乐曲: {song['title']}\n"
                 f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
-                f"当前输入总物量为：{harmony + tune + fail}，已经高于本歌曲的物量：{notes_value}，无法计算"
+                f"当前输入总物量为：{harmony + tune + fail}，已经高于本乐曲的物量：{notes_value}，无法计算"
             )
         else:
             message = (
-                f"歌曲: {song['title']}\n"
+                f"乐曲: {song['title']}\n"
                 f"难度: {difficulty_type.capitalize()} {difficulty_value}\n"
                 f"总物量: {notes_value}\n"
                 f"输入判定: {harmony + tune + fail} (Harmony: {harmony}, Tune: {tune}, Fail: {fail})\n"
@@ -555,10 +555,10 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
 # 处理help命令
 help_categories = {
     "daily": {
-        "name": "今日歌曲",
+        "name": "今日乐曲",
         "aliases": ["today", "今日曲"],
         "commands": [
-            "/la today - 获取今日随机歌曲(每天固定)",
+            "/la today - 获取今日随机乐曲(每天固定)",
             "/la 今日曲 - 同上"
         ],
         "examples": [
@@ -566,12 +566,12 @@ help_categories = {
         ]
     },
     "random": {
-        "name": "随机歌曲",
+        "name": "随机乐曲",
         "aliases": ["random", "随机"],
         "commands": [
-            "/la random - 随机获取一首歌曲",
-            "/la random level <难度> - 随机指定难度的歌曲",
-            "/la random <分类> - 随机指定分类的歌曲"
+            "/la random - 随机获取一首乐曲",
+            "/la random level <难度> - 随机指定难度的乐曲",
+            "/la random <分类> - 随机指定分类的乐曲"
         ],
         "sub_commands": {
             "分类": ["main(主线)", "side(支线)", "expansion(曲包)", "\nevent(活动)", "subscription(订阅)"]
@@ -587,15 +587,15 @@ help_categories = {
         "commands": [
             "/la alias add <别名>/<搜索词> - 添加别名",
             "/la alias del <别名> - 删除别名",
-            "/la alias show <搜索词> - 查看歌曲别名"
+            "/la alias show <搜索词> - 查看乐曲别名"
         ],
         "examples": []
     },
     "search": {
-        "name": "查找歌曲",
+        "name": "查找乐曲",
         "aliases": ["info", "查找", "find"],
         "commands": [
-            "/la info - 查找歌曲信息",
+            "/la info - 查找乐曲信息",
             "/la find - 同上"
         ],
         "priority": [
@@ -611,7 +611,7 @@ help_categories = {
         "name": "统计功能",
         "aliases": ["time", "时长", "all", "全部"],
         "commands": [
-            "/la time - 显示长于3分钟和短于2分钟的歌曲列表",
+            "/la time - 显示长于3分钟和短于2分钟的乐曲列表",
             "/la all - 显示曲库统计信息"
         ],
         "examples": [
