@@ -20,6 +20,7 @@ la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时
 la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
 la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
 la_cal = on_command("la cal", aliases={"la 计算", "lanota cal", "lanota 计算"}, rule=whitelist_rule, priority=5)
+la_notes = on_command("la notes", aliases={"la 物量", "lanota notes", "lanota 物量"}, rule=whitelist_rule, priority=5)
 
 # 创建线程池执行器
 executor = ThreadPoolExecutor(max_workers=1)
@@ -355,15 +356,15 @@ async def handle_time(bot: Bot, event: MessageEvent):
     if long_songs:
         message += f"长于3分钟的乐曲(共{len(long_songs)}首，时长降序):\n"
         for i, song_info in enumerate(long_songs, 1):
-            message += f"{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})\n"
-        message += "\n"
+            message += f"\n{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
+        message += '\n'
     else:
-        message += "没有长于3分钟的乐曲\n\n"
+        message += "没有长于3分钟的乐曲\n"
     
     if short_songs:
-        message += f"短于2分钟的乐曲(共{len(short_songs)}首，时长升序):\n"
+        message += f"\n短于2分钟的乐曲(共{len(short_songs)}首，时长升序):"
         for i, song_info in enumerate(short_songs, 1):
-            message += f"{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})\n"
+            message += f"\n{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
     else:
         message += "没有短于2分钟的乐曲"
     
@@ -552,6 +553,48 @@ async def handle_cal(bot: Bot, event: MessageEvent, args: Message = CommandArg()
     
     await send_image_or_text(user_id, la_cal, message)
 
+# 物量统计
+@la_notes.handle()
+async def handle_notes(bot: Bot, event: MessageEvent):
+    user_id = event.get_user_id()
+    song_data = load_song_data()
+    
+    if not song_data:
+        await send_image_or_text(user_id, la_notes, "没有可用的乐曲数据")
+        return
+    
+    # 收集所有谱面数据
+    charts = []
+    for song in song_data:
+        for diff_type in ['whisper', 'acoustic', 'ultra', 'master']:
+            notes_value = song['notes'].get(diff_type, 0)
+            difficulty_value = song['difficulty'].get(diff_type, "未知")
+            
+            if notes_value and difficulty_value != "未知":
+                charts.append({
+                    'title': song['title'],
+                    'notes': int(notes_value),
+                    'difficulty': diff_type.capitalize(),
+                    'chapter': song['chapter']
+                })
+    
+    # 按物量降序排序
+    charts.sort(key=lambda x: -x['notes'])
+    
+    # 只取前50个
+    top_charts = charts[:50]
+    
+    if not top_charts:
+        await send_image_or_text(user_id, la_notes, "没有找到有效的谱面数据")
+        return
+    
+    # 构建消息
+    message = "物量最高的前50个谱面:\n\n"
+    for i, chart in enumerate(top_charts, 1):
+        message += f"{i}. {chart['title']} - 物量{chart['notes']} (难度: {chart['difficulty']}, Chapter: {chart['chapter']})\n"
+    
+    await send_image_or_text(user_id, la_notes, message)
+
 # 处理help命令
 help_categories = {
     "daily": {
@@ -609,14 +652,16 @@ help_categories = {
     },
     "stats": {
         "name": "统计功能",
-        "aliases": ["time", "时长", "all", "全部"],
+        "aliases": ["other", "其它"],
         "commands": [
             "/la time - 显示长于3分钟和短于2分钟的乐曲列表",
-            "/la all - 显示曲库统计信息"
+            "/la all - 显示曲库统计信息",
+            "/la notes - 物量最多的前50个谱面"
         ],
         "examples": [
             "/la time",
-            "/la all"
+            "/la all",
+            "/la notes"
         ]
     },
     "color": {
