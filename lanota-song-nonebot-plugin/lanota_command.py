@@ -589,9 +589,9 @@ async def handle_notes(bot: Bot, event: MessageEvent):
         return
     
     # 构建消息
-    message = "物量最高的前50个谱面:\n\n"
+    message = "物量最高的前50个谱面:\n"
     for i, chart in enumerate(top_charts, 1):
-        message += f"{i}. {chart['title']} - 物量{chart['notes']} (难度: {chart['difficulty']}, Chapter: {chart['chapter']})\n"
+        message += f"\n{i}. {chart['title']} - 物量{chart['notes']} (难度: {chart['difficulty']}, Chapter: {chart['chapter']})"
     
     await send_image_or_text(user_id, la_notes, message)
 
