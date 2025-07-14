@@ -21,6 +21,7 @@ la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部
 la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
 la_cal = on_command("la cal", aliases={"la 计算", "lanota cal", "lanota 计算"}, rule=whitelist_rule, priority=5)
 la_notes = on_command("la notes", aliases={"la 物量", "lanota notes", "lanota 物量"}, rule=whitelist_rule, priority=5)
+la_rating = on_command("la rating", aliases={"la rating", "lanota rating"}, rule=whitelist_rule, priority=5)
 
 # 创建线程池执行器
 executor = ThreadPoolExecutor(max_workers=1)
@@ -596,6 +597,168 @@ async def handle_notes(bot: Bot, event: MessageEvent):
     
     await send_image_or_text(user_id, la_notes, message)
 
+@la_rating.handle()
+async def handle_rating(bot: Bot, event: MessageEvent):
+    user_id = event.get_user_id()
+    song_data = load_song_data()
+    
+    if not song_data:
+        await send_image_or_text(user_id, la_rating, "没有可用的乐曲数据")
+        return
+    
+    # 1. 获取所有15级以上的Master和Ultra难度谱面
+    high_level_charts = []
+    for song in song_data:
+        for diff_type in ['master', 'ultra']:
+            difficulty_value = song['difficulty'].get(diff_type, "未知")
+            notes_value = song['notes'].get(diff_type, 0)
+            
+            if difficulty_value == "未知" or not notes_value:
+                continue
+            
+            # 确保notes是整数
+            try:
+                notes_value = int(notes_value)
+            except (ValueError, TypeError):
+                continue
+            
+            # 解析难度等级
+            level_str = str(difficulty_value)
+            base_level = 0
+            has_plus = False
+            
+            if level_str.endswith('+'):
+                try:
+                    base_level = float(level_str[:-1])
+                    has_plus = True
+                except ValueError:
+                    continue
+            else:
+                try:
+                    base_level = float(level_str)
+                except ValueError:
+                    continue
+            
+            if base_level >= 15:
+                high_level_charts.append({
+                    'song': song,
+                    'difficulty_type': diff_type.capitalize(),
+                    'difficulty_value': difficulty_value,
+                    'notes': notes_value,
+                    'base_level': base_level,
+                    'has_plus': has_plus,
+                    'level_str': level_str
+                })
+    
+    if not high_level_charts:
+        await send_image_or_text(user_id, la_rating, "没有找到15级以上的Master或Ultra难度谱面")
+        return
+    
+    # 2. 按等级分组
+    level_groups = {}
+    for chart in high_level_charts:
+        level = chart['level_str']
+        if level not in level_groups:
+            level_groups[level] = []
+        level_groups[level].append(chart)
+    
+    # 3. 按等级排序 (16+ > 16 > 15+ > 15)
+    sorted_levels = sorted(level_groups.keys(), key=lambda x: (
+        -float(x[:-1] if x.endswith('+') else x),
+        -x.endswith('+')
+    ))
+    
+    # 4. 从每个等级组随机抽取谱面构建B30 (不放回)
+    b30 = []
+    remaining_slots = 30
+    
+    for level in sorted_levels:
+        if remaining_slots <= 0:
+            break
+        
+        charts_in_level = level_groups[level]
+        random.shuffle(charts_in_level)
+        
+        # 计算这个等级的最大rating
+        harmony = charts_in_level[0]['notes']
+        tune = 0
+        fail = 0
+        notes = charts_in_level[0]['notes']
+        level_value = charts_in_level[0]['difficulty_value']
+        
+        level_rating, _, _, _, _, _, _ = calculate_rating(
+            harmony, tune, fail, notes, level_value
+        )
+        
+        # 确定这个等级可以取多少谱面
+        take = min(len(charts_in_level), remaining_slots)
+        
+        for chart in charts_in_level[:take]:
+            b30.append({
+                'song': chart['song'],
+                'difficulty_type': chart['difficulty_type'],
+                'difficulty_value': chart['difficulty_value'],
+                'rating': level_rating,
+                'level_str': chart['level_str']
+            })
+        
+        remaining_slots -= take
+    
+    # 如果不足30个，用最后一个等级的rating补全
+    if len(b30) < 30:
+        last_rating = b30[-1]['rating'] if b30 else 0.0
+        while len(b30) < 30:
+            b30.append({
+                'song': None,
+                'difficulty_type': 'N/A',
+                'difficulty_value': 'N/A',
+                'rating': last_rating,
+                'level_str': 'N/A'
+            })
+    
+    # 5. 计算R5 (从最高rating的谱面中重复选择，直到凑满5个)
+    r5 = []
+    if b30:
+        # 找出最高rating
+        max_rating = max(item['rating'] for item in b30)
+        top_rated = [item for item in b30 if item['rating'] == max_rating]
+        
+        # 如果最高rating的谱面不足5个，就重复选择
+        if len(top_rated) < 5:
+            # 计算需要重复多少次
+            repeat_times = (5 // len(top_rated)) + 1
+            # 生成足够的选择池
+            selection_pool = (top_rated * repeat_times)[:5]
+            r5 = selection_pool
+        else:
+            # 如果足够就直接随机选择5个
+            r5 = random.sample(top_rated, 5)
+    
+    # 6. 计算总rating
+    b30_sum = sum(item['rating'] for item in b30)
+    r5_sum = sum(item['rating'] for item in r5)
+    total_rating = (b30_sum + r5_sum) / 35
+    
+    # 7. 构建消息 - 显示完整的30个B30谱面
+    message = "════════════ Rating计算 ══════════════\n"
+    message += f"▪ 理论Max Rating: {total_rating:.2f}\n"
+    message += f"▪ B30平均: {b30_sum/30:.2f}\n"
+    message += f"▪ R5平均: {r5_sum/5:.2f}\n"
+    message += "════════════ B30谱面 (随机30个) ══════════════"
+    
+    # 显示完整的30个B30谱面
+    for i, item in enumerate(b30, 1):
+        song_name = item['song']['title'] if item['song'] else "N/A"
+        message += f"\n{i:2d}. {song_name} -|- {item['difficulty_type']} {item['difficulty_value']} (Rating: {item['rating']:.2f})"
+    
+    message += "\n════════════ R5谱面 (随机5个) ══════════════\n"
+    
+    for i, item in enumerate(r5, 1):
+        song_name = item['song']['title'] if item['song'] else "N/A"
+        message += f"{i}. {song_name} -|- {item['difficulty_type']} {item['difficulty_value']} (Rating: {item['rating']:.2f})\n"
+    
+    await send_image_or_text(user_id, la_rating, message.strip())
+
 # 处理help命令
 help_categories = {
     "daily": {
@@ -675,12 +838,14 @@ help_categories = {
         "commands": [
             "/la time - 显示长于3分钟和短于2分钟的乐曲列表",
             "/la all - 显示曲库统计信息",
-            "/la notes - 物量最多的前50个谱面"
+            "/la notes - 物量最多的前50个谱面",
+            "/la rating - 显示当前的Max Rating，并且给出可能的B30和R5"
         ],
         "examples": [
             "/la time",
             "/la all",
-            "/la notes"
+            "/la notes",
+            "/la rating"
         ]
     },
     "color": {
