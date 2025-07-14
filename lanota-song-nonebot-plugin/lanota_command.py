@@ -651,8 +651,26 @@ help_categories = {
         ],
         "examples": []
     },
+    "calculate": {
+        "name": "定数计算功能",
+        "aliases": ["cal", "计算", "定数"],
+        "commands": [
+            "/la cal harmony数目/tune数目/fail数目/难度/曲目 - 根据曲目计算rating",
+            "/la cal harmony数目/tune数目/fail数目/物量/等级 - 直接计算rating"
+        ],
+        "priority": [
+            "1. 前三个参数必须是数字",
+            "2. 难度可以是: Whisper, Acoustic, Ultra, Master",
+            "3. 等级可以是: 1-16, 13+, 14+, 15+, 16+",
+            "4. 如果输入的物量之和不正确，将自动补到fail数目"
+        ],
+        "examples": [
+            "/la cal 900/300/50/Master/8-6",
+            "/la cal 900/300/50/2000/16"
+        ]
+    },
     "stats": {
-        "name": "统计功能",
+        "name": "其它功能",
         "aliases": ["other", "其它"],
         "commands": [
             "/la time - 显示长于3分钟和短于2分钟的乐曲列表",
@@ -675,24 +693,6 @@ help_categories = {
         "examples": [
             "/color #1f1e33 - 设置背景色为#1f1e33",
             "/color default - 重置为默认背景色"
-        ]
-    },
-    "calculate": {
-        "name": "定数计算功能",
-        "aliases": ["cal", "计算", "定数"],
-        "commands": [
-            "/la cal harmony数目/tune数目/fail数目/难度/曲目 - 根据曲目计算rating",
-            "/la cal harmony数目/tune数目/fail数目/物量/等级 - 直接计算rating"
-        ],
-        "priority": [
-            "1. 前三个参数必须是数字",
-            "2. 难度可以是: Whisper, Acoustic, Ultra, Master",
-            "3. 等级可以是: 1-16, 13+, 14+, 15+, 16+",
-            "4. 如果输入的物量之和不正确，将自动补到fail数目"
-        ],
-        "examples": [
-            "/la cal 900/300/50/Master/8-6",
-            "/la cal 900/300/50/2000/16"
         ]
     }
 }
