@@ -356,7 +356,7 @@ async def handle_time(bot: Bot, event: MessageEvent):
     if long_songs:
         message += f"长于3分钟的乐曲(共{len(long_songs)}首，时长降序):\n"
         for i, song_info in enumerate(long_songs, 1):
-            message += f"\n{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
+            message += f"\n{i}. {song_info['song']['title']} -|- {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
         message += '\n'
     else:
         message += "没有长于3分钟的乐曲\n"
@@ -364,7 +364,7 @@ async def handle_time(bot: Bot, event: MessageEvent):
     if short_songs:
         message += f"\n短于2分钟的乐曲(共{len(short_songs)}首，时长升序):"
         for i, song_info in enumerate(short_songs, 1):
-            message += f"\n{i}. {song_info['song']['title']} - {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
+            message += f"\n{i}. {song_info['song']['title']} -|- {song_info['time_str']} (Chapter: {song_info['song']['chapter']})"
     else:
         message += "没有短于2分钟的乐曲"
     
@@ -592,7 +592,7 @@ async def handle_notes(bot: Bot, event: MessageEvent):
     # 构建消息
     message = "物量最高的前50个谱面:\n"
     for i, chart in enumerate(top_charts, 1):
-        message += f"\n{i}. {chart['title']} - 物量{chart['notes']} (难度: {chart['difficulty']} {chart['difficulty_value']}, Chapter: {chart['chapter']})"
+        message += f"\n{i}. {chart['title']} -|- 物量{chart['notes']} (难度: {chart['difficulty']} {chart['difficulty_value']}, Chapter: {chart['chapter']})"
     
     await send_image_or_text(user_id, la_notes, message)
 
