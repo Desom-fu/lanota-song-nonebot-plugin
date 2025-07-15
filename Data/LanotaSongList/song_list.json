@@ -4808,7 +4808,7 @@
     "area": "Banquet Hall",
     "genre": "Progressive Trance",
     "vocals": "Ryu Kawamura",
-    "chart_design": "No Info",
+    "chart_design": "疑似模板哥",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "422",
@@ -16991,7 +16991,7 @@
     "area": "Ritmo's Library",
     "genre": "Hardcore / Chiptune",
     "vocals": "Samples",
-    "chart_design": "",
+    "chart_design": "葉醬",
     "cover_art": "",
     "notes": {
       "whisper": "605",
@@ -19289,7 +19289,7 @@
       "ultra": "11",
       "master": "13"
     },
-    "time": "",
+    "time": "2:36",
     "bpm": "96",
     "version": "3.0.4 – June 12, 2025",
     "area": "Ritmo's Library",
@@ -19319,8 +19319,8 @@
       "ultra": "12",
       "master": "14"
     },
-    "time": "",
-    "bpm": "",
+    "time": "2:32",
+    "bpm": "190",
     "version": "3.0.4 – June 19, 2025",
     "area": "Ritmo's Library",
     "genre": "",
@@ -19334,6 +19334,208 @@
       "master": "1200"
     },
     "source_url": "https://lanota.fandom.com/wiki/Clockworks_Angel",
+    "Legacy": {}
+  },
+  {
+    "id": 612,
+    "title": "VECTOR↑ZΣ",
+    "title_outside": "VECTORIZΣ",
+    "artist": "Trina Lydia",
+    "chapter": "Inf-333",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "10",
+      "ultra": "13+",
+      "master": "15"
+    },
+    "time": "2:24",
+    "bpm": "178.84",
+    "version": "3.0.4 - June 26, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Direction and Magnitude",
+    "vocals": "",
+    "chart_design": "NerSan",
+    "cover_art": "transendium the hat",
+    "notes": {
+      "whisper": "580",
+      "acoustic": "743",
+      "ultra": "1103",
+      "master": "1318"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/VECTORIZ%CE%A3",
+    "Trivia": [
+      "This song was an entry to [https://manbow.nothing.sh/event/event.cgi?action=More_def&num=212&event=146 BOF: TT], placing 128th."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 613,
+    "title": "Assault -Onslaught-",
+    "title_outside": "Assault -Onslaught-",
+    "artist": "K-forest vs. Reku Mochizuki",
+    "chapter": "Inf-334",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:27",
+    "bpm": "190",
+    "version": "3.0.4 - July 4, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "532",
+      "acoustic": "684",
+      "ultra": "977",
+      "master": "1446"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/Assault%20-Onslaught-",
+    "Trivia": [
+      "This song was an entry to [https://manbow.nothing.sh/event/event.cgi?action=More_def&num=212&event=146 BOF: TT], placing 128th."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 614,
+    "title": "AZA",
+    "title_outside": "AZA",
+    "artist": "Risa Yuzuki (Prod. Shinra-Bansho)",
+    "chapter": "Event-83",
+    "category": "event",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "10",
+      "ultra": "13+",
+      "master": "15"
+    },
+    "time": "",
+    "bpm": "140-280",
+    "version": "3.0.5 - July 10, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "Risa Yuzuki(森羅万象)",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "616",
+      "acoustic": "1042",
+      "ultra": "1289",
+      "master": "1495"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/AZA",
+    "Trivia": [
+      "This song's art features Nero, Fisica and Rossa playing in a rock band.",
+      "* According to the 9th Anniversary promotion flyer, their band is called \"Band in Tuning\"."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 615,
+    "title": "Unravelling",
+    "title_outside": "Unravelling",
+    "artist": "Aethoro & Moon Jelly",
+    "chapter": "Event-84",
+    "category": "event",
+    "difficulty": {
+      "whisper": "2",
+      "acoustic": "5",
+      "ultra": "9",
+      "master": "13"
+    },
+    "time": "",
+    "bpm": "195",
+    "version": "3.0.5 - July 10, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "Moon Jelly",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "722",
+      "acoustic": "874",
+      "ultra": "1042",
+      "master": "1533"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Unravelling",
+    "Trivia": [
+      "This song's art shows a young Ena and Halpas dancing together.",
+      "* According to the 9th Anniversary promotion flyer, their group is called \"Android Dream Orchestra\"."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 616,
+    "title": "Villain Virus [feat. Camellia]",
+    "title_outside": "Villain Virus",
+    "artist": "Kobaryo",
+    "chapter": "Event-85",
+    "category": "event",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "13",
+      "ultra": "15",
+      "master": "16"
+    },
+    "time": "3:33",
+    "bpm": "130-520",
+    "version": "3.0.5 - July 10, 2025",
+    "area": "Tracklist Mode",
+    "genre": "Speedcore",
+    "vocals": "Samples",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "995",
+      "acoustic": "1458",
+      "ultra": "2043",
+      "master": "4513"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Villain_Virus",
+    "Trivia": [
+      "At a peak of 520 BPM, Villain Virus contains by far the fastest section of any song in Lanota.",
+      "Villain Virus's Master chart contains by far the highest max combo of any chart, with 4513 notes.",
+      "* This is not only the first chart to break the 3000 note mark, but the 4000 note mark too.",
+      "This song's artwork shows Ritmo performing a DJ set.",
+      "* According to the 9th Anniversary promotion flyer, Ritmo goes by his nickname \"The Starlight Shooter\" on set."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 617,
+    "title": "#LOOP",
+    "title_outside": "#LOOP",
+    "artist": "NASA",
+    "chapter": "Inf-335",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "13+"
+    },
+    "time": "",
+    "bpm": "5",
+    "version": "3.0.5 - July 10, 2025",
+    "area": "",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "350",
+      "acoustic": "464",
+      "ultra": "693",
+      "master": "1224"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/AZA",
+    "Trivia": [],
     "Legacy": {}
   }
 ]

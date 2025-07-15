@@ -1,6 +1,7 @@
 from pathlib import Path
 
-lanota_group = 1037559220
+lanota_group = 114514 # 这里不用管，已然废弃，填什么都行
+allowed_groups = {1037559220,551374760,565752728,1006108282} # 白名单群组，只有这些群才会触发
 save_dir = Path("Data") / "generate_image" 
 backup_path = Path() / "Data" / "UserList_Backup"
 user_path = Path() / "Data" / "UserList"
