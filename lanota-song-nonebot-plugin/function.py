@@ -192,11 +192,8 @@ def format_song_info(song):
     # 难度信息格式化函数
     def format_difficulty_info(diff_type):
         """格式化难度信息"""
-        # 获取难度值
         difficulty_value = song['difficulty'].get(diff_type)
-        # 获取物量值
         notes_value = song['notes'].get(diff_type)
-        # 获取定数
         table_key = diff_type.capitalize()
         table_diff = chapter_difficulty.get(table_key)
         
@@ -261,6 +258,7 @@ def format_song_info(song):
     return "\n".join(info_lines)
 
 async def get_random_number_from_org(min_num, max_num):
+    """获取真随机数"""
     try:
         import requests
         url = f"https://www.random.org/integers/?num=1&min={min_num}&max={max_num}&col=1&base=10&format=plain&rnd=new"
@@ -305,15 +303,7 @@ def get_songs_by_level(song_data, level):
                 song['difficulty']['master'] == level)]
 
 def find_song_by_search_term(search_term, song_data, alias_data=None, max_display=10):
-    """按照优先级查找乐曲
-    Args:
-        search_term: 搜索词
-        song_data: 乐曲数据
-        alias_data: 别名数据(可选)
-        max_display: 最大显示数量
-    Returns:
-        tuple: (matched_songs, match_type, total_count)
-    """
+    """按照优先级查找乐曲 """
     if alias_data is None:
         alias_data = load_alias_data()
     
@@ -382,15 +372,7 @@ def find_song_by_search_term(search_term, song_data, alias_data=None, max_displa
     return matched_songs, match_type, total_count
 
 def calculate_rating(harmony: int, tune: int, fail: int, notes: int, level: str) -> tuple:
-    """
-    计算单曲 rating
-    :param harmony: harmony 数目
-    :param tune: tune 数目
-    :param fail: fail 数目
-    :param notes: 总物量
-    :param level: 难度等级 (1-16, 13+, 14+, 15+, 16+)
-    :return: (rating, adjusted_fail, adjustment, is_exceeded, is_negative, bonus, base_level) 元组
-    """
+    """计算单曲 rating"""
     try:
         notes = int(notes)  # 确保notes是整数
     except (ValueError, TypeError):

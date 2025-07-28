@@ -9,8 +9,6 @@ def get_output_path():
     
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"找不到config.py文件: {config_path}")
-    
-    # 动态导入config模块
     import importlib.util
     spec = importlib.util.spec_from_file_location("config", config_path)
     config = importlib.util.module_from_spec(spec)
@@ -33,7 +31,7 @@ def excel_to_json(input_path, sheet_name="Sheet1"):
         if not row or not row[0]:  # 跳过空行和空键
             continue
             
-        key = str(row[0])  # A列作为主键，确保转为字符串
+        key = str(row[0])
         data = {}
         
         # 从C列开始，每两列为一组键值对
@@ -41,14 +39,14 @@ def excel_to_json(input_path, sheet_name="Sheet1"):
             if i + 1 < len(row) and row[i] and row[i+1]:  # 确保有键和值
                 data[str(row[i]) if row[i] else ""] = str(row[i+1]) if row[i+1] else ""
         
-        if data:  # 如果有数据才添加到结果中
+        if data:
             result[key] = data
     
     return result
 
 def main():
     # 获取用户输入的Excel文件路径
-    input_path = input("请输入Excel文件路径: ").strip('"\' ')  # 去除可能的引号和空格
+    input_path = input("请输入Excel文件路径: ").strip('"\' ') 
     
     if not os.path.exists(input_path):
         print(f"错误: 文件不存在 - {input_path}")
