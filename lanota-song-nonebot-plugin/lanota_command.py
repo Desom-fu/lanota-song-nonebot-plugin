@@ -22,6 +22,26 @@ la_update = on_command("la update", aliases={"la 更新", "lanota update", "lano
 la_cal = on_command("la cal", aliases={"la 计算", "lanota cal", "lanota 计算"}, rule=whitelist_rule, priority=5)
 la_notes = on_command("la notes", aliases={"la 物量", "lanota notes", "lanota 物量"}, rule=whitelist_rule, priority=5)
 la_rating = on_command("la rating", aliases={"la rating", "lanota rating"}, rule=whitelist_rule, priority=5)
+la_category = on_command("la category", aliases={"la cate", "lanota category", "lanota cate"}, rule=whitelist_rule, priority=5)
+
+category_map = {
+    "main": "main",
+    "主线": "main",
+    "side": "side",
+    "支线": "side",
+    "expansion": "expansion",
+    "扩展": "expansion",
+    "扩展包": "expansion",
+    "曲包": "expansion",
+    "event": "event",
+    "活动": "event",
+    "限时活动": "event",
+    "subscription": "subscription",
+    "书房": "subscription",
+    "订阅": "subscription",
+    "inf": "inf",
+    "无限": "inf"
+}
 
 # 创建线程池执行器
 executor = ThreadPoolExecutor(max_workers=1)
@@ -112,24 +132,6 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
             message = f"随机乐曲(难度{level}):\n\n{format_song_info(selected_song)}"
             await send_image_or_text(user_id, la_random, message)
             return
-        
-        # 分类筛选
-        category_map = {
-            "main": "main",
-            "主线": "main",
-            "side": "side",
-            "支线": "side",
-            "expansion": "expansion",
-            "扩展": "expansion",
-            "扩展包": "expansion",
-            "曲包": "expansion",
-            "event": "event",
-            "活动": "event",
-            "限时活动": "event",
-            "subscription": "subscription",
-            "书房": "subscription",
-            "订阅": "subscription"
-        }
         
         if sub_command in category_map:
             category = category_map[sub_command]
@@ -759,6 +761,103 @@ async def handle_rating(bot: Bot, event: MessageEvent):
     
     await send_image_or_text(user_id, la_rating, message.strip())
 
+# 处理category命令
+@la_category.handle()
+async def handle_category(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    user_id = event.get_user_id()
+    arg = args.extract_plain_text().strip().lower()
+    
+    if not arg:
+        await send_image_or_text(user_id, la_category, 
+            "用法:\n"
+            "/la category <分类或章节前缀> [min[/max]]\n"
+            "示例:\n"
+            "/la category 0 5 - 展示第0章前5首\n"
+            "/la category x - 展示分类x的所有曲目(最多100首)\n"
+            "/la category inf 101/200 - 展示inf分类的第101-200首\n"
+            "可用分类:\n"
+            "main(主线), side(支线), expansion(曲包), event(活动), subscription(书房), inf(无限)")
+        return
+    
+    # 解析参数
+    parts = arg.split()
+    category_or_chapter = parts[0]
+    min_max = "1" if len(parts) < 2 else parts[1]
+    
+    # 解析min/max
+    if "/" in min_max:
+        min_val, max_val = min_max.split("/", 1)
+    else:
+        min_val = min_max
+        max_val = "100"
+    
+    try:
+        min_val = int(min_val)
+        max_val = int(max_val)
+    except ValueError:
+        await send_image_or_text(user_id, la_category, "范围参数必须是数字")
+        return
+    
+    # 验证范围
+    if min_val < 1:
+        await send_image_or_text(user_id, la_category, "最小值不能小于1")
+        return
+    
+    if min_val > max_val:
+        await send_image_or_text(user_id, la_category, "最小值不能大于最大值")
+        return
+    
+    # 获取歌曲数据
+    song_data = load_song_data()
+    if not song_data:
+        await send_image_or_text(user_id, la_category, "没有可用的乐曲数据")
+        return
+    
+    # 判断是分类还是章节前缀
+    if category_or_chapter in category_map:
+        # 是分类
+        category = category_map[category_or_chapter]
+        filtered_songs = [song for song in song_data if song['category'] == category]
+    else:
+        # 是章节前缀
+        filtered_songs = [song for song in song_data if song['chapter'].split('-')[0].lower() == category_or_chapter.lower()]
+    
+    if not filtered_songs:
+        await send_image_or_text(user_id, la_category, f"没有找到分类或章节为[{category_or_chapter}]的列表")
+        return
+    
+    # 检查范围是否有效
+    total_songs = len(filtered_songs)
+    if min_val > total_songs:
+        await send_image_or_text(user_id, la_category, f"最小值{min_val}超过了该分类的歌曲总数({total_songs})")
+        return
+    
+    # 调整最大值为实际最大值或100
+    max_val = min(max_val, total_songs, min_val + 99)  # 最多显示100首
+    
+    # 获取范围内的歌曲
+    songs_to_show = filtered_songs[min_val-1:max_val]
+    
+    # 构建消息
+    message = f"分类/章节: {category_or_chapter} (显示 {min_val}-{max_val}/{total_songs} 首)\n"
+    
+    # 按章节分组显示
+    current_chapter_prefix = None
+    for i, song in enumerate(songs_to_show, min_val):
+        chapter_prefix = song['chapter'].split('-')[0]
+        
+        # 如果章节前缀变化，添加换行
+        if chapter_prefix != current_chapter_prefix:
+            message += "\n"
+            current_chapter_prefix = chapter_prefix
+        
+        message += f"{i}. {song['chapter']} -|- {song['title']} (ID: {song['id']})\n"
+    
+    if len(songs_to_show) < (max_val - min_val + 1):
+        message += f"\n(仅显示前{len(songs_to_show)}首)"
+    
+    await send_image_or_text(user_id, la_category, message.strip())
+
 # 处理help命令
 help_categories = {
     "daily": {
@@ -830,6 +929,19 @@ help_categories = {
         "examples": [
             "/la cal 900/300/50/Master/8-6",
             "/la cal 900/300/50/2000/16"
+        ]
+    },
+    "category": {
+        "name": "分类查询",
+        "aliases": ["category", "分类", "cate"],
+        "commands": [
+            "/la category <分类> [min[/max]] - 显示指定分类的歌曲",
+            "/la cate - 同上"
+        ],
+        "examples": [
+            "/la category 0 5 - 显示第0章前5首",
+            "/la category x - 显示分类x的所有曲目(最多100首)",
+            "/la category inf 101/200 - 显示inf分类的第101-200首"
         ]
     },
     "stats": {
