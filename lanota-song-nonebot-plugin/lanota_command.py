@@ -118,8 +118,70 @@ async def handle_random(bot: Bot, event: MessageEvent, state: T_State, args: Mes
         parts = arg.split()
         sub_command = parts[0]
         
+        # except 功能
+        if sub_command in ["except", "exc"] and len(parts) > 1:
+            # 获取要排除的分类列表
+            exclude_categories = []
+            for cat in parts[1:]:
+                if cat in category_map:
+                    exclude_categories.append(category_map[cat])
+                else:
+                    # 检查是否是分类别名
+                    for key, value in category_map.items():
+                        if cat == key and value not in exclude_categories:
+                            exclude_categories.append(value)
+            
+            # 去重
+            exclude_categories = list(set(exclude_categories))
+            
+            # 过滤歌曲
+            filtered_songs = [song for song in song_data 
+                            if song['category'] not in exclude_categories]
+            
+            if not filtered_songs:
+                await send_image_or_text(user_id, la_random, 
+                                      f"排除分类[{', '.join(exclude_categories)}]后没有可用的乐曲")
+                return
+            
+            random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
+            selected_song = filtered_songs[random_number]
+            message = f"随机乐曲(排除{', '.join(exclude_categories)}):\n\n{format_song_info(selected_song)}"
+            await send_image_or_text(user_id, la_random, message)
+            return
+        
+        # include/contain 功能
+        elif sub_command in ["include", "contain"] and len(parts) > 1:
+            # 获取要包含的分类列表
+            include_categories = []
+            for cat in parts[1:]:
+                if cat in category_map:
+                    include_categories.append(category_map[cat])
+                else:
+                    # 检查是否是分类别名
+                    for key, value in category_map.items():
+                        if cat == key and value not in include_categories:
+                            include_categories.append(value)
+            
+            # 去重
+            include_categories = list(set(include_categories))
+            
+            # 过滤歌曲
+            filtered_songs = [song for song in song_data 
+                            if song['category'] in include_categories]
+            
+            if not filtered_songs:
+                await send_image_or_text(user_id, la_random, 
+                                      f"包含分类[{', '.join(include_categories)}]中没有可用的乐曲")
+                return
+            
+            random_number = await get_random_number_from_org(0, len(filtered_songs) - 1)
+            selected_song = filtered_songs[random_number]
+            message = f"随机乐曲(包含{', '.join(include_categories)}):\n\n{format_song_info(selected_song)}"
+            await send_image_or_text(user_id, la_random, message)
+            return
+        
         # level 数字
-        if sub_command == "level" and len(parts) > 1:
+        elif sub_command == "level" and len(parts) > 1:
             level = parts[1]
             filtered_songs = get_songs_by_level(song_data, level)
             
@@ -877,14 +939,18 @@ help_categories = {
         "commands": [
             "/la random - 随机获取一首乐曲",
             "/la random level <难度> - 随机指定难度的乐曲",
-            "/la random <分类> - 随机指定分类的乐曲"
+            "/la random <分类> - 随机指定分类的乐曲",
+            "/la random except <分类1> <分类2>... - 排除指定分类后随机",
+            "/la random include <分类1> <分类2>... - 仅在指定分类中随机"
         ],
         "sub_commands": {
-            "分类": ["main(主线)", "side(支线)", "expansion(曲包)", "\nevent(活动)", "subscription(订阅)"]
+            "分类": ["main(主线)", "side(支线)", "expansion(曲包)", "event(活动)", "subscription(订阅)"]
         },
         "examples": [
             "/la random level 12",
-            "/la random main"
+            "/la random main",
+            "/la random except event expansion",
+            "/la random include main side"
         ]
     },
     "alias": {
