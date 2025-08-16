@@ -19534,8 +19534,188 @@
       "ultra": "693",
       "master": "1224"
     },
-    "source_url": "http://wikiwiki.jp/lanotagame/AZA",
+    "source_url": "http://wikiwiki.jp/lanotagame/%EF%BC%83LOOP",
     "Trivia": [],
+    "Legacy": {}
+  },
+  {
+    "id": 618,
+    "title": "Anökumene of the endless ocher",
+    "title_outside": "Anökumene of the endless ocher",
+    "artist": "kuro",
+    "chapter": "Inf-336",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:55",
+    "bpm": "185",
+    "version": "3.0.6 - July 17, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "微米",
+    "notes": {
+      "whisper": "402",
+      "acoustic": "778",
+      "ultra": "1110",
+      "master": "1532"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/An%C3%B6kumene_of_the_endless_ocher",
+    "Legacy": {}
+  },
+  {
+    "id": 619,
+    "title": "Blithe",
+    "title_outside": "Blithe",
+    "artist": "Nordius Dystancius",
+    "chapter": "Inf-337",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "10",
+      "ultra": "14",
+      "master": "15"
+    },
+    "time": "2:33",
+    "bpm": "150",
+    "version": "3.0.6 - July 24, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "532",
+      "acoustic": "803",
+      "ultra": "1019",
+      "master": "1146"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/Blithe",
+    "Legacy": {}
+  },
+  {
+    "id": 620,
+    "title": "Ethereal Frost",
+    "title_outside": "Ethereal Frost",
+    "artist": "Kinetix",
+    "chapter": "Inf-338",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "2:00",
+    "bpm": "174",
+    "version": "3.0.6 - July 31, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "微米",
+    "notes": {
+      "whisper": "283",
+      "acoustic": "508",
+      "ultra": "859",
+      "master": "1038"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/Ethereal%20Frost",
+    "Legacy": {}
+  },
+  {
+    "id": 621,
+    "title": "Blow out",
+    "title_outside": "Blow out",
+    "artist": "Goto feat. ricono",
+    "chapter": "Inf-339",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "2:35",
+    "bpm": "174",
+    "version": "3.0.6 - August 7, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "592",
+      "acoustic": "740",
+      "ultra": "900",
+      "master": "1266"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/Blow%20out",
+    "Legacy": {}
+  },
+  {
+    "id": 622,
+    "title": "MORNINGLOOM",
+    "title_outside": "MORNINGLOOM",
+    "artist": "saaa",
+    "chapter": "Inf-340",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:22",
+    "bpm": "102",
+    "version": "3.0.7 - August 14, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "603",
+      "acoustic": "720",
+      "ultra": "1112",
+      "master": "1316"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/MORNINGLOOM",
+    "Legacy": {}
+  },
+  {
+    "id": 623,
+    "title": "Recollection",
+    "title_outside": "Recollection",
+    "artist": "qfeileadh feat. Risa Kodaka",
+    "chapter": "Event-86",
+    "category": "event",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "13"
+    },
+    "time": "2:40",
+    "bpm": "84-204",
+    "version": "3.0.7 - August 14, 2025",
+    "area": "",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "richarano (WD) ",
+    "notes": {
+      "whisper": "239",
+      "acoustic": "734",
+      "ultra": "1042",
+      "master": "1171"
+    },
+    "source_url": "http://wikiwiki.jp/lanotagame/Recollection",
     "Legacy": {}
   }
 ]
