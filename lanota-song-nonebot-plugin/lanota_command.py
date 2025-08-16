@@ -39,8 +39,8 @@ category_map = {
     "subscription": "subscription",
     "书房": "subscription",
     "订阅": "subscription",
-    "inf": "inf",
-    "无限": "inf"
+    "inf": "subscription",
+    "无限": "subscription"
 }
 
 # 创建线程池执行器
@@ -776,7 +776,7 @@ async def handle_category(bot: Bot, event: MessageEvent, args: Message = Command
             "/la category x - 展示分类x的所有曲目(最多100首)\n"
             "/la category inf 101/200 - 展示inf分类的第101-200首\n"
             "可用分类:\n"
-            "main(主线), side(支线), expansion(曲包), event(活动), subscription(书房), inf(无限)")
+            "main(主线), side(支线), expansion(曲包), event(活动), subscription(书房)")
         return
     
     # 解析参数
