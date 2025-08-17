@@ -850,8 +850,8 @@ async def handle_category(bot: Bot, event: MessageEvent, args: Message = Command
     if "/" in min_max:
         min_val, max_val = min_max.split("/", 1)
     else:
-        min_val = min_max
-        max_val = "100"
+        min_val = "1"
+        max_val = min_max
     
     try:
         min_val = int(min_val)
