@@ -11,18 +11,62 @@ from .text_image_text import send_image_or_text
 from .jiaoben.fandom_pachong import main as update_songs
 
 # 初始化命令
-la_today = on_command("la today", aliases={"la 今日曲", "lanota today", "lanota 今日曲"}, rule=whitelist_rule, priority=5)
-la_random = on_command("la random", aliases={"la 随机", "lanota random", "lanota 随机"}, rule=whitelist_rule, priority=5)
-la_alias = on_command("la alias", aliases={"la 别名", "lanota 别名", "lanota alias"}, rule=whitelist_rule, priority=5)
-la_find = on_command("la find", aliases={"la 查找", "lanota find", "lanota 查找", "lanota info", "la info"}, rule=whitelist_rule, priority=5)
-la_help = on_command("la help", aliases={"la 帮助", "lanota help", "lanota 帮助"}, rule=whitelist_rule, priority=5)
-la_time = on_command("la time", aliases={"la 时长", "lanota time", "lanota 时长"}, rule=whitelist_rule, priority=5)
-la_all = on_command("la all", aliases={"la 全部", "lanota all", "lanota 全部"}, rule=whitelist_rule, priority=5)
-la_update = on_command("la update", aliases={"la 更新", "lanota update", "lanota 更新"}, priority=5)
-la_cal = on_command("la cal", aliases={"la 计算", "lanota cal", "lanota 计算"}, rule=whitelist_rule, priority=5)
-la_notes = on_command("la notes", aliases={"la 物量", "lanota notes", "lanota 物量"}, rule=whitelist_rule, priority=5)
-la_rating = on_command("la rating", aliases={"la rating", "lanota rating"}, rule=whitelist_rule, priority=5)
-la_category = on_command("la category", aliases={"la cate", "lanota category", "lanota cate"}, rule=whitelist_rule, priority=5)
+# 命令配置：(命令名, 中文别名, 是否需要白名单规则)
+command_configs = [
+    ("today", "今日曲", True),
+    ("random", "随机", True),
+    ("alias", "别名", True),
+    ("find", "查找", True),
+    ("help", "帮助", True),
+    ("time", "时长", True),
+    ("all", "全部", True),
+    ("update", "更新", False),  # update命令不使用白名单规则
+    ("cal", "计算", True),
+    ("notes", "物量", True),
+    ("rating", "rating", True),
+    ("category", "cate", True),
+    ("table", "定数表", True),
+]
+
+# 批量创建命令
+commands = {}
+for cmd_name, chinese_alias, use_whitelist in command_configs:
+    # 生成别名集合
+    aliases = {
+        f"la {chinese_alias}", 
+        f"lanota {cmd_name}", 
+        f"lanota {chinese_alias}",
+        f"la{cmd_name}",  # 无空格版本：latoday, larandom 等
+        f"lanota{cmd_name}",  # 无空格版本：lanototoday, lanotarandom 等
+        f"la{chinese_alias}",  # 无空格中文版本：la今日曲, la随机 等
+    }
+    
+    # 特殊处理某些命令的额外别名
+    if cmd_name == "find":
+        aliases.update({"lanota info", "la info", "lainfo", "lanotainfo"})
+    elif cmd_name == "rating":
+        aliases.update({"la rating", "larating", "lanotarating"})  # rating命令的特殊情况
+    elif cmd_name == "category":
+        aliases.update({"la cate", "lanota category", "lacate", "lacategory", "lanotacate", "lanotacategory"})
+    
+    # 创建命令处理器
+    rule = whitelist_rule if use_whitelist else None
+    commands[f"la_{cmd_name}"] = on_command(f"la {cmd_name}", aliases=aliases, rule=rule, priority=5)
+
+# 方便访问的变量名
+la_today = commands["la_today"]
+la_random = commands["la_random"]
+la_alias = commands["la_alias"]
+la_find = commands["la_find"]
+la_help = commands["la_help"]
+la_time = commands["la_time"]
+la_all = commands["la_all"]
+la_update = commands["la_update"]
+la_cal = commands["la_cal"]
+la_notes = commands["la_notes"]
+la_rating = commands["la_rating"]
+la_category = commands["la_category"]
+la_table = commands["la_table"]
 
 category_map = {
     "main": "main",
@@ -920,6 +964,175 @@ async def handle_category(bot: Bot, event: MessageEvent, args: Message = Command
     
     await send_image_or_text(user_id, la_category, message.strip())
 
+# 处理table命令
+@la_table.handle()
+async def handle_table(bot: Bot, event: MessageEvent):
+    user_id = event.get_user_id()
+    
+    # 加载两个数据源
+    song_data = load_song_data()  # 歌曲详细信息（含大定数）
+    
+    if not song_data:
+        await send_image_or_text(user_id, la_table, "没有可用的乐曲数据")
+        return
+    
+    table_data = load_table_data()  # 精确定数表 {"章节号": {"难度": "15.7"}}
+    
+    if not table_data:
+        # 如果没有精确定数表，回退到使用歌曲数据中的定数
+        await send_image_or_text(user_id, la_table, "未找到精确定数表，请检查定数表文件")
+        return
+    
+    # 收集所有谱面数据
+    charts = []
+    
+    # 从精确定数表获取数据，然后在歌曲数据中找对应的歌曲信息
+    for chapter, difficulties in table_data.items():
+        for difficulty_name, rating_str in difficulties.items():
+            # 标准化难度名称
+            diff_type = difficulty_name.lower()
+            if diff_type not in ['whisper', 'acoustic', 'ultra', 'master']:
+                continue
+            
+            # 在歌曲数据中查找对应的歌曲
+            matching_song = None
+            for song in song_data:
+                if song['chapter'] == chapter:
+                    matching_song = song
+                    break
+            
+            if not matching_song:
+                # 如果找不到对应歌曲，创建一个简化的条目
+                matching_song = {
+                    'chapter': chapter,
+                    'title': f"未找到歌曲 ({chapter})",
+                    'id': 'Unknown'
+                }
+            
+            level_str = str(rating_str)
+            
+            # 检查是否是范围定数 (如 15.7~15.8 或 15.7~15.9)
+            if '~' in level_str:
+                try:
+                    # 分割范围
+                    start_str, end_str = level_str.split('~', 1)
+                    start_val = float(start_str)
+                    end_val = float(end_str)
+                    
+                    # 生成范围内的所有定数 (按0.1递增)
+                    current = start_val
+                    while current <= end_val + 0.05:  # 加一点余量避免浮点精度问题
+                        # 为每个定数创建一个chart条目
+                        charts.append({
+                            'song': matching_song,
+                            'difficulty_type': diff_type.capitalize(),
+                            'difficulty_value': rating_str,  # 保留原始精确定数
+                            'sort_value': current,
+                            'display_level': f"{current:.1f}",
+                            'base_level': int(current) if current == int(current) else current,
+                            'is_range': True,
+                            'original_range': level_str
+                        })
+                        current = round(current + 0.1, 1)  # 避免浮点精度问题
+                    continue
+                except ValueError:
+                    # 如果解析失败，按原来的方式处理
+                    pass
+            
+            # 处理普通定数
+            try:
+                if level_str.endswith('+'):
+                    base_level = float(level_str[:-1])
+                    sort_value = base_level + 0.5  # 加号版本排在前面
+                    display_level = level_str  # 保留原格式显示
+                else:
+                    base_level = float(level_str)
+                    sort_value = base_level
+                    display_level = level_str
+                
+                charts.append({
+                    'song': matching_song,
+                    'difficulty_type': diff_type.capitalize(),
+                    'difficulty_value': rating_str,  # 保留原始精确定数
+                    'sort_value': sort_value,
+                    'display_level': display_level,
+                    'base_level': int(base_level) if base_level == int(base_level) else base_level,
+                    'is_range': False,
+                    'original_range': None
+                })
+            except ValueError:
+                continue
+    
+    # 按定数从高到低排序
+    charts.sort(key=lambda x: -x['sort_value'])
+    
+    if not charts:
+        await send_image_or_text(user_id, la_table, "没有找到有效的谱面数据")
+        return
+    
+    # 构建消息
+    message = "Lanota 民间定数表\n\n"
+    
+    current_level_group = None  # 当前等级组 (如 16+, 16, 15+ 等)
+    current_exact_level = None   # 当前精确定数 (如 16.5, 16.4 等)
+    
+    for chart in charts:
+        set_huanhang = False
+        # 判断等级组 (16+统一为16，15+统一为15等)
+        base_level = int(chart['base_level'])
+        
+        # 检查该等级是否有加号版本 - 检查歌曲数据中的实际难度值
+        has_plus_in_group = False
+        for c in charts:
+            if int(c['base_level']) == base_level:
+                # 获取歌曲的实际难度值
+                song_difficulty = c['song'].get('difficulty', {}).get(c['difficulty_type'].lower(), '')
+                if str(song_difficulty).endswith('+'):
+                    has_plus_in_group = True
+                    break
+        
+        # 构建等级组标题
+        if has_plus_in_group:
+            level_group = f"标级：{base_level}（+）"
+        else:
+            level_group = f"标级：{base_level}"
+        
+        # 判断精确定数
+        exact_level = chart['sort_value']
+        
+        # 如果等级组变化，添加大分隔线
+        if current_level_group != level_group:
+            if current_level_group is not None:  # 不是第一个
+                message += "\n"
+            message += f"══════════════\n{level_group}\n══════════════\n"
+            current_level_group = level_group
+            current_exact_level = None  # 重置精确定数
+            set_huanhang = True
+        
+        # 如果精确定数变化，添加定数标题和换行
+        if current_exact_level != exact_level:
+            if current_exact_level is not None:  # 不是该等级组的第一个定数
+                message += "\n"
+            if set_huanhang:
+                message += "\n"
+                set_huanhang = False
+            message += f"定数 {exact_level}：\n"
+            current_exact_level = exact_level
+        
+        # 获取歌曲信息表里的难度 (大定数)
+        song_difficulty = chart['song'].get('difficulty', {}).get(chart['difficulty_type'].lower(), '未知')
+        song_id = chart['song'].get('id', 'Unknown')
+        
+        # 添加歌曲信息
+        if chart['is_range']:
+            # 范围定数的特殊标签
+            range_tag = f"[范围定数: {chart['original_range']}]"
+            message += f"{chart['song']['chapter']} -|- {chart['song']['title']} (ID: {song_id}) [{chart['difficulty_type']} {song_difficulty}] {range_tag}\n"
+        else:
+            message += f"{chart['song']['chapter']} -|- {chart['song']['title']} (ID: {song_id}) [{chart['difficulty_type']} {song_difficulty}]\n"
+    
+    await send_image_or_text(user_id, la_table, message.strip())
+
 # 处理help命令
 help_categories = {
     "daily": {
@@ -1024,6 +1237,17 @@ help_categories = {
             "/la all",
             "/la notes",
             "/la rating"
+        ]
+    },
+    "table": {
+        "name": "定数表",
+        "aliases": ["table", "定数表"],
+        "commands": [
+            "/la table - 按定数从高到低显示所有谱面",
+            "/la 定数表 - 同上"
+        ],
+        "examples": [
+            "/la table"
         ]
     },
     "color": {
