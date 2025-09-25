@@ -1022,7 +1022,9 @@ async def handle_table(bot: Bot, event: MessageEvent):
                     # 生成范围内的所有定数 (按0.1递增)
                     current = start_val
                     while current <= end_val + 0.05:  # 加一点余量避免浮点精度问题
-                        # 为每个定数创建一个chart条目
+                        # 只在最高定数处标记为范围定数
+                        is_highest_in_range = (current >= end_val - 0.05)  # 是否是范围内最高定数
+                        
                         charts.append({
                             'song': matching_song,
                             'difficulty_type': diff_type.capitalize(),
@@ -1030,7 +1032,7 @@ async def handle_table(bot: Bot, event: MessageEvent):
                             'sort_value': current,
                             'display_level': f"{current:.1f}",
                             'base_level': int(current) if current == int(current) else current,
-                            'is_range': True,
+                            'is_range': is_highest_in_range,  # 只有最高定数标记为范围
                             'original_range': level_str
                         })
                         current = round(current + 0.1, 1)  # 避免浮点精度问题
@@ -1063,8 +1065,8 @@ async def handle_table(bot: Bot, event: MessageEvent):
             except ValueError:
                 continue
     
-    # 按定数从高到低排序
-    charts.sort(key=lambda x: -x['sort_value'])
+    # 按定数从高到低排序，范围定数排在同定数的最后
+    charts.sort(key=lambda x: (-x['sort_value'], x['original_range'] is not None))
     
     if not charts:
         await send_image_or_text(user_id, la_table, "没有找到有效的谱面数据")
