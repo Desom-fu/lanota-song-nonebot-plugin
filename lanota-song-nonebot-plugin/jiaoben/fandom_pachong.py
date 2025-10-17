@@ -146,6 +146,11 @@ def main():
         chap_left_clean = 'Event' if left_standard.lower() == 'time limited' else left_standard
         chap_right = get_field('Id')
         real_chapter = f"{chap_left_clean}-{chap_right}"
+        
+        # 处理谱师：SYM -> None
+        chart_design = get_field('Chart Design')
+        if chart_design.strip().upper() == 'SYM':
+            chart_design = None
 
         # 深度匹配：按章节小写匹配
         if real_chapter.lower() in existing_chapters_lower:
@@ -188,7 +193,7 @@ def main():
             'area': get_field('Area'),
             'genre': get_field('Genre'),
             'vocals': get_field('Vocals'),
-            'chart_design': get_field('Chart Design'),
+            'chart_design': chart_design,
             'cover_art': get_field('Cover Art'),
             'notes': {
                 'whisper': get_field('MaxWhisper'),

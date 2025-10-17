@@ -34,7 +34,7 @@
       "This song is also available in the music game Arcaea as part of its collaboration with Lanota."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "1",
       "DiffAcoustic": "3",
@@ -76,7 +76,7 @@
     },
     "source_url": "https://lanota.fandom.com/wiki/Only_the_place_where_truth_has_engraved",
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "2",
       "DiffAcoustic": "4",
@@ -121,7 +121,7 @@
       "This song was added to Lyrica in the Lanota x Lyrica Collaboration."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "3",
       "DiffAcoustic": "5",
@@ -169,7 +169,7 @@
       "A full version of this song appears on naoto's album \"nostalgic\". The song is also featured on their Spotify."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "1",
       "DiffAcoustic": "4",
@@ -215,7 +215,7 @@
       "Although not credited in-game, this song was also composed by KillerBlood."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "3",
       "DiffAcoustic": "6",
@@ -261,7 +261,7 @@
       "Before the 1.5 update, this song played on the title screen."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "1",
       "DiffAcoustic": "5",
@@ -303,7 +303,7 @@
     },
     "source_url": "https://lanota.fandom.com/wiki/Night_Yacht",
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "3",
       "DiffAcoustic": "4",
@@ -350,7 +350,7 @@
       "This song was added to OverRapid in their respective collaboration."
     ],
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "3",
       "DiffAcoustic": "7",
@@ -392,7 +392,7 @@
     },
     "source_url": "https://lanota.fandom.com/wiki/Prism",
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "3",
       "DiffAcoustic": "6",
@@ -434,7 +434,7 @@
     },
     "source_url": "https://lanota.fandom.com/wiki/Trauma",
     "Legacy": {
-      "Chart Design": "SYM",
+      "Chart Design": "",
       "Version": "1.0 - July 12, 2016",
       "DiffWhisper": "5",
       "DiffAcoustic": "7",
@@ -466,7 +466,7 @@
     "area": "Bell Tower",
     "genre": "Artcore",
     "vocals": "Megurine Luka and Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "654",
@@ -503,7 +503,7 @@
     "area": "Windmill",
     "genre": "Bossa Nova",
     "vocals": "Tomomi Kobayashi",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "174",
@@ -538,7 +538,7 @@
     "area": "Greenhouse",
     "genre": "J-Pop",
     "vocals": "Odayuuu",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "230",
@@ -568,7 +568,7 @@
     "area": "Watermill",
     "genre": "",
     "vocals": "Moose",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "244",
@@ -604,7 +604,7 @@
     "area": "Hedge Maze",
     "genre": "Downtempo",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "340",
@@ -639,7 +639,7 @@
     "area": "Ena Statue",
     "genre": "Artcore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "398",
@@ -669,7 +669,7 @@
     "area": "Apocalypse (Device)",
     "genre": "Hardcore / Drumstep / Trancestep",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "671",
@@ -706,7 +706,7 @@
     "area": "Gate",
     "genre": "Pop",
     "vocals": "Nene Akagawa",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "412",
@@ -736,7 +736,7 @@
     "area": "Woodwind Instruments",
     "genre": "Artcore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "293",
@@ -766,7 +766,7 @@
     "area": "Brass Instruments",
     "genre": "Symphonic Hardcore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "407",
@@ -796,7 +796,7 @@
     "area": "String Instruments",
     "genre": "Classical",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "659",
@@ -826,7 +826,7 @@
     "area": "Percussion Instruments",
     "genre": "Drumstep / Hard Renaissance",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "486",
@@ -856,7 +856,7 @@
     "area": "Percussion Instruments",
     "genre": "Drumstep / Hard Renaissance",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "657",
@@ -886,7 +886,7 @@
     "area": "Pipe Organ",
     "genre": "Hardcore / Psytrance",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "491",
@@ -916,7 +916,7 @@
     "area": "Blue Notalium Lock",
     "genre": "",
     "vocals": "Junko Iwao",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "323",
@@ -1108,7 +1108,7 @@
     "area": "First Stone Pillar",
     "genre": "J-pop",
     "vocals": "tezuka",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "673",
@@ -1138,7 +1138,7 @@
     "area": "Second Stone Pillar",
     "genre": "Drumstep",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "539",
@@ -1168,7 +1168,7 @@
     "area": "Third Stone Pillar",
     "genre": "Artcore",
     "vocals": "No",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "582",
@@ -1228,7 +1228,7 @@
     "area": "Fifth Stone Pillar",
     "genre": "Metal",
     "vocals": "Ritsuka",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "850",
@@ -1942,7 +1942,7 @@
     "area": "River",
     "genre": "Artcore",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "222",
@@ -2006,7 +2006,7 @@
     "area": "Park",
     "genre": "Dubstep / Drumstep",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "397",
@@ -2036,7 +2036,7 @@
     "area": "School",
     "genre": "J-Rock",
     "vocals": "Machigerita",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "277",
@@ -2070,7 +2070,7 @@
     "area": "Fisica's House",
     "genre": "Electro Trance",
     "vocals": "kalon",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "296",
@@ -2101,7 +2101,7 @@
     "area": "Ritmo's House, Ritmo's Room",
     "genre": "Chamber Pop / Celtic Fantasy",
     "vocals": "Kitkit Lu",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "237",
@@ -2131,7 +2131,7 @@
     "area": "Forest Campground",
     "genre": "Pop",
     "vocals": "Haruka Shimotsuki",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "432",
@@ -2161,7 +2161,7 @@
     "area": "Lighthouse",
     "genre": "J-pop",
     "vocals": "Yukacco",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "204",
@@ -2191,7 +2191,7 @@
     "area": "Swamp",
     "genre": "8 bit",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "360",
@@ -2221,7 +2221,7 @@
     "area": "Lone Tree",
     "genre": "Piano Artcore",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "199",
@@ -2251,7 +2251,7 @@
     "area": "Cemetery",
     "genre": "Piano Rock",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "217",
@@ -2285,7 +2285,7 @@
     "area": "Ritmo's House",
     "genre": "Symphonic Dubstep",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "246",
@@ -2315,7 +2315,7 @@
     "area": "Ritmo's House",
     "genre": "Bigroom House, EDM",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "302",
@@ -2345,7 +2345,7 @@
     "area": "Ritmo's House",
     "genre": "EDM / Post-Progressive Pop",
     "vocals": "Sta",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "387",
@@ -2383,7 +2383,7 @@
     "area": "Ritmo's House",
     "genre": "Future Bass / Pop",
     "vocals": "nicamoq",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "194",
@@ -2419,7 +2419,7 @@
     "area": "Ritmo's House",
     "genre": "Rock",
     "vocals": "Mako Niina",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "390",
@@ -2453,7 +2453,7 @@
     "area": "Ritmo's House",
     "genre": "Pop",
     "vocals": "Eriko Iwasawa",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "187",
@@ -2552,7 +2552,7 @@
     "area": "Ritmo's House, Ritmo's Room",
     "genre": "Euphoric Hardstyle",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "274",
@@ -2587,7 +2587,7 @@
     "area": "Ritmo's House, Ritmo's Room",
     "genre": "Powerstomp",
     "vocals": "Jonjo",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "209",
@@ -2620,7 +2620,7 @@
     "area": "Ritmo's House, Ritmo's Room",
     "genre": "New Age",
     "vocals": "Narae",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "279",
@@ -2655,7 +2655,7 @@
     "area": "Ritmo's House",
     "genre": "Funky / Piano House",
     "vocals": "No",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "237",
@@ -2688,7 +2688,7 @@
     "area": "Ritmo's House, Ritmo's Room",
     "genre": "Electronic rock / Trance",
     "vocals": "No",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "495",
@@ -2722,7 +2722,7 @@
     "area": "Fisica's House",
     "genre": "Tropical House",
     "vocals": "TEA",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "325",
@@ -2755,7 +2755,7 @@
     "area": "Fisica's House",
     "genre": "Electronic",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "251",
@@ -2785,7 +2785,7 @@
     "area": "Fisica's House",
     "genre": "Trancestep / Melodic Dubstep",
     "vocals": "LUSCHKA",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "265",
@@ -2820,7 +2820,7 @@
     "area": "Fisica's House",
     "genre": "Future Bass / Jersey Club",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "295",
@@ -2857,7 +2857,7 @@
     "area": "Fisica's House",
     "genre": "Chiptune",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "527",
@@ -2890,7 +2890,7 @@
     "area": "Fisica's House",
     "genre": "Kawaii Bass / Denpa",
     "vocals": "nicamoq",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "394",
@@ -2920,7 +2920,7 @@
     "area": "Fisica's House",
     "genre": "Pop Rock",
     "vocals": "Poppo",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "419",
@@ -2983,7 +2983,7 @@
     "area": "Fisica's House",
     "genre": "Progressive",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "593",
@@ -3016,7 +3016,7 @@
     "area": "Fisica's House",
     "genre": "Drum and Bass / Trancecore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "461",
@@ -3079,7 +3079,7 @@
     "area": "Destroyed City",
     "genre": "Euphoric Hardstyle",
     "vocals": "Javelin (Massive New Krew寿司)",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "333",
@@ -3113,7 +3113,7 @@
     "area": "Destroyed City",
     "genre": "Psytrance",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "345",
@@ -3146,7 +3146,7 @@
     "area": "Destroyed City",
     "genre": "Hardstyle",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "261",
@@ -3176,7 +3176,7 @@
     "area": "Destroyed City",
     "genre": "Hardstyle",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "259",
@@ -3210,7 +3210,7 @@
     "area": "Destroyed City",
     "genre": "Artcore/Dubcore",
     "vocals": "Unknown",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "346",
@@ -3244,7 +3244,7 @@
     "area": "Special Specimen Room",
     "genre": "Metal",
     "vocals": "GRILLED MEAT YOUNGMANS",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "267",
@@ -3277,7 +3277,7 @@
     "area": "Special Specimen Room",
     "genre": "Future House",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "214",
@@ -3313,7 +3313,7 @@
     "area": "Special Specimen Room",
     "genre": "Trancestep / Dubstep",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "402",
@@ -3348,7 +3348,7 @@
     "area": "Special Specimen Room",
     "genre": "Trance / Progressive House",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "348",
@@ -3383,7 +3383,7 @@
     "area": "Special Specimen Room",
     "genre": "Artcore",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "391",
@@ -3515,7 +3515,7 @@
     "area": "Computer Room",
     "genre": "Chiptune Rock",
     "vocals": "Hige Driver",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "240",
@@ -3548,7 +3548,7 @@
     "area": "Computer Room",
     "genre": "J-Rock",
     "vocals": "Hige Driver",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "atsushi",
     "notes": {
       "whisper": "471",
@@ -3643,7 +3643,7 @@
     "area": "Cathedral",
     "genre": "Artcore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No info",
     "notes": {
       "whisper": "300",
@@ -3680,7 +3680,7 @@
     "area": "Cathedral",
     "genre": "Progressive Trance",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "softmode",
     "notes": {
       "whisper": "525",
@@ -3710,7 +3710,7 @@
     "area": "Cathedral",
     "genre": "Artcore / Chill out",
     "vocals": "N/A",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "mins",
     "notes": {
       "whisper": "264",
@@ -3740,7 +3740,7 @@
     "area": "Starlight Road",
     "genre": "Happy Hardcore/J-Pop",
     "vocals": "Nanami Takahashi",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "303",
@@ -3770,7 +3770,7 @@
     "area": "Starlight Road",
     "genre": "Hard Trance",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "325",
@@ -3801,7 +3801,7 @@
     "area": "Starlight Road",
     "genre": "Trance / Oriental Hardcore",
     "vocals": "None",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "404",
@@ -3864,7 +3864,7 @@
     "area": "Starlight Road",
     "genre": "Organ House",
     "vocals": "Samples",
-    "chart_design": "SYM",
+    "chart_design": "",
     "cover_art": "No Info",
     "notes": {
       "whisper": "357",
@@ -6310,7 +6310,7 @@
     "area": "",
     "genre": "Bass House",
     "vocals": "Samples",
-    "chart_design": "",
+    "chart_design": "Uvernight宇夜",
     "cover_art": "ANT",
     "notes": {
       "whisper": "348",
@@ -8937,7 +8937,7 @@
     "area": "Tracklist Mode",
     "genre": "Twerkcore / Hard Rave",
     "vocals": "Samples",
-    "chart_design": "",
+    "chart_design": "闇靈DarkM",
     "cover_art": "litmus*",
     "notes": {
       "whisper": "376",
@@ -16931,7 +16931,7 @@
     "area": "Ritmo's Library",
     "genre": "Oriental Future Bass",
     "vocals": "None",
-    "chart_design": "",
+    "chart_design": "Uvernight宇夜",
     "cover_art": "CROSSOTA",
     "notes": {
       "whisper": "427",
@@ -17145,7 +17145,7 @@
     "area": "Ritmo's Library",
     "genre": "Artcore",
     "vocals": "None",
-    "chart_design": "",
+    "chart_design": "Uvernight宇夜",
     "cover_art": "",
     "notes": {
       "whisper": "416",
@@ -17566,7 +17566,7 @@
     "area": "Ritmo's Library",
     "genre": "Hardcore",
     "vocals": "",
-    "chart_design": "",
+    "chart_design": "Uvernight宇夜",
     "cover_art": "DJ TSAR & Rinne.6",
     "notes": {
       "whisper": "482",
@@ -19095,7 +19095,7 @@
   },
   {
     "id": 604,
-    "title": "<nowiki>|Act Casket|</nowiki>",
+    "title": "|Act Casket|",
     "title_outside": "Act Casket",
     "artist": "Luze",
     "chapter": "Inf-325",
@@ -19112,7 +19112,7 @@
     "area": "Ritmo's Library",
     "genre": "Techno",
     "vocals": "",
-    "chart_design": "",
+    "chart_design": "Uvernight宇夜",
     "cover_art": "retu",
     "notes": {
       "whisper": "430",
@@ -19716,6 +19716,170 @@
       "master": "1171"
     },
     "source_url": "http://wikiwiki.jp/lanotagame/Recollection",
+    "Legacy": {}
+  },
+  {
+    "id": 624,
+    "title": "Thaleia",
+    "title_outside": "Thaleia",
+    "artist": "satella feat.Aitsuki Nakuru",
+    "chapter": "Event-87",
+    "category": "event",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "3:06",
+    "bpm": "186",
+    "version": "3.0.7 - August 28, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "Aitsuki Nakuru",
+    "chart_design": "Axera",
+    "cover_art": "魔界の住民",
+    "notes": {
+      "whisper": "871",
+      "acoustic": "1066",
+      "ultra": "1314",
+      "master": "1537"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Thaleia",
+    "Trivia": [
+      "The full version of this song can be found on satella's album \"[https://unitone.fm/thaleia/ THALEIA]\"."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 625,
+    "title": "Alma Intacta",
+    "title_outside": "Alma Intacta",
+    "artist": "satella feat.Sennzai",
+    "chapter": "Event-88",
+    "category": "event",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "3:09",
+    "bpm": "216",
+    "version": "3.0.7 - August 28, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "Sennzai",
+    "chart_design": "",
+    "cover_art": "魔界の住民",
+    "notes": {
+      "whisper": "1028",
+      "acoustic": "1283",
+      "ultra": "1792",
+      "master": "2004"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Alma_Intacta",
+    "Trivia": [
+      "The full version of this song can be found on satella's album \"[https://unitone.fm/thaleia/ THALEIA]\"."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 626,
+    "title": "Sentheris",
+    "title_outside": "Sentheris",
+    "artist": "satella",
+    "chapter": "Event-89",
+    "category": "event",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "9",
+      "ultra": "13+",
+      "master": "15+"
+    },
+    "time": "2:51",
+    "bpm": "255",
+    "version": "3.0.7 - August 28, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "785",
+      "acoustic": "1419",
+      "ultra": "1713",
+      "master": "2396"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Sentheris",
+    "Legacy": {}
+  },
+  {
+    "id": 627,
+    "title": "Akasha's Embrace",
+    "title_outside": "Akasha's Embrace",
+    "artist": "iTIC",
+    "chapter": "Inf-341",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "11",
+      "ultra": "14+",
+      "master": "15+"
+    },
+    "time": "3:07",
+    "bpm": "240",
+    "version": "3.0.7 - August 21, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Hardcore",
+    "vocals": "None",
+    "chart_design": "Catcats/無極Rayix",
+    "cover_art": "마리나",
+    "notes": {
+      "whisper": "695",
+      "acoustic": "1083",
+      "ultra": "1546",
+      "master": "2436"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Akasha%27s_Embrace",
+    "Trivia": [
+      "The full version of this song can be found on iTIC's album \"Akasha's Embrace\"([https://itic.bandcamp.com/album/akashas-embrace Bandcamp])."
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 628,
+    "title": "Interstellar Space Travel",
+    "title_outside": "Interstellar Space Travel",
+    "artist": "UraraTachyon.",
+    "chapter": "Inf-342",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:48",
+    "bpm": "200",
+    "version": "3.0.7 - August 28, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "無想りんね",
+    "notes": {
+      "whisper": "560",
+      "acoustic": "711",
+      "ultra": "1189",
+      "master": "1530"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Interstellar_Space_Travel",
+    "Trivia": [
+      "This song's title in Japanese is \"星間光速宇宙旅行\".",
+      "This song is an entry to the Lily Fantasia Submission 2024 contest.",
+      "The character in this song's artwork is named Seira (星羅)."
+    ],
     "Legacy": {}
   }
 ]
