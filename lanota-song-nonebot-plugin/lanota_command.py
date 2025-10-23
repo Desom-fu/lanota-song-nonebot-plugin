@@ -4,6 +4,7 @@ from nonebot.params import CommandArg
 from nonebot.typing import T_State
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, date
 from .config import *
 from .function import *
 from .whitelist import whitelist_rule
@@ -26,6 +27,7 @@ command_configs = [
     ("rating", "rating", True),
     ("category", "cate", True),
     ("table", "定数表", True),
+    ("ritmo", "里莫", True),
 ]
 
 # 批量创建命令
@@ -48,6 +50,8 @@ for cmd_name, chinese_alias, use_whitelist in command_configs:
         aliases.update({"la rating", "larating", "lanotarating"})  # rating命令的特殊情况
     elif cmd_name == "category":
         aliases.update({"la cate", "lanota category", "lacate", "lacategory", "lanotacate", "lanotacategory"})
+    elif cmd_name == "ritmo":
+        aliases.update({"la Ritmo", "lanota Ritmo", "laRitmo", "lanotaRitmo"})
     
     # 创建命令处理器
     rule = whitelist_rule if use_whitelist else None
@@ -67,6 +71,7 @@ la_notes = commands["la_notes"]
 la_rating = commands["la_rating"]
 la_category = commands["la_category"]
 la_table = commands["la_table"]
+la_ritmo = commands["la_ritmo"]
 
 category_map = {
     "main": "main",
@@ -1329,3 +1334,74 @@ async def handle_help(bot: Bot, event: MessageEvent, args: Message = CommandArg(
         await send_image_or_text(user_id, la_help, help_text)
     else:
         await send_image_or_text(user_id, la_help, "未找到该分类，\n请输入 /la help\n查看所有分类")
+
+# 处理 ritmo 命令 - 计算距离 Lanota Ritmo 发布的时间
+@la_ritmo.handle()
+async def handle_ritmo(bot: Bot, event: MessageEvent):
+    """计算从 Lanota Ritmo 发布日期到今天的时间差"""
+    user_id = event.get_user_id()
+    
+    # Lanota Ritmo 发布日期
+    start_date = date(2021, 9, 7)
+    today = date.today()
+    
+    # 计算总天数
+    total_days = (today - start_date).days
+    
+    # 计算年月日
+    years = 0
+    months = 0
+    days = 0
+    
+    # 从起始日期开始计算
+    current = start_date
+    
+    # 计算完整的年数
+    while True:
+        try:
+            next_year = date(current.year + 1, current.month, current.day)
+            if next_year <= today:
+                years += 1
+                current = next_year
+            else:
+                break
+        except ValueError:
+            # 处理闰年2月29日的情况
+            next_year = date(current.year + 1, 2, 28)
+            if next_year <= today:
+                years += 1
+                current = next_year
+            else:
+                break
+    
+    # 计算完整的月数
+    while True:
+        try:
+            if current.month == 12:
+                next_month = date(current.year + 1, 1, current.day)
+            else:
+                next_month = date(current.year, current.month + 1, current.day)
+            if next_month <= today:
+                months += 1
+                current = next_month
+            else:
+                break
+        except ValueError:
+            # 处理月份天数不足的情况（如1月31日到2月）
+            break
+    
+    # 剩余的天数
+    days = (today - current).days
+    
+    # 构建消息
+    message = f"【里莫绝赞昏睡时间】\n"
+    message += f"\n"
+    message += f"昏睡日期: 2021年9月7日\n"
+    message += f"今天日期: {today.year}年{today.month}月{today.day}日\n"
+    message += f"\n"
+    message += f"已经过去:\n"
+    message += f"{years}年{months}月{days}日\n"
+    message += f"总共: {total_days}天\n"
+    message += f"让我们看看可爱的小里莫\n什么时候才能睡醒吧~"
+    
+    await send_image_or_text(user_id, la_ritmo, message)
