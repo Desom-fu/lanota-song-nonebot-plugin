@@ -68,6 +68,115 @@ def get_final_url(session, url, max_retries=3):
             time.sleep(1)
     return url
 
+def check_missing_fields(song):
+    """检查歌曲的缺失字段，返回缺失字段列表"""
+    missing = []
+    
+    # 检查 bpm
+    if not song.get('bpm') or song.get('bpm', '').strip() == '':
+        missing.append('bpm')
+    
+    # 检查 time
+    if not song.get('time') or song.get('time', '').strip() == '':
+        missing.append('time')
+    
+    # 检查 notes（各个难度）
+    notes = song.get('notes', {})
+    notes_missing = []
+    for difficulty in ['whisper', 'acoustic', 'ultra', 'master']:
+        if not notes.get(difficulty) or notes.get(difficulty, '').strip() == '':
+            notes_missing.append(difficulty)
+    
+    if notes_missing:
+        missing.append(f"notes({','.join(notes_missing)})")
+    
+    # 检查 Legacy 中的 notes（只有当 Legacy 存在且非空时才检查）
+    if 'Legacy' in song and isinstance(song['Legacy'], dict) and song['Legacy']:
+        legacy = song['Legacy']
+        legacy_notes_missing = []
+        for field in ['MaxWhisper', 'MaxAcoustic', 'MaxUltra', 'MaxMaster']:
+            if not legacy.get(field) or legacy.get(field, '').strip() == '':
+                legacy_notes_missing.append(field)
+        
+        if legacy_notes_missing:
+            missing.append(f"legacy_notes({','.join(legacy_notes_missing)})")
+    
+    return missing
+
+def update_song_from_wiki(session, song):
+    """从 wiki 更新歌曲信息"""
+    if 'source_url' not in song:
+        return None, []
+    
+    try:
+        final_url = get_final_url(session, song['source_url'])
+        raw_page = final_url.rsplit('/wiki/', 1)[-1]
+        page_name = unquote(raw_page)
+
+        params = {'action': 'parse', 'page': page_name, 'prop': 'wikitext', 'format': 'json'}
+        r = session.get(API_URL, params=params, timeout=15)
+        wikitext = r.json().get('parse', {}).get('wikitext', {}).get('*', '')
+        wikicode = mwparserfromhell.parse(wikitext)
+        tmpl = next((t for t in wikicode.filter_templates() if t.name.strip().lower() == 'song'), None)
+
+        def get_field(field):
+            if not tmpl or not tmpl.has(field):
+                return ''
+            val = str(tmpl.get(field).value)
+            val = clean_ref(val)
+            val = clean_wiki_links(val)
+            return replace_br(val).strip()
+
+        updated_fields = []
+        
+        # 更新 bpm
+        new_bpm = get_field('BPM')
+        if new_bpm and (not song.get('bpm') or song.get('bpm', '').strip() == ''):
+            song['bpm'] = new_bpm
+            updated_fields.append('bpm')
+        
+        # 更新 time
+        new_time = get_field('Time')
+        if new_time and (not song.get('time') or song.get('time', '').strip() == ''):
+            song['time'] = new_time
+            updated_fields.append('time')
+        
+        # 更新 notes
+        notes_updated = []
+        if 'notes' not in song:
+            song['notes'] = {}
+        
+        for difficulty, field_name in [('whisper', 'MaxWhisper'), ('acoustic', 'MaxAcoustic'), 
+                                       ('ultra', 'MaxUltra'), ('master', 'MaxMaster')]:
+            new_value = get_field(field_name)
+            if new_value and (not song['notes'].get(difficulty) or song['notes'].get(difficulty, '').strip() == ''):
+                song['notes'][difficulty] = new_value
+                notes_updated.append(difficulty)
+        
+        if notes_updated:
+            updated_fields.append(f"notes({','.join(notes_updated)})")
+        
+        # 更新 Legacy notes（只有当 Legacy 存在且非空时才更新）
+        if 'Legacy' in song and isinstance(song['Legacy'], dict) and song['Legacy']:
+            legacy_updated = []
+            for t in wikicode.filter_templates():
+                if t.name.strip().lower() == 'legacytable':
+                    for field in ['MaxWhisper', 'MaxAcoustic', 'MaxUltra', 'MaxMaster']:
+                        if t.has(field):
+                            new_value = replace_br(clean_ref(str(t.get(field).value).strip()))
+                            if new_value and (not song['Legacy'].get(field) or song['Legacy'].get(field, '').strip() == ''):
+                                song['Legacy'][field] = new_value
+                                legacy_updated.append(field)
+            
+            if legacy_updated:
+                updated_fields.append(f"legacy_notes({','.join(legacy_updated)})")
+        
+        return song, updated_fields
+    
+    except Exception as e:
+        print(f"  更新失败: {e}")
+        return None, []
+
 # ---------- 主程序 ----------
 
 def main():
@@ -85,6 +194,93 @@ def main():
 
     # 记录原始数据长度
     original_count = len(data)
+    
+    # ========== 第一步：检查并更新缺失信息 ==========
+    print("=" * 60)
+    print("第一步：检查现有歌曲的缺失信息")
+    print("=" * 60)
+    
+    songs_to_update = []
+    update_results = []  # 在外层定义
+    success_count = 0    # 在外层定义
+    
+    for song in data:
+        missing = check_missing_fields(song)
+        if missing:
+            songs_to_update.append({
+                'song': song,
+                'missing': missing
+            })
+    
+    if songs_to_update:
+        print(f"\n发现 {len(songs_to_update)} 首歌曲存在缺失信息：")
+        for item in songs_to_update:
+            print(f"  - {item['song']['title']} (章节: {item['song']['chapter']})")
+            print(f"    缺失: {', '.join(item['missing'])}")
+        
+        print(f"\n开始更新缺失信息...")
+        
+        for idx, item in enumerate(songs_to_update, 1):
+            song = item['song']
+            missing = item['missing']
+            print(f"\n[{idx}/{len(songs_to_update)}] 正在更新: {song['title']}")
+            print(f"  缺失项: {', '.join(missing)}")
+            
+            updated_song, updated_fields = update_song_from_wiki(session, song)
+            
+            if updated_song and updated_fields:
+                # 在原数据中找到并更新
+                for i, s in enumerate(data):
+                    if s['chapter'] == song['chapter']:
+                        data[i] = updated_song
+                        break
+                
+                update_results.append({
+                    'title': song['title'],
+                    'chapter': song['chapter'],
+                    'missing': missing,
+                    'updated': updated_fields,
+                    'success': True
+                })
+                print(f"  ✓ 成功更新: {', '.join(updated_fields)}")
+            else:
+                update_results.append({
+                    'title': song['title'],
+                    'chapter': song['chapter'],
+                    'missing': missing,
+                    'updated': [],
+                    'success': False
+                })
+                print(f"  ✗ 更新失败或无新数据")
+            
+            time.sleep(0.5)
+        
+        # 保存更新后的数据
+        with open(SONGS_JSON, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        
+        # 输出更新报告
+        print("\n" + "=" * 60)
+        print("缺失信息更新报告")
+        print("=" * 60)
+        for result in update_results:
+            status = "✓ 成功" if result['success'] else "✗ 失败"
+            print(f"\n{status} | {result['title']} (章节: {result['chapter']})")
+            print(f"  原缺失: {', '.join(result['missing'])}")
+            if result['updated']:
+                print(f"  已更新: {', '.join(result['updated'])}")
+            else:
+                print(f"  已更新: 无")
+        
+        success_count = sum(1 for r in update_results if r['success'])
+        print(f"\n总计: {len(update_results)} 首需要更新，{success_count} 首成功更新")
+    else:
+        print("\n✓ 所有歌曲信息完整，无需更新")
+    
+    # ========== 第二步：添加新歌曲 ==========
+    print("\n" + "=" * 60)
+    print("第二步：检查并添加新歌曲")
+    print("=" * 60)
 
     # 构建去重集合：真实标题和外部标题
     existing_titles = {item['title'].lower() for item in data}
@@ -233,9 +429,20 @@ def main():
     with open(SONGS_JSON, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"处理完成，新增 {new_count} 首乐曲，当前共 {len(data)} 首")
+    print("\n" + "=" * 60)
+    print("处理完成总结")
+    print("=" * 60)
+    print(f"原有歌曲数: {original_count}")
+    if songs_to_update:
+        print(f"缺失信息更新: {len(songs_to_update)} 首待更新，{success_count} 首成功")
+    print(f"新增歌曲: {new_count} 首")
+    print(f"当前总数: {len(data)} 首")
+    
     return {
         'before': original_count,
+        'missing_songs': len(songs_to_update),
+        'missing_updated': success_count,
+        'missing_results': update_results,
         'added': new_count,
         'total': len(data)
     }

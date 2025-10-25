@@ -119,16 +119,46 @@ async def handle_update(bot: Bot, event: MessageEvent):
         
         # 解析结果并发送
         if isinstance(result, dict):
-            message = (
-                f"乐曲数据更新完成！\n"
-                f"更新前乐曲: {result.get('before', 0)}首\n"
-                f"新增乐曲: {result.get('added', 0)}首\n"
-                f"当前总乐曲: {result.get('total', 0)}首"
-            )
+            message += "乐曲数据更新完成！\n"
+            message += f"原有乐曲: {result.get('before', 0)}首\n"
+            
+            # 缺失信息更新报告
+            missing_songs = result.get('missing_songs', 0)
+            missing_updated = result.get('missing_updated', 0)
+            missing_results = result.get('missing_results', [])
+            
+            if missing_songs > 0:
+                message += f"\n【缺失信息更新】\n"
+                message += f"待更新: {missing_songs}首\n"
+                message += f"成功更新: {missing_updated}首\n"
+                
+                if missing_results:
+                    message += f"\n详细结果:\n"
+                    for i, r in enumerate(missing_results, 1):
+                        status = "✓" if r['success'] else "✗"
+                        message += f"{status} {r['title']}\n"
+                        message += f"  缺失: {', '.join(r['missing'])}\n"
+                        if r['updated']:
+                            message += f"  已更新: {', '.join(r['updated'])}\n"
+                        else:
+                            message += f"  已更新: 无\n"
+                        if i < len(missing_results):
+                            message += "\n"
+            else:
+                message += "\n【缺失信息更新】\n"
+                message += "✓ 所有歌曲信息完整\n"
+            
+            # 新增歌曲
+            message += f"\n【新增乐曲】\n"
+            message += f"新增: {result.get('added', 0)}首\n"
+            
+            message += f"\n【总计】\n"
+            message += f"当前总乐曲: {result.get('total', 0)}首"
         else:
             message = "乐曲数据更新完成！"
-            
-        await la_update.finish(message)
+        
+        await send_image_or_text(user_id, la_update, message)
+        # await la_update.finish(message)
         return
         
     except Exception as e:
