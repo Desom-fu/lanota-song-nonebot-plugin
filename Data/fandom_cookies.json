@@ -1,0 +1,201 @@
+[
+  {
+    "domain": ".lanota.fandom.com",
+    "expiry": 1765514354,
+    "httpOnly": false,
+    "name": "pvNumber",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1797048554,
+    "httpOnly": false,
+    "name": "OptanonAlertBoxClosed",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2025-12-12T04:09:14.611Z"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1768104554,
+    "httpOnly": false,
+    "name": "VEE",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "wikitext"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1797048554,
+    "httpOnly": false,
+    "name": "AMP_6765a55f49",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "JTdCJTIyZGV2aWNlSWQlMjIlM0ElMjIzZWUxYWQ4ZS0wNmJkLTRjMDAtYjY0Yi02ZmY1YTQyYWRhMmQlMjIlMkMlMjJzZXNzaW9uSWQlMjIlM0ExNzY1NTEyNTE5NjA2JTJDJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJsYXN0RXZlbnRUaW1lJTIyJTNBMTc2NTUxMjU1NDk1MSUyQyUyMmxhc3RFdmVudElkJTIyJTNBNSUyQyUyMnBhZ2VDb3VudGVyJTIyJTNBMCU3RA=="
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1800072555,
+    "httpOnly": true,
+    "name": "fandom_global_id",
+    "path": "/",
+    "sameSite": "Strict",
+    "secure": true,
+    "value": "958cdd33-b742-4bc7-827f-18b249fe0386"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1797048519,
+    "httpOnly": false,
+    "name": "AMP_MKTG_6765a55f49",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "JTdCJTdE"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1765514354,
+    "httpOnly": false,
+    "name": "pvNumberGlobal",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1797048554,
+    "httpOnly": false,
+    "name": "OptanonConsent",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "isGpcEnabled=0&datestamp=Fri+Dec+12+2025+12%3A09%3A14+GMT%2B0800+(%E9%A6%99%E6%B8%AF%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&version=202505.1.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=e558f749-eaaf-48f1-b5ab-fa6142bb7c16&interactionCount=0&isAnonUser=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1%2CC0005%3A1&AwaitingReconsent=false"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1781064554,
+    "httpOnly": false,
+    "name": "wikia_session_id",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "ln44o56D7t"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1781064554,
+    "httpOnly": false,
+    "name": "wikia_beacon_id",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "4vsbZ0oViA"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1800061939,
+    "httpOnly": false,
+    "name": "exp_bucket_2",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "v5-56"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1797048555,
+    "httpOnly": false,
+    "name": "fan_visited_wikis",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1496369"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1800072554,
+    "httpOnly": false,
+    "name": "_b2",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "4QDMd9oEo-.1765512517198"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1781064519,
+    "httpOnly": false,
+    "name": "eb",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "73"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1800061939,
+    "httpOnly": false,
+    "name": "exp_bucket",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "v6-69"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1765516119,
+    "httpOnly": true,
+    "name": "_fs_cd_cp_pRdRgnTnF68pCV2F",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "AX3ekK4-ouFYcxFxRZwJ00vf5cqv2KVgIC4K2ZFE5Q2BJg73VhWsr_8x1pbKcOXDvI4z8fsb658zkWynpZ4FQJk235IFzwbgDaPX_P2y7lSNbfdHp0hTPqvsMJnriMU5T2mlSaD-uLqt5waZjHEXVy_7q-EFc6xxvTP8I0GMs-AyUQQe"
+  },
+  {
+    "domain": ".fandom.com",
+    "httpOnly": false,
+    "name": "Geo",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "{%22region%22:%22NO REGION%22%2C%22city%22:%22kowloon%22%2C%22country_name%22:%22hong kong%22%2C%22country%22:%22HK%22%2C%22continent%22:%22AS%22}"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1765514354,
+    "httpOnly": false,
+    "name": "sessionId",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "e7e95df6-50b0-4e7c-bbf8-d072f25e7ea2"
+  },
+  {
+    "domain": ".fandom.com",
+    "expiry": 1765515825,
+    "httpOnly": true,
+    "name": "_fs_ch_cp_79UUvfpJ5mWYtLQv",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "AeCNGSUYZZKrHlK6WJjG8GFFslMoGkTRpSV8RAC_HmZ2PIsWadQ11qeUpln8EOu9joq72e3UDqYOkcCdcLjVmerOPLwub5l3QDYm20lHXCq4-etD-JcO9CIzchqH3xQM83vuPqnwpI_3iZ8ARD26WIxtdKie64nBgYmJ5i0K3o3X3xP86sHJkuRZXFLX_13dXn-SZjmDQnQXn9_OdeU8mRDn07l05JPeLzI0fL1QNC8Yo8cchWAMorON6YF8TqmWsA40Ee3WretmI65PQANcS0gPdzU4T7UOWPxtJclFp6ghexISzrjbVZDs8w-B8nl6qDAj8N4TQOzKtv-vzq3emn0fqp22xlJ6uo09H6si6Yj-8Q=="
+  },
+  {
+    "domain": "lanota.fandom.com",
+    "expiry": 1765512615,
+    "httpOnly": false,
+    "name": "testcookie",
+    "path": "/wiki",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "supportcheck"
+  }
+]

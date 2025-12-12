@@ -119,7 +119,7 @@ async def handle_update(bot: Bot, event: MessageEvent):
         
         # 解析结果并发送
         if isinstance(result, dict):
-            message += "乐曲数据更新完成！\n"
+            message = "乐曲数据更新完成！\n"
             message += f"原有乐曲: {result.get('before', 0)}首\n"
             
             # 缺失信息更新报告
@@ -142,8 +142,6 @@ async def handle_update(bot: Bot, event: MessageEvent):
                             message += f"  已更新: {', '.join(r['updated'])}\n"
                         else:
                             message += f"  已更新: 无\n"
-                        if i < len(missing_results):
-                            message += "\n"
             else:
                 message += "\n【缺失信息更新】\n"
                 message += "✓ 所有歌曲信息完整\n"
@@ -151,6 +149,12 @@ async def handle_update(bot: Bot, event: MessageEvent):
             # 新增歌曲
             message += f"\n【新增乐曲】\n"
             message += f"新增: {result.get('added', 0)}首\n"
+
+            added_titles = result.get('added_titles') or []
+            if added_titles:
+                message += "\n新增曲目:\n"
+                message += "\n".join(str(t) for t in added_titles)
+                message += "\n"
             
             message += f"\n【总计】\n"
             message += f"当前总乐曲: {result.get('total', 0)}首"

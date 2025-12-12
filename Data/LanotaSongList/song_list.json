@@ -1728,7 +1728,7 @@
     "area": "Atrophied Chamber",
     "genre": "ULTRA SUPER HARDCORE TECHNO",
     "vocals": "Samples",
-    "chart_design": "",
+    "chart_design": "闇靈DarkM",
     "cover_art": "No Info",
     "notes": {
       "whisper": "451",
@@ -8373,7 +8373,7 @@
       "ultra": "12",
       "master": "13"
     },
-    "time": "",
+    "time": "3:15",
     "bpm": "180",
     "version": "2.32 - November 21, 2024",
     "area": "Tracklist Mode",
@@ -8621,7 +8621,7 @@
       "ultra": "9",
       "master": "13+"
     },
-    "time": "",
+    "time": "2:58",
     "bpm": "144",
     "version": "2.32 - January 30, 2025",
     "area": "Tracklist Mode",
@@ -18902,7 +18902,7 @@
     "area": "Ritmo's Library",
     "genre": "Future Bass / Dance / J-core",
     "vocals": "None",
-    "chart_design": "",
+    "chart_design": "嵐飛xFly (アイ．フライ)",
     "cover_art": "ごくあま",
     "notes": {
       "whisper": "376",
@@ -20225,6 +20225,1003 @@
       "The composers Reku Mochizuki and PYKAMIA are depicted on this song's artwork from left to right, respectively.",
       "A piano version of this song can be found on PYKAMIA's album \"Fantasia Sonata Vol.2 Gamers\"([https://pykamia.bandcamp.com/album/fantasia-sonata-vol-2-gamers Bandcamp]).",
       "[https://wikiwiki.jp/lanotagame/Fantasia%20Sonata%20Hope Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 639,
+    "title": "Chrono Furor -Reloaded-",
+    "title_outside": "Chrono Furor -Reloaded-",
+    "artist": "Felysrator",
+    "chapter": "Inf-350",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "11",
+      "ultra": "14",
+      "master": "15+"
+    },
+    "time": "2:58",
+    "bpm": "197",
+    "version": "3.0.10 - October 23, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "650",
+      "acoustic": "938",
+      "ultra": "1215",
+      "master": "1525"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Chrono_Furor_-Reloaded-",
+    "Trivia": [
+      "This song marks Felysrator's debut in Lanota.",
+      "The original version of \"Chrono Furor\" won an honorable mention prize in the 2020 Taiko no Tatsujin song contest.",
+      "[https://wikiwiki.jp/lanotagame/Chrono%20Furor%20-Reloaded- Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 640,
+    "title": "Before Sunrise",
+    "title_outside": "Before Sunrise",
+    "artist": "m1dy vs M-Project",
+    "chapter": "Event-93",
+    "category": "event",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:36",
+    "bpm": "300",
+    "version": "3.0.10 - October 30, 2025",
+    "area": "Tracklist Mode",
+    "genre": "Thrashkick",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "600",
+      "acoustic": "692",
+      "ultra": "979",
+      "master": "1403"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Before_Sunrise",
+    "Trivia": [
+      "This song marks m1dy's debut in Lanota.",
+      "This song is also available in Dynamix.",
+      "[https://wikiwiki.jp/lanotagame/Before%20Sunrise Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 641,
+    "title": "Recollection (Kobaryo)",
+    "title_outside": "Recollection (Kobaryo)",
+    "artist": "Kobaryo",
+    "chapter": "Event-94",
+    "category": "event",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "13",
+      "master": "14+"
+    },
+    "time": "3:05",
+    "bpm": "266",
+    "version": "3.0.10 - October 30, 2025",
+    "area": "Tracklist Mode",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "あきま",
+    "notes": {
+      "whisper": "466",
+      "acoustic": "783",
+      "ultra": "1141",
+      "master": "1458"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Recollection_(Kobaryo)",
+    "Trivia": [
+      "This song shares a title with Recollection.",
+      "A long version of this song can be found on Kobaryo's 3rd album \"MIXPEED ACTION\" ([https://www.diverse.direct/psycho-filth-records/pfsa003/ DIVERSE DIRECT])",
+      "This song also appears in Rotaeno.",
+      "[https://wikiwiki.jp/lanotagame/Recollection_Kobaryo Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 642,
+    "title": "Absolute end.",
+    "title_outside": "Absolute end.",
+    "artist": "D-D-Dice",
+    "chapter": "Event-95",
+    "category": "event",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "10",
+      "ultra": "14",
+      "master": "15+"
+    },
+    "time": "3:08",
+    "bpm": "200-300",
+    "version": "3.0.10 - October 30, 2025",
+    "area": "Tracklist Mode",
+    "genre": "Speedcore",
+    "vocals": "",
+    "chart_design": "嵐飛xFly (アイ．フライ)",
+    "cover_art": "緑風マルト",
+    "notes": {
+      "whisper": "675",
+      "acoustic": "1192",
+      "ultra": "1711",
+      "master": "2042"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Absolute_end.",
+    "Trivia": [
+      "A long version of Absolute end. can be found on D-D-Dice's 2nd album of the same name ([https://dddce0002absoluteend.netlify.app/ Link]).",
+      "This song also appears in Shinobi Slash.",
+      "[https://wikiwiki.jp/lanotagame/Absolute%20end. Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 643,
+    "title": "BUCHiAGE Fireworks",
+    "title_outside": "BUCHiAGE Fireworks",
+    "artist": "Dragon_Klub",
+    "chapter": "Inf-351",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "14+"
+    },
+    "time": "2:18",
+    "bpm": "192",
+    "version": "3.0.10 - October 30, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Hybrid Drumstep",
+    "vocals": "Samples",
+    "chart_design": "",
+    "cover_art": "なれう。",
+    "notes": {
+      "whisper": "583",
+      "acoustic": "726",
+      "ultra": "996",
+      "master": "1367"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/BUCHiAGE_Fireworks",
+    "Trivia": [
+      "This song also appears in Shinobi Slash and Milthm.",
+      "This song's jacket art was newly drawn for Lanota.",
+      "[https://wikiwiki.jp/lanotagame/BUCHiAGE%20Fireworks Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 644,
+    "title": "Colors",
+    "title_outside": "Colors",
+    "artist": "Capchii",
+    "chapter": "Inf-352",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "2",
+      "acoustic": "6",
+      "ultra": "10",
+      "master": "13"
+    },
+    "time": "2:40",
+    "bpm": "174",
+    "version": "3.0.12 - November 6, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Pop",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "焰焰子(Yanfiregreen)",
+    "notes": {
+      "whisper": "386",
+      "acoustic": "645",
+      "ultra": "808",
+      "master": "1228"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Colors",
+    "Trivia": [
+      "The full version of this song can be found on Capchii's 2nd album \"Memories\" ([https://capchii.bandcamp.com/album/memories Bandcamp]).",
+      "This song also appears in Shinobi Slash.",
+      "[https://wikiwiki.jp/lanotagame/Colors Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 645,
+    "title": "Luxrant",
+    "title_outside": "Luxrant",
+    "artist": "Luxrant",
+    "chapter": "Inf-353",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "9",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "3:27",
+    "bpm": "174",
+    "version": "3.0.14 - November 13, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "Naganai Nanoru",
+    "notes": {
+      "whisper": "734",
+      "acoustic": "770",
+      "ultra": "1060",
+      "master": "1437"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Luxrant",
+    "Trivia": [
+      "This song marks Naganai Nanoru's debut in Lanota.",
+      "This song is also available in PROJEKT GODHAND.",
+      "[https://wikiwiki.jp/lanotagame/Luxrant Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 646,
+    "title": "AMEMOYOU",
+    "title_outside": "AMEMOYOU",
+    "artist": "punipunidenki arr. penoreri",
+    "chapter": "Z-1",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "13"
+    },
+    "time": "2:32",
+    "bpm": "110",
+    "version": "3.1.0 - November 26, 2024",
+    "area": "",
+    "genre": "",
+    "vocals": "punipunidenki",
+    "chart_design": "模板哥",
+    "cover_art": "",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "",
+      "master": "1115"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/AMEMOYOU",
+    "Legacy": {}
+  },
+  {
+    "id": 647,
+    "title": "Fairy's Crown",
+    "title_outside": "Fairy's Crown",
+    "artist": "Powerless",
+    "chapter": "Z-2",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "15"
+    },
+    "time": "2:56",
+    "bpm": "160",
+    "version": "3.1.0 - November 26, 2024",
+    "area": "",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "疑似NerSan",
+    "cover_art": "",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "",
+      "master": "1281"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Fairy%27s_Crown",
+    "Legacy": {}
+  },
+  {
+    "id": 648,
+    "title": "Recreant of the Everlasting",
+    "title_outside": "Recreant of the Everlasting",
+    "artist": "Elliot Hsu",
+    "chapter": "Z-3",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "14"
+    },
+    "time": "2:22",
+    "bpm": "175",
+    "version": "3.1.0 - November 26, 2024",
+    "area": "",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "459",
+      "acoustic": "585",
+      "ultra": "706",
+      "master": "1017"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Recreant_of_the_Everlasting",
+    "Legacy": {}
+  },
+  {
+    "id": 649,
+    "title": "Antikythera",
+    "title_outside": "Antikythera",
+    "artist": "technoplanet",
+    "chapter": "Z-4",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "10",
+      "ultra": "14",
+      "master": "15+"
+    },
+    "time": "2:50",
+    "bpm": "220",
+    "version": "3.1.0 - November 26, 2024",
+    "area": "",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "明日",
+    "cover_art": "",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "",
+      "master": "2050"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Antikythera",
+    "Legacy": {}
+  },
+  {
+    "id": 650,
+    "title": "Reverie",
+    "title_outside": "Reverie",
+    "artist": "satella",
+    "chapter": "Z-5",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "1",
+      "acoustic": "4",
+      "ultra": "8",
+      "master": "12"
+    },
+    "time": "2:45",
+    "bpm": "120",
+    "version": "3.1.0 - November 26, 2024",
+    "area": "",
+    "genre": "",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "",
+      "master": "1089"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Reverie",
+    "Legacy": {}
+  },
+  {
+    "id": 651,
+    "title": "eilen",
+    "title_outside": "Eilen",
+    "artist": "Amatsuka",
+    "chapter": "Inf-354",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "14"
+    },
+    "time": "2:12",
+    "bpm": "150",
+    "version": "3.0.16 - November 20, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Piano Dance",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "麻久",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "",
+      "master": "1095"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Eilen",
+    "Trivia": [
+      "This song is an entry to the Lily Fantasia Submission 2024 contest.",
+      "[https://wikiwiki.jp/lanotagame/eilen Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 652,
+    "title": "GAME OF LiF",
+    "title_outside": "GAME OF LiF",
+    "artist": "Lundy x Wyvren feat. edyn",
+    "chapter": "Inf-355",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "9",
+      "ultra": "13",
+      "master": "14"
+    },
+    "time": "2:41",
+    "bpm": "151",
+    "version": "3.1.0 - November 27, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Speed Garage",
+    "vocals": "edyn",
+    "chart_design": "嵐飛xFly (アイ．フライ)",
+    "cover_art": "Lumbud84",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "1055",
+      "master": "1337"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/GAME_OF_LiF",
+    "Trivia": [
+      "This song was an entry to the Arcaea 2024 Submission contest.",
+      "[https://wikiwiki.jp/lanotagame/GAME%20OF%20LiF Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 653,
+    "title": "VERTEXION",
+    "title_outside": "VERTEXION",
+    "artist": "Kinetix",
+    "chapter": "Inf-356",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "14"
+    },
+    "time": "2:34",
+    "bpm": "155",
+    "version": "3.1.0 - December 4, 2025",
+    "area": "Ritmo's Library",
+    "genre": "Hi-Tech",
+    "vocals": "",
+    "chart_design": "",
+    "cover_art": "Kinetix",
+    "notes": {
+      "whisper": "",
+      "acoustic": "",
+      "ultra": "836",
+      "master": "1284"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/VERTEXION",
+    "Trivia": [
+      "This song was selected as the \"Detour Track\" and \"Silver Track\" in the Dynamix series song competition \"C4Cat Music Open Submission 2025.\"",
+      "This song can also be found in Dynamix UV and Rotaeno.",
+      "[https://wikiwiki.jp/lanotagame/VERTEXION Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 654,
+    "title": "CryoLight",
+    "title_outside": "CryoLight",
+    "artist": "D-D-Dice",
+    "chapter": "Inf-357",
+    "category": "subscription",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "11",
+      "ultra": "14",
+      "master": "15+"
+    },
+    "time": "2:49",
+    "bpm": "197",
+    "version": "3.1.0 - December 11, 2025",
+    "area": "Ritmo's Library",
+    "genre": "",
+    "vocals": "",
+    "chart_design": "小夜",
+    "cover_art": "緑風マルト",
+    "notes": {
+      "whisper": "836",
+      "acoustic": "1058",
+      "ultra": "1487",
+      "master": "2115"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/CryoLight",
+    "Trivia": [
+      "This is the title track from D-D-Dice's third album, \"[https://cryolight0003.netlify.app/ CryoLight]\".",
+      "*This album is available for subscription via [https://linkco.re/1rVvM8vG TuneCore Japan].",
+      "This song is also available in Bleap.",
+      "[https://wikiwiki.jp/lanotagame/CryoLight Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 655,
+    "title": "Burn",
+    "title_outside": "Burn",
+    "artist": "Nces",
+    "chapter": "SV1-1",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "6",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "2:16",
+    "bpm": "148",
+    "version": "",
+    "area": "",
+    "genre": "Euphoric Hardstyle",
+    "vocals": "Samples",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "305",
+      "acoustic": "535",
+      "ultra": "740",
+      "master": "869"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Burn",
+    "Trivia": [
+      "The song is also available in MUSYNC/MUSYNX, Phigros, ChainBeeT, Paradigm: Reboot and Muse Dash.",
+      "This song was made for [https://manbow.nothing.sh/event/event.cgi?action=More_def&event=127&num=187 BOFXV], placing 7th.",
+      "[https://wikiwiki.jp/lanotagame/Burn Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 656,
+    "title": "Autism",
+    "title_outside": "Autism",
+    "artist": "Yan Dong Wei",
+    "chapter": "SV1-2",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "6",
+      "ultra": "10",
+      "master": "13"
+    },
+    "time": "3:54",
+    "bpm": "125",
+    "version": "",
+    "area": "",
+    "genre": "Progressive House",
+    "vocals": "Samples",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "493",
+      "acoustic": "903",
+      "ultra": "1157",
+      "master": "1470"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Autism",
+    "Trivia": [
+      "Autism is a developmental disorder characterized by difficulty in interpersonal relationships and strong fixations.",
+      "This song and Synthesis. are tied as the longest songs in Lanota.",
+      "[https://wikiwiki.jp/lanotagame/Autism Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 657,
+    "title": "IN",
+    "title_outside": "IN",
+    "artist": "Zris feat. Katie",
+    "chapter": "SV1-3",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "13"
+    },
+    "time": "2:10",
+    "bpm": "113",
+    "version": "",
+    "area": "",
+    "genre": "House",
+    "vocals": "Katie",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "193",
+      "acoustic": "379",
+      "ultra": "672",
+      "master": "781"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/IN",
+    "Trivia": [
+      "This song is also available in Rotaeno and ELLIA.",
+      "This song first appeared in [https://manbow.nothing.sh/event/event.cgi?action=More_def&num=354&event=127 BOFXV19]. Scoring 59073 points, it came 74th.",
+      "[https://wikiwiki.jp/lanotagame/IN Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 658,
+    "title": "Regain",
+    "title_outside": "Regain",
+    "artist": "Project G",
+    "chapter": "SV1-4",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "9",
+      "ultra": "13+",
+      "master": "15"
+    },
+    "time": "2:17",
+    "bpm": "150",
+    "version": "",
+    "area": "",
+    "genre": "Tearout",
+    "vocals": "None",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "431",
+      "acoustic": "513",
+      "ultra": "744",
+      "master": "1054"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Regain",
+    "Trivia": [
+      "This song is also available in Berry Melody and MUSYNC/MUSYNX.",
+      "This song first appeared in [https://manbow.nothing.sh/event/event.cgi?action=More_def&num=242&event=137 BOFXVII]. Scoring 162792 points, it came in 3rd place.",
+      "[https://wikiwiki.jp/lanotagame/Regain Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 659,
+    "title": "Poppy",
+    "title_outside": "Poppy",
+    "artist": "Columba(Daily vs. Roon_kun)",
+    "chapter": "SV1-5",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "6",
+      "acoustic": "10",
+      "ultra": "13",
+      "master": "15+"
+    },
+    "time": "2:30",
+    "bpm": "220",
+    "version": "",
+    "area": "",
+    "genre": "Hardcore",
+    "vocals": "Samples",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "540",
+      "acoustic": "986",
+      "ultra": "1176",
+      "master": "1499"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Poppy",
+    "Trivia": [
+      "This song first appeared in [https://manbow.nothing.sh/event/event.cgi?action=More_def&num=46&event=137 BOFXVII]. Scoring 106870 points, it came in 16rd place.",
+      "This song is also available in OverEcho, MUSYNC/MUSYNX, DanceRail3 and RYCEAM.",
+      "[https://wikiwiki.jp/lanotagame/Poppy Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 660,
+    "title": "God-ish",
+    "title_outside": "God-ish",
+    "artist": "PinocchioP",
+    "chapter": "PS-1",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "7",
+      "ultra": "11",
+      "master": "14"
+    },
+    "time": "3:23",
+    "bpm": "142",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku and AquesTalk",
+    "chart_design": "",
+    "cover_art": "PinocchioP",
+    "notes": {
+      "whisper": "424",
+      "acoustic": "666",
+      "ultra": "1016",
+      "master": "1242"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/God-ish",
+    "Trivia": [
+      "This song's title in Japanese is \"神っぽいな\"",
+      "This song is also available in Muse Dash, Rotaeno, [https://silentblue.remywiki.com/Kamippoi_na CHUNITHM], [https://silentblue.remywiki.com/Kamippoi_na maimai], Project SEKAI, [https://remywiki.com/Kamippoina beatmania IIDX], [https://remywiki.com/Kamippoina SOUND VOLTEX], [https://remywiki.com/Kamippoina DANCE aROUND], [https://remywiki.com/Kamippoina jubeat], [https://remywiki.com/Kamippoina pop'n music], [https://remywiki.com/Kamippoina Polaris Chord], Fit Boxing, BanG Dream!, Taiko no Tatsujin, Groove Coaster, Tetote Connect, and MUSIC DIVER.",
+      "[https://wikiwiki.jp/lanotagame/God-ish Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 661,
+    "title": "Anonymous M",
+    "title_outside": "Anonymous M",
+    "artist": "PinocchioP",
+    "chapter": "PS-2",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "13+"
+    },
+    "time": "2:39",
+    "bpm": "140",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku & ARuFa",
+    "chart_design": "",
+    "cover_art": "PinocchioP",
+    "notes": {
+      "whisper": "505",
+      "acoustic": "681",
+      "ultra": "830",
+      "master": "1019"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Anonymous_M",
+    "Trivia": [
+      "This song's title in Japanese is \"匿名M\".",
+      "The song is also available in [https://silentblue.remywiki.com/Tokumei_M CHUNITHM], [https://silentblue.remywiki.com/Tokumei_M maimai] and [https://remywiki.com/Tokumei_M DanceDanceRevolution].",
+      "[https://wikiwiki.jp/lanotagame/Anonymous%20M Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 662,
+    "title": "Magical Girl and Chocolate",
+    "title_outside": "Magical Girl and Chocolate",
+    "artist": "PinocchioP",
+    "chapter": "PS-3",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "13",
+      "master": "15"
+    },
+    "time": "3:07",
+    "bpm": "150",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku",
+    "chart_design": "",
+    "cover_art": "PinocchioP",
+    "notes": {
+      "whisper": "625",
+      "acoustic": "882",
+      "ultra": "1122",
+      "master": "1467"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Magical_Girl_and_Chocolate",
+    "Trivia": [
+      "This song's title in Japanese is \"魔法少女とチョコレゐト\".",
+      "This song is also available in [https://silentblue.remywiki.com/Mahou_shoujo_to_chocolate CHUNITHM], [https://silentblue.remywiki.com/Mahou_shoujo_to_chocolate maimai], [https://remywiki.com/Mahou_shoujo_to_chocolate DANCE aROUND], [https://remywiki.com/Mahou_shoujo_to_chocolate jubeat], [https://remywiki.com/Mahou_shoujo_to_chocolate Polaris Code], YumeStation, BanG Dream, and Fit Boxing.",
+      "[https://wikiwiki.jp/lanotagame/Magical%20Girl%20and%20Chocolate Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 663,
+    "title": "Clockwork girl",
+    "title_outside": "Clockwork girl",
+    "artist": "Drop",
+    "chapter": "VSC-1",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "5",
+      "acoustic": "9",
+      "ultra": "13",
+      "master": "15"
+    },
+    "time": "2:53",
+    "bpm": "134",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku",
+    "chart_design": "",
+    "cover_art": "一斗まる",
+    "notes": {
+      "whisper": "473",
+      "acoustic": "667",
+      "ultra": "913",
+      "master": "1259"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Clockwork_girl",
+    "Trivia": [
+      "This song's title in Japanese is \"撥条少女時計\".",
+      "This song is the character theme of Coquelicot Blanche from NHN Playart x NND’s game \"#Compass\".",
+      "The lyrics are by Hatsuki Yura.",
+      "This song is also available in #Compass Live Arena, [https://silentblue.remywiki.com/Zenmai_shoujo_tokei O.N.G.E.K.I.], Taiko no Tatsujin and Synchronica.",
+      "[https://wikiwiki.jp/lanotagame/Clockwork%20girl Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 664,
+    "title": "Dance Robot Dance",
+    "title_outside": "Dance Robot Dance",
+    "artist": "NayutalieN",
+    "chapter": "VS-2",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "3",
+      "acoustic": "7",
+      "ultra": "12",
+      "master": "13+"
+    },
+    "time": "3:12",
+    "bpm": "190",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku",
+    "chart_design": "",
+    "cover_art": "NayutalieN",
+    "notes": {
+      "whisper": "615",
+      "acoustic": "829",
+      "ultra": "1207",
+      "master": "1351"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Dance_Robot_Dance",
+    "Trivia": [
+      "This song's title in Japanese is \"ダンスロボットダンス\"",
+      "This song is the character theme of Voidoll from NHN Playart x NND’s game \"#Compass\".",
+      "A cover of this song by Wonderlands x Showtime appears in Project Sekai: Colorful Stage.",
+      "This song is also available in #Compass Live Arena, Muse Dash, [https://silentblue.remywiki.com/Dance_robot_dance CHUNITHM], [https://silentblue.remywiki.com/Dance_robot_dance maimai], [https://silentblue.remywiki.com/Dance_robot_dance O.N.G.E.K.I.], Project SEKAI: Colorful Stage, Link! Like! Love Live! (School Idol Show), Synchronica, [https://remywiki.com/Dance_robot_dance DANCE aROUND], Groove Coaster, SEVEN's CODE and Taiko no Tatsujin.",
+      "[https://wikiwiki.jp/lanotagame/Dance%20Robot%20Dance Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 665,
+    "title": "Getting Faster and Faster",
+    "title_outside": "Getting Faster and Faster",
+    "artist": "40mP",
+    "chapter": "VS-3",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "2",
+      "acoustic": "6",
+      "ultra": "10",
+      "master": "13"
+    },
+    "time": "2:20",
+    "bpm": "94-160",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Hatsune Miku",
+    "chart_design": "",
+    "cover_art": "40mP",
+    "notes": {
+      "whisper": "264",
+      "acoustic": "477",
+      "ultra": "676",
+      "master": "916"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Getting_Faster_and_Faster",
+    "Trivia": [
+      "This song's title in Japanese is \"だんだん早くなる\".",
+      "This song is also available in [https://silentblue.remywiki.com/Dandan_hayaku_naru CHUNITHM], [https://silentblue.remywiki.com/Dandan_hayaku_naru maimai], Groove Coaster, [https://remywiki.com/Dandan_hayaku_naru MÚSECA] and Project SEKAI.",
+      "In \"NOSTALGIA,\" an arrangement of this song by 事務員G, \"だんだん早くなる -arranged by 事務員G-\" is available.",
+      "[https://wikiwiki.jp/lanotagame/Getting%20Faster%20and%20Faster Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 666,
+    "title": "Seyana.",
+    "title_outside": "Seyana.",
+    "artist": "GYARI",
+    "chapter": "VS-4",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "2",
+      "acoustic": "6",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "2:06",
+    "bpm": "144",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Yuzuki Yukari, Kotonoha Akane, Tsurumaki Maki and Kotonoha Aoi",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "251",
+      "acoustic": "459",
+      "ultra": "718",
+      "master": "1170"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Seyana.",
+    "Trivia": [
+      "This song's alternative title in Japanese is \"何でも言うことを聞いてくれるアカネチャン\".",
+      "This song's art features Nero drawn in place of Kotonoha Akane from the original artwork.",
+      "This song is also available in [https://silentblue.remywiki.com/Seyana._~nandemo_iu_koto_wo_kiite_kureru_Akane-chan~ CHUNITHM], [https://silentblue.remywiki.com/Seyana._~nandemo_iu_koto_wo_kiite_kureru_Akane-chan~ maimai], [https://silentblue.remywiki.com/Seyana._~nandemo_iu_koto_wo_kiite_kureru_Akane-chan~ O.N.G.E.K.I.], Groove Coaster, Tetote Connect, WACCA and [https://remywiki.com/Seyana.~nandemo_iu_koto_wo_kiite_kureru_Akane-chan~ NOSTALGIA].",
+      "[https://wikiwiki.jp/lanotagame/Seyana. Japanese wiki]"
+    ],
+    "Legacy": {}
+  },
+  {
+    "id": 667,
+    "title": "Tetoris",
+    "title_outside": "Tetoris",
+    "artist": "Hiiragi Magnetite",
+    "chapter": "VS-5",
+    "category": "expansion",
+    "difficulty": {
+      "whisper": "4",
+      "acoustic": "8",
+      "ultra": "12",
+      "master": "14"
+    },
+    "time": "2:23",
+    "bpm": "170",
+    "version": "",
+    "area": "",
+    "genre": "",
+    "vocals": "Kasane Teto",
+    "chart_design": "",
+    "cover_art": "",
+    "notes": {
+      "whisper": "484",
+      "acoustic": "814",
+      "ultra": "1219",
+      "master": "1390"
+    },
+    "source_url": "https://lanota.fandom.com/wiki/Tetoris",
+    "Trivia": [
+      "This song's title in Japanese is \"テトリス\".",
+      "This song's art features Rossa drawn in place of Kasane Teto from the original artwork.",
+      "This song is also available in [https://silentblue.remywiki.com/Tetoris CHUNITHM], [https://silentblue.remywiki.com/Tetoris maimai], Project SEKAI, [https://remywiki.com/Tetoris SOUND VOLTEX], and [https://remywiki.com/Tetoris Polaris Code].",
+      "[https://wikiwiki.jp/lanotagame/Tetoris Japanese wiki]"
     ],
     "Legacy": {}
   }
